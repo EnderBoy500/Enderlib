@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "enderlib",
+	"version": "${version}",
+	"name": "EnderLib",
+	"description": "",
+	"authors": [
+		"Enderboy500"
+	],
+	"license": "MIT",
+	"icon": "assets/enderlib/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.enderboy500.enderlib.EnderLib"
+		],
+		"client": [
+			"net.enderboy500.enderlib.client.EnderLibClient"
+		],
+		"fabric-datagen": [
+			"net.enderboy500.enderlib.EnderLibDataGenerator"
+		]
+	},
+	"mixins": [
+		"enderlib.mixins.json"
+	],
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": "~1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
