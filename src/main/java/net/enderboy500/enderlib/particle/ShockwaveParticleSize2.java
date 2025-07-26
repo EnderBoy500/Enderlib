@@ -4,19 +4,17 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-public class ShockwaveParticle extends ExplosionLargeParticle {
-    public ShockwaveParticle(ClientWorld world, double x, double y, double z, double d, SpriteProvider spriteProvider) {
+public class ShockwaveParticleSize2 extends ExplosionLargeParticle {
+    public ShockwaveParticleSize2(ClientWorld world, double x, double y, double z, double d, SpriteProvider spriteProvider) {
         super(world, x, y, z, d, spriteProvider);
         this.maxAge = 8;
-        this.scale = 8f;
+        this.scale = 2;
         this.gravityStrength = 0;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -38,8 +36,6 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
     public void tick() {
         super.tick();
     }
-
-
 
     public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
         Vec3d vec3d = camera.getPos();
@@ -79,14 +75,13 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
 
     public static class Factory implements ParticleFactory<SimpleParticleType> {
         private final SpriteProvider spriteProvider;
-
         public Factory(SpriteProvider spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-            return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider);
+            return new ShockwaveParticleSize2(clientWorld, d, e, f, g, this.spriteProvider);
         }
     }
 }

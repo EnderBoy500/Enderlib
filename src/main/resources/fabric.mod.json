@@ -16,9 +16,6 @@
 		],
 		"client": [
 			"net.enderboy500.enderlib.client.EnderLibClient"
-		],
-		"fabric-datagen": [
-			"net.enderboy500.enderlib.EnderLibDataGenerator"
 		]
 	},
 	"mixins": [
