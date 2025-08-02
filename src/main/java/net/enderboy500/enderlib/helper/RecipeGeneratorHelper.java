@@ -2,10 +2,14 @@ package net.enderboy500.enderlib.helper;
 
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.TagKey;
+
+import java.util.List;
 
 public class RecipeGeneratorHelper extends RecipeGenerator {
     public RecipeGeneratorHelper(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
@@ -312,5 +316,98 @@ public class RecipeGeneratorHelper extends RecipeGenerator {
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, cutStairs, baseMetalBlock);
         offerSlabRecipeWithStonecutting(cutBlock, cutSlab);
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, cutSlab, baseMetalBlock);
+    }
+
+    public void createFullMetalGenerator(ItemConvertible ore, ItemConvertible deepslateOre,
+                                         ItemConvertible ingot, ItemConvertible nugget,
+                                         ItemConvertible raw,
+                                         ItemConvertible metalBlock, ItemConvertible rawBlock) {
+        List<ItemConvertible> RAW = List.of(raw, ore, deepslateOre);
+
+        offerReversibleCompactingRecipes(RecipeCategory.MISC, nugget, RecipeCategory.MISC, ingot);
+        offerReversibleCompactingRecipes(RecipeCategory.MISC, ingot, RecipeCategory.MISC, metalBlock);
+        offerReversibleCompactingRecipes(RecipeCategory.MISC, raw, RecipeCategory.MISC, rawBlock);
+
+        offerSmelting(RAW, RecipeCategory.MISC, ingot, 0.7f,200, ingot.toString());
+    }
+
+    public void createAllDyingRecipes(ItemConvertible base, ItemConvertible white, ItemConvertible lightGray,
+                                      ItemConvertible gray, ItemConvertible black, ItemConvertible brown,
+                                      ItemConvertible red, ItemConvertible orange, ItemConvertible yellow,
+                                      ItemConvertible lime, ItemConvertible green, ItemConvertible cyan,
+                                      ItemConvertible lightBlue, ItemConvertible blue, ItemConvertible purple,
+                                      ItemConvertible magenta, ItemConvertible pink) {
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, white).input(base).input(Items.WHITE_DYE)
+                .criterion(hasItem(white), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightGray).input(base).input(Items.LIGHT_GRAY_DYE)
+                .criterion(hasItem(lightGray), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, gray).input(base).input(Items.GRAY_DYE)
+                .criterion(hasItem(gray), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, black).input(base).input(Items.BLACK_DYE)
+                .criterion(hasItem(black), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, brown).input(base).input(Items.BROWN_DYE)
+                .criterion(hasItem(brown), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, red).input(base).input(Items.RED_DYE)
+                .criterion(hasItem(red), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, orange).input(base).input(Items.ORANGE_DYE)
+                .criterion(hasItem(orange), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, yellow).input(base).input(Items.YELLOW_DYE)
+                .criterion(hasItem(yellow), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lime).input(base).input(Items.LIME_DYE)
+                .criterion(hasItem(lime), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, green).input(base).input(Items.GREEN_DYE)
+                .criterion(hasItem(green), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, cyan).input(base).input(Items.CYAN_DYE)
+                .criterion(hasItem(cyan), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightBlue).input(base).input(Items.LIGHT_BLUE_DYE)
+                .criterion(hasItem(lightBlue), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, blue).input(base).input(Items.BLUE_DYE)
+                .criterion(hasItem(blue), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, purple).input(base).input(Items.PURPLE_DYE)
+                .criterion(hasItem(purple), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, magenta).input(base).input(Items.MAGENTA_DYE)
+                .criterion(hasItem(magenta), conditionsFromItem(base)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, pink).input(base).input(Items.PINK_DYE)
+                .criterion(hasItem(pink), conditionsFromItem(base)).offerTo(exporter);
+    }
+
+    public void createAllUniversalDyingRecipes(TagKey<Item> base, ItemConvertible white, ItemConvertible lightGray,
+                                               ItemConvertible gray, ItemConvertible black, ItemConvertible brown,
+                                               ItemConvertible red, ItemConvertible orange, ItemConvertible yellow,
+                                               ItemConvertible lime, ItemConvertible green, ItemConvertible cyan,
+                                               ItemConvertible lightBlue, ItemConvertible blue, ItemConvertible purple,
+                                               ItemConvertible magenta, ItemConvertible pink) {
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, white).input(base).input(Items.WHITE_DYE)
+                .criterion(hasItem(white), conditionsFromItem(white)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightGray).input(base).input(Items.LIGHT_GRAY_DYE)
+                .criterion(hasItem(lightGray), conditionsFromItem(lightGray)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, gray).input(base).input(Items.GRAY_DYE)
+                .criterion(hasItem(gray), conditionsFromItem(gray)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, black).input(base).input(Items.BLACK_DYE)
+                .criterion(hasItem(black), conditionsFromItem(black)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, brown).input(base).input(Items.BROWN_DYE)
+                .criterion(hasItem(brown), conditionsFromItem(brown)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, red).input(base).input(Items.RED_DYE)
+                .criterion(hasItem(red), conditionsFromItem(red)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, orange).input(base).input(Items.ORANGE_DYE)
+                .criterion(hasItem(orange), conditionsFromItem(orange)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, yellow).input(base).input(Items.YELLOW_DYE)
+                .criterion(hasItem(yellow), conditionsFromItem(yellow)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lime).input(base).input(Items.LIME_DYE)
+                .criterion(hasItem(lime), conditionsFromItem(lime)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, green).input(base).input(Items.GREEN_DYE)
+                .criterion(hasItem(green), conditionsFromItem(green)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, cyan).input(base).input(Items.CYAN_DYE)
+                .criterion(hasItem(cyan), conditionsFromItem(cyan)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightBlue).input(base).input(Items.LIGHT_BLUE_DYE)
+                .criterion(hasItem(lightBlue), conditionsFromItem(lightBlue)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, blue).input(base).input(Items.BLUE_DYE)
+                .criterion(hasItem(blue), conditionsFromItem(blue)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, purple).input(base).input(Items.PURPLE_DYE)
+                .criterion(hasItem(purple), conditionsFromItem(purple)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, magenta).input(base).input(Items.MAGENTA_DYE)
+                .criterion(hasItem(magenta), conditionsFromItem(magenta)).offerTo(exporter);
+        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, pink).input(base).input(Items.PINK_DYE)
+                .criterion(hasItem(pink), conditionsFromItem(pink)).offerTo(exporter);
     }
 }
