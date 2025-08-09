@@ -182,6 +182,15 @@ public class RecipeGeneratorHelper extends RecipeGenerator {
                 .criterion(hasItem(wall), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
+
+    public void offerBarOrPaneRecipe(ItemConvertible ingredient, ItemConvertible output) {
+        this.createShaped(RecipeCategory.BUILDING_BLOCKS, output, 16)
+                .input('#', ingredient)
+                .pattern("###")
+                .pattern("###")
+                .criterion(hasItem(output), conditionsFromItem(ingredient))
+                .offerTo(exporter);
+    }
     public void offerDoorAndTrapdoorRecipes(ItemConvertible ingredient, ItemConvertible door, ItemConvertible trapdoor) {
         this.createShaped(RecipeCategory.BUILDING_BLOCKS, door, 3)
                 .input('#', ingredient)
@@ -281,7 +290,7 @@ public class RecipeGeneratorHelper extends RecipeGenerator {
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stairs, ingredient);
     }
     public void offerSlabRecipeWithStonecutting(ItemConvertible ingredient, ItemConvertible slab) {
-        offerStairsRecipe(ingredient, slab);
+        offerSlabRecipe(ingredient, slab);
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, slab, ingredient, 2);
     }
     public void offerWallRecipeWithStonecutting(ItemConvertible ingredient, ItemConvertible wall) {

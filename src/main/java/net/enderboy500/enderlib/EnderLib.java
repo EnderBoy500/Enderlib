@@ -12,6 +12,5 @@ public class EnderLib implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
 	}
 }
