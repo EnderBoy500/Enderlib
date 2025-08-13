@@ -20,28 +20,24 @@ public final class ToolFunctionBlockRegistryImpl {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(result, "Result block cannot be null!");
         HoeItem.TILLING_ACTIONS.put(base, Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(result.getDefaultState())));
-        ToolFunctionItem.TILLING_ACTIONS.put(base, Pair.of(ToolFunctionItem::canTillFarmland, ToolFunctionItem.createTillAction(result.getDefaultState())));
     }
 
     public static void creatingTillingStateModification(Block base, BlockState result) {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(result, "Result block cannot be null!");
         HoeItem.TILLING_ACTIONS.put(base, Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(result)));
-        ToolFunctionItem.TILLING_ACTIONS.put(base, Pair.of(ToolFunctionItem::canTillFarmland, ToolFunctionItem.createTillAction(result)));
     }
 
     public static void creatingShovellingFunction(Block base, Block path) {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(path, "Path block cannot be null!");
         ShovelItem.PATH_STATES.put(base, path.getDefaultState());
-        ToolFunctionItem.PATH_STATES.put(base, path.getDefaultState());
     }
 
     public static void creatingShovellingStateModification(Block base, BlockState path) {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(path, "Path block cannot be null!");
         ShovelItem.PATH_STATES.put(base, path);
-        ToolFunctionItem.PATH_STATES.put(base, path);
     }
 
     public static void creatingShearFunction(Block base, Block result) {
@@ -66,11 +62,5 @@ public final class ToolFunctionBlockRegistryImpl {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(result, "Result block cannot be null!");
         ToolHelper.SWORD.put(base, result);
-    }
-
-    public static void creatingAxeFunction(Block base, Block result) {
-        Objects.requireNonNull(base, "Base block cannot be null!");
-        Objects.requireNonNull(result, "Result block cannot be null!");
-        AxeItem.STRIPPED_BLOCKS.put(base, result);
     }
 }

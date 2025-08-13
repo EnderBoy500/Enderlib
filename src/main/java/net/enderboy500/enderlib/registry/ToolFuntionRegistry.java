@@ -29,7 +29,4 @@ public final class ToolFuntionRegistry {
     public static void creatingSwordStateModification(Block block, BlockState result) {
         ToolFunctionBlockRegistryImpl.creatingSwordStateModification(block, result);}
 
-    public static void creatingAxeFunction(Block block, Block result) {
-        ToolFunctionBlockRegistryImpl.creatingAxeFunction(block, result);}
-
 }

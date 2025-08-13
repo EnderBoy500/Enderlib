@@ -1,25 +1,29 @@
 package net.enderboy500.enderlib.item;
 
+import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CampfireBlock;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.block.*;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -29,49 +33,6 @@ public class ToolFunctionItem extends Item {
         super(settings);
     }
 
-    public static final Map<Block, Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>> TILLING_ACTIONS = Maps.<Block, Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>>newHashMap(
-            ImmutableMap.of(
-                    Blocks.GRASS_BLOCK,
-                    Pair.of(ToolFunctionItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())),
-                    Blocks.DIRT_PATH,
-                    Pair.of(ToolFunctionItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())),
-                    Blocks.DIRT,
-                    Pair.of(ToolFunctionItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())),
-                    Blocks.COARSE_DIRT,
-                    Pair.of(ToolFunctionItem::canTillFarmland, createTillAction(Blocks.DIRT.getDefaultState())),
-                    Blocks.ROOTED_DIRT,
-                    Pair.of(itemUsageContext -> true, createTillAndDropAction(Blocks.DIRT.getDefaultState(), Items.HANGING_ROOTS))
-            )
-    );
-
-    public static Consumer<ItemUsageContext> createTillAction(BlockState result) {
-        return context -> {
-            context.getWorld().setBlockState(context.getBlockPos(), result, Block.NOTIFY_ALL_AND_REDRAW);
-            context.getWorld().emitGameEvent(GameEvent.BLOCK_CHANGE, context.getBlockPos(), GameEvent.Emitter.of(context.getPlayer(), result));
-        };
-    }
-
-    /**
-     * {@return a tilling action that sets a block state and drops an item}
-     *
-     * @param droppedItem the item to drop
-     * @param result the tilled block state
-     */
-    public static Consumer<ItemUsageContext> createTillAndDropAction(BlockState result, ItemConvertible droppedItem) {
-        return context -> {
-            context.getWorld().setBlockState(context.getBlockPos(), result, Block.NOTIFY_ALL_AND_REDRAW);
-            context.getWorld().emitGameEvent(GameEvent.BLOCK_CHANGE, context.getBlockPos(), GameEvent.Emitter.of(context.getPlayer(), result));
-            Block.dropStack(context.getWorld(), context.getBlockPos(), context.getSide(), new ItemStack(droppedItem));
-        };
-    }
-
-    /**
-     * {@return whether the used block can be tilled into farmland}
-     * This method is used as the tilling predicate for most vanilla blocks except rooted dirt.
-     */
-    public static boolean canTillFarmland(ItemUsageContext context) {
-        return context.getSide() != Direction.DOWN && context.getWorld().getBlockState(context.getBlockPos().up()).isAir();
-    }
 
 
     @Override
@@ -80,7 +41,7 @@ public class ToolFunctionItem extends Item {
         World world = context.getWorld();
         BlockPos blockPos = context.getBlockPos();
         if (dirtTillFunction(player)) {
-            Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair = (Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>) TILLING_ACTIONS.get(
+            Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair = (Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>) HoeItem.TILLING_ACTIONS.get(
                     world.getBlockState(blockPos).getBlock()
             );
 
@@ -111,7 +72,7 @@ public class ToolFunctionItem extends Item {
                 return ActionResult.PASS;
             } else {
                 PlayerEntity playerEntity = context.getPlayer();
-                BlockState blockState2 = (BlockState)PATH_STATES.get(blockState.getBlock());
+                BlockState blockState2 = (BlockState)ShovelItem.PATH_STATES.get(blockState.getBlock());
                 BlockState blockState3 = null;
                 if (blockState2 != null && world.getBlockState(blockPos.up()).isAir()) {
                     world.playSound(playerEntity, blockPos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -140,24 +101,76 @@ public class ToolFunctionItem extends Item {
                 }
             }
         }
+        if (stripFunction(player)) {
+            if (shouldCancelStripAttempt(context)) {
+                return ActionResult.PASS;
+            } else {
+                Optional<BlockState> optional = tryStrip(world, blockPos, player, world.getBlockState(blockPos));
+                if (optional.isEmpty()) {
+                    return ActionResult.PASS;
+                } else {
+                    ItemStack itemStack = context.getStack();
+                    if (player instanceof ServerPlayerEntity) {
+                        Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity)player, blockPos, itemStack);
+                    }
+
+                    world.setBlockState(blockPos, (BlockState)optional.get(), 11);
+                    world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(player, (BlockState)optional.get()));
+                    if (player != null) {
+                        itemStack.damage(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                    }
+
+                    return ActionResult.SUCCESS;
+                }
+            }
+        }
 
         return super.useOnBlock(context);
     }
 
-    public static final Map<Block, BlockState> PATH_STATES;
+    private static boolean shouldCancelStripAttempt(ItemUsageContext context) {
+        PlayerEntity playerEntity = context.getPlayer();
+        return context.getHand().equals(Hand.MAIN_HAND) && playerEntity.getOffHandStack().contains(DataComponentTypes.BLOCKS_ATTACKS) && !playerEntity.shouldCancelInteraction();
+    }
 
+    private Optional<BlockState> tryStrip(World world, BlockPos pos, @Nullable PlayerEntity player, BlockState state) {
+        Optional<BlockState> optional = this.getStrippedState(state);
+        if (optional.isPresent()) {
+            world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            return optional;
+        } else {
+            Optional<BlockState> optional2 = Oxidizable.getDecreasedOxidationState(state);
+            if (optional2.isPresent()) {
+                world.playSound(player, pos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.syncWorldEvent(player, 3005, pos, 0);
+                return optional2;
+            } else {
+                Optional<BlockState> optional3 = Optional.ofNullable((Block)((BiMap)HoneycombItem.WAXED_TO_UNWAXED_BLOCKS.get()).get(state.getBlock())).map((block) -> block.getStateWithProperties(state));
+                if (optional3.isPresent()) {
+                    world.playSound(player, pos, SoundEvents.ITEM_AXE_WAX_OFF, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.syncWorldEvent(player, 3004, pos, 0);
+                    return optional3;
+                } else {
+                    return Optional.empty();
+                }
+            }
+        }
+    }
 
-
-    static {
-        PATH_STATES = Maps.newHashMap((new ImmutableMap.Builder()).put(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.getDefaultState()).put(Blocks.DIRT, Blocks.DIRT_PATH.getDefaultState()).put(Blocks.PODZOL, Blocks.DIRT_PATH.getDefaultState()).put(Blocks.COARSE_DIRT, Blocks.DIRT_PATH.getDefaultState()).put(Blocks.MYCELIUM, Blocks.DIRT_PATH.getDefaultState()).put(Blocks.ROOTED_DIRT, Blocks.DIRT_PATH.getDefaultState()).build());
+    private Optional<BlockState> getStrippedState(BlockState state) {
+        return Optional.ofNullable((Block)AxeItem.STRIPPED_BLOCKS.get(state.getBlock())).map((block) -> (BlockState)block.getDefaultState().with(PillarBlock.AXIS, (Direction.Axis)state.get(PillarBlock.AXIS)));
     }
 
     public boolean dirtTillFunction(PlayerEntity player) {
-        return this.dirtTillFunction(player);
+        return false;
     }
 
     public boolean pathFunction(PlayerEntity player) {
-        return this.pathFunction(player);
+        return false;
+    }
+
+    public boolean stripFunction(PlayerEntity player) {
+        return false;
     }
 
 }
