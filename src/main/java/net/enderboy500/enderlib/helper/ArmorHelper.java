@@ -1,11 +1,11 @@
-package net.enderboy500.enderlib.item;
+package net.enderboy500.enderlib.helper;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.registry.tag.TagKey;
 
-public interface ArmorAbilityHelper {
+public interface ArmorHelper {
 
     default boolean isWearingFullSet(PlayerEntity player, TagKey<Item> itemTagKey) {
         if (player.getEquippedStack(EquipmentSlot.HEAD).isIn(itemTagKey) && player.getEquippedStack(EquipmentSlot.CHEST).isIn(itemTagKey)

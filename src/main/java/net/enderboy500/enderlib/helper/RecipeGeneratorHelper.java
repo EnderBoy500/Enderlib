@@ -327,16 +327,10 @@ public class RecipeGeneratorHelper extends RecipeGenerator {
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, cutSlab, baseMetalBlock);
     }
 
-    public void createFullMetalGenerator(ItemConvertible ore, ItemConvertible deepslateOre,
-                                         ItemConvertible ingot, ItemConvertible nugget,
-                                         ItemConvertible raw,
-                                         ItemConvertible metalBlock, ItemConvertible rawBlock) {
+    public void createFullMetalSmeltGenerator(ItemConvertible ore, ItemConvertible deepslateOre,
+                                         ItemConvertible ingot,
+                                         ItemConvertible raw) {
         List<ItemConvertible> RAW = List.of(raw, ore, deepslateOre);
-
-        offerReversibleCompactingRecipes(RecipeCategory.MISC, nugget, RecipeCategory.MISC, ingot);
-        offerReversibleCompactingRecipes(RecipeCategory.MISC, ingot, RecipeCategory.MISC, metalBlock);
-        offerReversibleCompactingRecipes(RecipeCategory.MISC, raw, RecipeCategory.MISC, rawBlock);
-
         offerSmelting(RAW, RecipeCategory.MISC, ingot, 0.7f,200, ingot.toString());
     }
 

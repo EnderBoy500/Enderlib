@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.helper;
+package net.enderboy500.enderlib.misc;
 
 public enum TraderLevel {
     NOVICE(1),

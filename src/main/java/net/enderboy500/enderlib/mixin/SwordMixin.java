@@ -34,7 +34,7 @@ public abstract class SwordMixin {
         BlockState blockState2 = null;
         if (context.getStack().isIn(ItemTags.SWORDS)) {
             if (blockState1 != null) {
-                world.playSound(playerEntity, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                //world.playSound(playerEntity, pos, SoundEvents.USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 blockState2 = blockState1;
             }
             if (blockState2 != null) {

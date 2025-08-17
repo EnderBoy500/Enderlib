@@ -2,10 +2,8 @@ package net.enderboy500.enderlib.registry.impl;
 
 import com.mojang.datafixers.util.Pair;
 import net.enderboy500.enderlib.helper.ToolHelper;
-import net.enderboy500.enderlib.item.ToolFunctionItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ShovelItem;
 
