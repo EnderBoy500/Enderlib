@@ -21,14 +21,12 @@ public interface ParticleArea {
         if (world instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(particleEffect, d, e, f, 1, 0, 0, 0, 0);
             BlockPos.Mutable mutable = new BlockPos.Mutable();
-            BlockPos.Mutable mutable2 = new BlockPos.Mutable();
             for (int l = 0; l < 14; ++l) {
                 mutable.set(i + MathHelper.nextInt(random, -areaDistance, areaDistance), j + random.nextInt(areaHight), k + MathHelper.nextInt(random, -areaDistance, areaDistance));
-                mutable2.set(i + MathHelper.nextInt(random, -areaDistance, areaDistance), j + random.nextInt(-areaHight), k + MathHelper.nextInt(random, -areaDistance, areaDistance));
                 BlockState blockState = world.getBlockState(mutable);
                 if (!blockState.isFullCube(world, mutable)) {
                     serverWorld.spawnParticles(particleEffect, (double) mutable.getX() + random.nextDouble(), (double) mutable.getY() + random.nextDouble(), (double) mutable.getZ() + random.nextDouble(), 0, 0.0, 0.0, 0, 0);
-                    serverWorld.spawnParticles(particleEffect, (double) mutable2.getX() + random.nextDouble(), (double) mutable2.getY() + random.nextDouble(), (double) mutable2.getZ() + random.nextDouble(), 0, 0.0, 0.0, 0, 0);
+                    serverWorld.spawnParticles(particleEffect, (double) mutable.getX() + random.nextDouble(), (double) mutable.getY() - random.nextDouble(), (double) mutable.getZ() + random.nextDouble(), 0, 0.0, 0.0, 0, 0);
                 }
             }
         }
@@ -71,7 +69,7 @@ public interface ParticleArea {
                 mutable.set(i + MathHelper.nextInt(random, -areaDistance, areaDistance), j + random.nextInt(-areaHight), k + MathHelper.nextInt(random, -areaDistance, areaDistance));
                 BlockState blockState = world.getBlockState(mutable);
                 if (!blockState.isFullCube(world, mutable)) {
-                    serverWorld.spawnParticles(particleEffect, (double) mutable.getX() + random.nextDouble(), (double) mutable.getY() + random.nextDouble(), (double) mutable.getZ() + random.nextDouble(), 0, 0.0, 0.0, 0, 0);
+                    serverWorld.spawnParticles(particleEffect, (double) mutable.getX() + random.nextDouble(), (double) mutable.getY() - random.nextDouble(), (double) mutable.getZ() + random.nextDouble(), 0, 0.0, 0.0, 0, 0);
                 }
             }
         }
