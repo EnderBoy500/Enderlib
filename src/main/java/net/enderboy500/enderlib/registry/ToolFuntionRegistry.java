@@ -1,6 +1,6 @@
 package net.enderboy500.enderlib.registry;
 
-import net.enderboy500.enderlib.registry.impl.ToolFunctionBlockRegistryImpl;
+import net.enderboy500.enderlib.registry.impl.ToolFunctionRegistryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 
@@ -10,23 +10,23 @@ public final class ToolFuntionRegistry {
     }
 
     public static void creatingShearFunction(Block block, Block result) {
-        ToolFunctionBlockRegistryImpl.creatingShearFunction(block, result);}
+        ToolFunctionRegistryImpl.creatingShearFunction(block, result);}
     public static void creatingShearStateModification(Block block, BlockState result) {
-        ToolFunctionBlockRegistryImpl.creatingShearStateModification(block, result);}
+        ToolFunctionRegistryImpl.creatingShearStateModification(block, result);}
 
     public static void creatingShovellingFunction(Block block, Block path) {
-        ToolFunctionBlockRegistryImpl.creatingShovellingFunction(block, path);}
+        ToolFunctionRegistryImpl.creatingShovellingFunction(block, path);}
     public static void creatingShovellingStateModification(Block block, BlockState path) {
-        ToolFunctionBlockRegistryImpl.creatingShovellingStateModification(block, path);}
+        ToolFunctionRegistryImpl.creatingShovellingStateModification(block, path);}
 
     public static void creatingTillingFunction(Block block, Block result) {
-        ToolFunctionBlockRegistryImpl.creatingTillingFunction(block, result);}
+        ToolFunctionRegistryImpl.creatingTillingFunction(block, result);}
     public static void creatingTillingStateModification(Block block, BlockState result) {
-        ToolFunctionBlockRegistryImpl.creatingTillingStateModification(block, result);}
+        ToolFunctionRegistryImpl.creatingTillingStateModification(block, result);}
 
     public static void creatingSwordFunction(Block block, Block result) {
-        ToolFunctionBlockRegistryImpl.creatingSwordFunction(block, result);}
+        ToolFunctionRegistryImpl.creatingSwordFunction(block, result);}
     public static void creatingSwordStateModification(Block block, BlockState result) {
-        ToolFunctionBlockRegistryImpl.creatingSwordStateModification(block, result);}
+        ToolFunctionRegistryImpl.creatingSwordStateModification(block, result);}
 
 }

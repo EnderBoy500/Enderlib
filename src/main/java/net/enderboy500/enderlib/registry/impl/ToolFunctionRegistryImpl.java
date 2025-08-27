@@ -9,9 +9,9 @@ import net.minecraft.item.ShovelItem;
 
 import java.util.Objects;
 
-public final class ToolFunctionBlockRegistryImpl {
+public final class ToolFunctionRegistryImpl {
 
-    private ToolFunctionBlockRegistryImpl() {
+    private ToolFunctionRegistryImpl() {
     }
 
     public static void creatingTillingFunction(Block base, Block result) {

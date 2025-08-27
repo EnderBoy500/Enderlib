@@ -1,4 +1,4 @@
-package net.enderboy500.metallum.blockentity;
+package net.enderboy500.enderlib.misc;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;

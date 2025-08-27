@@ -22,6 +22,14 @@ public final class CustomTradeHelper {
         });
     }
 
+    public static void createVillagerTrade(RegistryKey<VillagerProfession> profession, int traderLevel, Item payment, int paymentCount, Item soldItem, int soldItemCount, int maxTradeCount, int experienceGained, float priceMultiplier) {
+        TradeOfferHelper.registerVillagerOffers(profession, traderLevel, factories -> {
+            factories.add((entity, random) -> new TradeOffer(
+                    new TradedItem(payment, paymentCount),
+                    new ItemStack(soldItem, soldItemCount), maxTradeCount, experienceGained, priceMultiplier));
+        });
+    }
+
     public static void createWanderingTraderTrade(Identifier identifier, Item payment, int paymentCount,Item soldItem, int soldItemCount,int maxUses) {
         TradeOfferHelper.registerWanderingTraderOffers(factories -> {
             factories.addAll(identifier, (entity, random) -> new TradeOffer(

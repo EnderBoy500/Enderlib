@@ -1,6 +1,5 @@
 package net.enderboy500.enderlib.helper;
 
-import net.enderboy500.enderlib.EnderApi;
 import net.enderboy500.enderlib.EnderLib;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
@@ -14,6 +13,7 @@ import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootTable;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.potion.Potion;
 import net.minecraft.recipe.RecipeSerializer;
@@ -141,5 +141,13 @@ public class RegistryHelper {
     public static <T>ComponentType<T> registerDataComponent(String id, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, EnderLib.customId(id),
                 builderOperator.apply(ComponentType.builder()).build());
+    }
+
+    public static RegistryKey<LootTable> registerVanillaLootTable(String path) {
+        return RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.ofVanilla(path));
+    }
+
+    public static RegistryKey<LootTable> registerCustomLootTable(String path) {
+        return RegistryKey.of(RegistryKeys.LOOT_TABLE, EnderLib.customId(path));
     }
 }
