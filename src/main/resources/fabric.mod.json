@@ -16,6 +16,9 @@
 		],
 		"client": [
 			"net.enderboy500.enderlib.client.EnderLibClient"
+		],
+		"modmenu": [
+			"net.enderboy500.enderlib.compat.EnderLibModMenuCompat"
 		]
 	},
 	"mixins": [

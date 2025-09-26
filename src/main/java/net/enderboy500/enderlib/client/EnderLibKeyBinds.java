@@ -6,23 +6,17 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 public class EnderLibKeyBinds {
-    private static KeyBinding cycleHeadwearState;
     private static KeyBinding toggleArmorPassiveAbility;
     private static KeyBinding activateArmorAbility;
 
     public static void initializeKeyBinds() {
-        cycleHeadwearState = new KeyBinding("key.enderlib.cycle_headwear_state", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.enderlib.enderlib");
         toggleArmorPassiveAbility = new KeyBinding("key.enderlib.toggle_armor_passive_ability", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.enderlib.enderlib");
         activateArmorAbility = new KeyBinding("key.enderlib.activate_armor_ability", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, "category.enderlib.enderlib");
 
-        KeyBindingHelper.registerKeyBinding(cycleHeadwearState);
         KeyBindingHelper.registerKeyBinding(toggleArmorPassiveAbility);
         KeyBindingHelper.registerKeyBinding(activateArmorAbility);
     }
 
-    public static boolean isCycleHeadwearStateKeyPressed() {
-        return cycleHeadwearState.isPressed();
-    }
     public static boolean isToggleArmorPassiveAbilityKeyPressed() {
         return toggleArmorPassiveAbility.isPressed();
     }

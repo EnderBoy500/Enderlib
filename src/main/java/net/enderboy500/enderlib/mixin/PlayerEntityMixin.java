@@ -39,7 +39,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
     /**
-     * @author Ciph3rJ
+     * @author Enderboy500
      * @reason To look cool
      */
     @Overwrite

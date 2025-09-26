@@ -4,3 +4,4 @@ accessible field net/minecraft/item/HoeItem TILLING_ACTIONS Ljava/util/Map;
 accessible field net/minecraft/item/ShovelItem PATH_STATES Ljava/util/Map;
 accessible field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
 accessible class net/minecraft/client/gui/hud/InGameHud$HeartType
+accessible class net/minecraft/entity/effect/StatusEffect

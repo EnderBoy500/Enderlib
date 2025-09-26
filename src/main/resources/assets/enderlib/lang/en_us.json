@@ -3,5 +3,9 @@
 
   "key.enderlib.cycle_headwear_state": "Cycle Headwear State",
   "key.enderlib.toggle_armor_passive_ability": "Toggle Armor Passive Ability",
-  "key.enderlib.activate_armor_ability": "Activate Armor Ability"
+  "key.enderlib.activate_armor_ability": "Activate Armor Ability",
+
+  "enderlib.midnightconfig.title": "EnderLib Configuration",
+  "enderlib.midnightconfig.enderlib": "EnderLib",
+  "enderlib.midnightconfig.equipmentStateCycleKey": "Equipment State Cycle Key"
 }
