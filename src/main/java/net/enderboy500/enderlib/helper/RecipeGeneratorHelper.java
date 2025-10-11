@@ -309,14 +309,59 @@ public class RecipeGeneratorHelper extends RecipeGenerator {
         offerWallRecipeWithStonecutting(bricks, brickWall);
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, brickWall, baseStone);
     }
-    public void createAllStoneRecipes(ItemConvertible stone, ItemConvertible stairs, ItemConvertible slab,
-                                      ItemConvertible wall, ItemConvertible bricks,
+    public void createBaseStoneRecipes(ItemConvertible stone,
+                                       ItemConvertible stoneStairs, ItemConvertible stoneSlab,
+                                       ItemConvertible stoneWall) {
+        offerStairsRecipeWithStonecutting(stone, stoneStairs);
+        offerSlabRecipeWithStonecutting(stone, stoneSlab);
+        offerWallRecipeWithStonecutting(stone, stoneWall);
+    }
+    public void createBasicStoneRecipes(ItemConvertible stone, ItemConvertible stairs, ItemConvertible slab,
+                                      ItemConvertible wall, ItemConvertible chiseledBricks, ItemConvertible bricks,
                                       ItemConvertible brickStairs, ItemConvertible brickSlab,
                                       ItemConvertible brickWall) {
         offerStairsRecipeWithStonecutting(stone, stairs);
         offerSlabRecipeWithStonecutting(stone, slab);
         offerWallRecipeWithStonecutting(stone, wall);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
+        this.createShaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
+                        .input('#', brickSlab)
+                        .pattern("#")
+                        .pattern("#")
+                        .criterion(hasItem(chiseledBricks), conditionsFromItem(brickSlab))
+                        .offerTo(exporter);
         createBrickRecipes(stone, bricks, brickStairs, brickSlab, brickWall);
+    }
+    public void createTuffStoneRecipes(ItemConvertible stone, ItemConvertible stairs, ItemConvertible slab,
+                                        ItemConvertible wall, ItemConvertible chiseledStone, ItemConvertible polished,
+                                       ItemConvertible polishedStairs, ItemConvertible polishedSlab,
+                                       ItemConvertible polishedWall, ItemConvertible chiseledBricks, ItemConvertible bricks,
+                                        ItemConvertible brickStairs, ItemConvertible brickSlab,
+                                        ItemConvertible brickWall) {
+        offerStairsRecipeWithStonecutting(stone, stairs);
+        offerSlabRecipeWithStonecutting(stone, slab);
+        offerWallRecipeWithStonecutting(stone, wall);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
+        this.createShaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
+                .input('#', brickSlab)
+                .pattern("#")
+                .pattern("#")
+                .criterion(hasItem(chiseledBricks), conditionsFromItem(brickSlab))
+                .offerTo(exporter);
+        this.createShaped(RecipeCategory.BUILDING_BLOCKS, chiseledStone)
+                .input('#', slab)
+                .pattern("#")
+                .pattern("#")
+                .criterion(hasItem(chiseledStone), conditionsFromItem(slab))
+                .offerTo(exporter);
+        createBrickRecipes(stone, polished, polishedStairs, polishedSlab, polishedWall);
+        createBrickRecipes(polished, bricks, brickStairs, brickSlab, brickWall);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, bricks);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, brickSlab);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, brickStairs);
+        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, brickWall);
     }
     public void createCutMetalRecipes(ItemConvertible baseMetalBlock, ItemConvertible cutBlock,
                                       ItemConvertible cutStairs, ItemConvertible cutSlab) {

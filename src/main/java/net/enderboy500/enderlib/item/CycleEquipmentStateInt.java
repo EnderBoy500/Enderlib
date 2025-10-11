@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.misc;
+package net.enderboy500.enderlib.item;
 
 import net.enderboy500.enderlib.EnderLib;
 import net.minecraft.component.DataComponentTypes;

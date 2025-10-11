@@ -1,9 +1,9 @@
 package net.enderboy500.enderlib.mixin;
 import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.EnderLibConfig;
-import net.enderboy500.enderlib.misc.CycleEquipmentStateBool;
-import net.enderboy500.enderlib.misc.CycleEquipmentStateInt;
-import net.enderboy500.enderlib.misc.SlotChangeFunction;
+import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
+import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
+import net.enderboy500.enderlib.item.CycleEquipmentStateInt;
+import net.enderboy500.enderlib.item.SlotChangeFunction;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -41,6 +41,11 @@ public class ScreenMixin {
             if (stack.getItem() instanceof SlotChangeFunction slotChangeFunction) {
                 boolean bl = actionType == EnderLib.slotActionType();
                 slotChangeFunction.slotChangeFunction(stack, bl);
+                ci.cancel();
+            }
+            if (stack.getItem() instanceof TogglableEquipmentVisibility togglableEquipmentVisibility) {
+                boolean bl = actionType == EnderLib.slotActionType();
+                togglableEquipmentVisibility.changeState(stack, bl);
                 ci.cancel();
             }
         }

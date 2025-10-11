@@ -7,7 +7,8 @@
 		"PlayerEntityMixin",
 		"ShearMixin",
 		"ScreenMixin",
-		"PlayerEntityRendererMixin"
+		"PlayerEntityRendererMixin",
+		"EquipmentRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
