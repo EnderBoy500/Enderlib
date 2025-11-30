@@ -22,8 +22,8 @@ public class ScreenMixin {
     @Shadow @Final public DefaultedList<Slot> slots;
 
     @Inject(method = "internalOnSlotClick", at = @At("HEAD"), cancellable = true)
-    private void internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-        if (actionType == EnderLib.slotActionType()) {
+    private void enderlib$internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+        if (!EnderLib.canRightClickToCycle() && actionType == EnderLib.slotActionType()) {
             Slot slot = this.slots.get(slotIndex);
             ItemStack stack = slot.getStack();
             if (stack.getItem() instanceof CycleEquipmentStateBool cycleEquippmentStateBool) {

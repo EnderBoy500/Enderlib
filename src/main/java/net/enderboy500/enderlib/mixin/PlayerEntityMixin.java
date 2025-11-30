@@ -7,7 +7,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,18 +19,27 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Calendar;
+import java.util.UUID;
+
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity {
 
 
     @Shadow public abstract float getAttackCooldownProgress(float baseTime);
 
+    @Shadow protected abstract MutableText addTellClickEvent(MutableText component);
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
+
+
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"))
-    private void spawnCustomHitParticlesAndPlayCustomHitSound(Entity target, CallbackInfo ci) {
+    private void enderlib$spawnCustomHitParticlesAndPlayCustomHitSound(Entity target, CallbackInfo ci) {
         if (this.getAttackCooldownProgress(0.5F) > 0.90F) {
             if (this.getMainHandStack().getItem() instanceof CustomSweepingEffect customSweepingEffect) {
                 customSweepingEffect.spawnHitParticles((PlayerEntity) (Object) this);
@@ -48,6 +60,16 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         double e = (double)MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F));
         if (this.getWorld() instanceof ServerWorld && !(this.getMainHandStack().getItem() instanceof CustomSweepingEffect)) {
             ((ServerWorld)this.getWorld()).spawnParticles(ParticleTypes.SWEEP_ATTACK, this.getX() + d, this.getBodyY((double)0.5F), this.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
+        }
+    }
+
+    @Inject(method = "getDisplayName", at = @At("HEAD"),cancellable = true)
+    public void enderlib$bdayName(CallbackInfoReturnable<Text> cir) {
+        Calendar calendar = Calendar.getInstance();
+        if (this.getUuid().equals(UUID.fromString("9cd1d98f-ddc2-427b-95a3-caed34c17529")) &&
+                (calendar.get(Calendar.MONTH) == Calendar.NOVEMBER && calendar.get(Calendar.DATE) >= 12 && calendar.get(Calendar.DATE) <= 14)) {
+            MutableText mutableText = Team.decorateName(this.getScoreboardTeam(), this.getName());
+            cir.setReturnValue(this.addTellClickEvent(mutableText).append(Text.literal( " " + String.valueOf('\uE500'))));
         }
     }
 }

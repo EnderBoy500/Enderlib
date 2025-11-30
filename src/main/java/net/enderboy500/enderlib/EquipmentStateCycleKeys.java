@@ -4,7 +4,8 @@ import net.minecraft.screen.slot.SlotActionType;
 
 public enum EquipmentStateCycleKeys {
     Swap(SlotActionType.SWAP),
-    QuickMove(SlotActionType.QUICK_MOVE)
+    QuickMove(SlotActionType.QUICK_MOVE),
+    RightClick(SlotActionType.CLONE)
     ;
 
     private final SlotActionType key;

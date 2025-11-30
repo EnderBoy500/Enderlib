@@ -21,8 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ShearMixin {
 
 
-    @Inject(method = "useOnBlock", at = @At("HEAD"))
-    public void useInjection(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+    @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)
+    public void enderlib$useInjection(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         World world = context.getWorld();
         PlayerEntity playerEntity = context.getPlayer();
         BlockPos pos = context.getBlockPos();
@@ -39,7 +39,7 @@ public class ShearMixin {
             if (playerEntity != null) {
                 context.getStack().damage(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
             }
-            context.getStack().useOnBlock(context).isAccepted();
+            cir.setReturnValue(ActionResult.SUCCESS);
         }
     }
 
