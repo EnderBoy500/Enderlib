@@ -7,7 +7,11 @@
 
   "item.enderlib.text": "Test",
 
-  "enderlib.midnightconfig.title": "EnderLib Configuration",
-  "enderlib.midnightconfig.enderlib": "EnderLib",
-  "enderlib.midnightconfig.equipmentStateCycleKey": "Equipment State Cycle Key"
+  "config.enderlib.group.main": "EnderLib",
+  "config.enderlib.category.main": "EnderLib",
+  "config.enderlib.option.swap_key": "Swap Key",
+  "config.enderlib.option.swap_key.desc": "Specifies which keybind to use for swapping item states",
+  "config.enderlib.option.swap_key.text.quickmove": "Quick Move",
+  "config.enderlib.option.swap_key.text.swap": "Swap Hands",
+  "config.enderlib.option.swap_key.text.rightclick": "Right Click"
 }

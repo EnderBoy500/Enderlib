@@ -1,11 +1,24 @@
 package net.enderboy500.enderlib;
 
-import eu.midnightdust.lib.config.MidnightConfig;
+import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
+import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.util.Identifier;
 
-public class EnderLibConfig extends MidnightConfig {
-    public static final String ENDERLIB = "enderlib";
+public class EnderLibConfig {
+    public static ConfigClassHandler<EnderLibConfig> HANDLER = ConfigClassHandler.createBuilder(EnderLibConfig.class)
+            .id(Identifier.of(EnderLib.MOD_ID, "config"))
+            .serializer(config -> GsonConfigSerializerBuilder.create(config)
+                    .setPath(FabricLoader.getInstance().getConfigDir().resolve("enderlib.json5"))
+                    .setJson5(true)
+                    .build())
+            .build();
 
-    @Comment(category = ENDERLIB, centered = true) public static Comment enderlib;
-    @Comment(category = ENDERLIB) public static Comment spacer1;
-    @Entry(category = ENDERLIB) public static EquipmentStateCycleKeys equipmentStateCycleKey = EquipmentStateCycleKeys.QuickMove;
+    public static EnderLibConfig getInstance() {
+        return HANDLER.instance();
+    }
+
+    @SerialEntry
+    public EquipmentStateCycleKeys swapKey = EquipmentStateCycleKeys.RightClick;
 }

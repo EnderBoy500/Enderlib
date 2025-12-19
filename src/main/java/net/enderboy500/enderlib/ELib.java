@@ -2,9 +2,8 @@ package net.enderboy500.enderlib;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.util.function.Function;
-
 public final class ELib {
+    
     public static void addModId(String modId) {
         EnderLib.currentModId = modId;
     }

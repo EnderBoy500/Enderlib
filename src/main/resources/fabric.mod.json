@@ -18,7 +18,7 @@
 			"net.enderboy500.enderlib.client.EnderLibClient"
 		],
 		"modmenu": [
-			"net.enderboy500.enderlib.compat.EnderLibModMenuCompat"
+			"net.enderboy500.enderlib.EnderLibModMenu"
 		]
 	},
 	"mixins": [
@@ -28,7 +28,8 @@
 		"fabricloader": "*",
 		"minecraft": "~1.21.5",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"yet_another_config_lib_v3": ">=3.8.1+1.21.5-fabric"
 	},
 	"suggests": {
 		"another-mod": "*"

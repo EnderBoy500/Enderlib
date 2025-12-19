@@ -294,7 +294,7 @@ public class RecipeGeneratorHelper extends RecipeGenerator {
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, slab, ingredient, 2);
     }
     public void offerWallRecipeWithStonecutting(ItemConvertible ingredient, ItemConvertible wall) {
-        offerStairsRecipe(ingredient, wall);
+        offerWallRecipe(ingredient, wall);
         offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, wall, ingredient);
     }
     public void createBrickRecipes(ItemConvertible baseStone, ItemConvertible bricks,
