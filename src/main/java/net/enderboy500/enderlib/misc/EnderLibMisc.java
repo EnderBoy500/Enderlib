@@ -30,37 +30,6 @@ public interface EnderLibMisc {
                         .getEntry(damageTypeRegistryEntry.getValue()).get());
         return damageSource;
     }
-    default void randomTeleportation(World world, LivingEntity user, int diameter) {
-        for(int i = 0; i < 16; ++i) {
-            double d = user.getX() + (user.getRandom().nextDouble() - (double)0.5F) * (double)diameter;
-            double e = MathHelper.clamp(user.getY() + (user.getRandom().nextDouble() - (double)0.5F) * (double)diameter, (double)world.getBottomY(), (double)(world.getBottomY() + ((ServerWorld)world).getLogicalHeight() - 1));
-            double f = user.getZ() + (user.getRandom().nextDouble() - (double)0.5F) * (double)diameter;
-            if (user.hasVehicle()) {
-                user.stopRiding();
-            }
-
-            Vec3d vec3d = user.getPos();
-            if (user.teleport(d, e, f, true)) {
-                world.emitGameEvent(GameEvent.TELEPORT, vec3d, GameEvent.Emitter.of(user));
-                SoundCategory soundCategory;
-                SoundEvent soundEvent;
-
-                soundEvent = SoundEvents.ENTITY_PLAYER_TELEPORT;
-                soundCategory = SoundCategory.PLAYERS;
 
 
-                world.playSound((Entity)null, user.getX(), user.getY(), user.getZ(), soundEvent, soundCategory);
-                user.onLanding();
-                break;
-            }
-        }
-    }
-    default boolean isWearingFullSet(PlayerEntity player, TagKey<Item> itemTagKey) {
-        if (player.getEquippedStack(EquipmentSlot.HEAD).isIn(itemTagKey) && player.getEquippedStack(EquipmentSlot.CHEST).isIn(itemTagKey)
-                && player.getEquippedStack(EquipmentSlot.LEGS).isIn(itemTagKey) && player.getEquippedStack(EquipmentSlot.FEET).isIn(itemTagKey)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

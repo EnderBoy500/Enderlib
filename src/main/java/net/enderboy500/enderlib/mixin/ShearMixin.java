@@ -1,6 +1,6 @@
 package net.enderboy500.enderlib.mixin;
 
-import net.enderboy500.enderlib.helper.ToolHelper;
+import net.enderboy500.enderlib.misc.ToolMaps;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public class ShearMixin {
         PlayerEntity playerEntity = context.getPlayer();
         BlockPos pos = context.getBlockPos();
         BlockState blockState = context.getWorld().getBlockState(pos);
-        BlockState blockState1 = ToolHelper.SHEAR.get(blockState.getBlock());
+        BlockState blockState1 = ToolMaps.SHEAR.get(blockState.getBlock());
         BlockState blockState2 = null;
         if (blockState1 != null) {
             world.playSound(playerEntity, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.BLOCKS, 1.0F, 1.0F);

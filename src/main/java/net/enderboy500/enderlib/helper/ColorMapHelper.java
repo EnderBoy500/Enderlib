@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.client;
+package net.enderboy500.enderlib.helper;
 
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;

@@ -5,6 +5,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.ControllerBuilder;
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
+import net.enderboy500.enderlib.misc.EquipmentStateCycleKeys;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 

@@ -1,33 +1,25 @@
 package net.enderboy500.enderlib.test;
 
-import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.helper.NameStyleHelper;
-import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
-import net.enderboy500.enderlib.item.RightClickEquipmentCycleItem;
-import net.enderboy500.enderlib.item.SlotChangeFunction;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.EquipmentSlot;
+import net.enderboy500.enderlib.misc.ScreenShaker;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ArrowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Unit;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.*;
+import net.minecraft.world.World;
 
-public class TestItem extends Item implements SlotChangeFunction {
+public class TestItem extends ArrowItem {
 
-    public TestItem(Settings settings) {
+    public TestItem(Item.Settings settings) {
         super(settings);
     }
 
     @Override
-    public void slotChangeFunction(ItemStack stack, boolean bl) {
-        EnderLib.LOGGER.info("3");
-    }
-
-    @Override
-    public Text getName(ItemStack stack) {
-        return NameStyleHelper.styledColoredNameWithFont("item.enderlib.text", TextColor.fromFormatting(Formatting.GOLD),false,false,false,false, false, Identifier.ofVanilla("illageralt"));
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        World world = user.getWorld();
+        if (world instanceof ServerWorld) ScreenShaker.addDynamicScreenShake((ServerWorld) world, user.getBlockPos(), 20,2, 20, 100);
+        return super.useOnEntity(stack, user, entity, hand);
     }
 }

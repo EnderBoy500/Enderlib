@@ -1,6 +1,7 @@
 package net.enderboy500.enderlib.item;
 
 import net.enderboy500.enderlib.EnderLib;
+import net.enderboy500.enderlib.EnderLibComponents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -21,16 +22,16 @@ public interface CycleEquipmentStateBool {
 
     default void changeState(ItemStack stack, boolean sneaking) {
         if (sneaking) {
-            if (Boolean.TRUE.equals(stack.get(EnderLib.EnderLibComponents.CYCLED_EQUIPMENT_STATE))) {
-                stack.set(EnderLib.EnderLibComponents.CYCLED_EQUIPMENT_STATE, false);
+            if (Boolean.TRUE.equals(stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE))) {
+                stack.set(EnderLibComponents.CYCLED_EQUIPMENT_STATE, false);
             } else {
-                stack.set(EnderLib.EnderLibComponents.CYCLED_EQUIPMENT_STATE, true);
+                stack.set(EnderLibComponents.CYCLED_EQUIPMENT_STATE, true);
             }
         }
     }
 
     default RegistryKey<EquipmentAsset> key(ItemStack stack) {
-        if (stack.get(EnderLib.EnderLibComponents.CYCLED_EQUIPMENT_STATE)) {
+        if (stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE)) {
             return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.ofVanilla(trueKey()));
         } else {
             return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.ofVanilla(falseKey()));

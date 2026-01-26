@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib;
+package net.enderboy500.enderlib.misc;
 
 import net.minecraft.screen.slot.SlotActionType;
 

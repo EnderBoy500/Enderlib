@@ -1,13 +1,24 @@
 package net.enderboy500.enderlib;
 
-import com.mojang.serialization.Codec;
-import net.enderboy500.enderlib.helper.RegistryHelper;
+import net.enderboy500.enderlib.events.*;
+import net.enderboy500.enderlib.registry.RegisterCountry;
 import net.enderboy500.enderlib.test.TestInit;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.component.ComponentType;
-import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.realms.dto.PlayerActivities;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerAbilities;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +37,9 @@ public class EnderLib implements ModInitializer {
 		return Identifier.of(MOD_ID, string);
 	}
 
+	public static final TagKey<Item> CROSSBOW_AMMO = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "crossbow_ammo"));
+	public static final TrackedData<Float> SCREENSHAKE_INTENSITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+	public static final TrackedData<Integer> SCREENSHAKE_DURATION = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	@Override
 	public void onInitialize() {
 		ELib.addModId(MOD_ID);
@@ -33,20 +47,22 @@ public class EnderLib implements ModInitializer {
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			TestInit.init();
 		}
+		CanConsumeEvent.EVENT.register(player -> {
+			if (player.hasStatusEffect(StatusEffects.SPEED)) return false;
+			return true;
+		});
+		RegisterCountry.addForbiddenCountryWithLogMessage("Israel", "Genocide Is Not Permitted");
+		WorldConnectionEvent.JOIN.register( clientWorld -> {
+			if (RegisterCountry.fetchCountryAndCheck("Israel")) {
+				System.out.println("NO GENOCIDE");
+				MinecraftClient.getInstance().stop();
+			}
+		});
+
 	}
-
-
-
 
 	public static boolean canRightClickToCycle() {
 		return EnderLibConfig.getInstance().swapKey.get() == SlotActionType.CLONE;
-	}
-
-	public class EnderLibComponents {
-		public static final ComponentType<Boolean> CYCLED_EQUIPMENT_STATE = RegistryHelper.registerDataComponent("cycled_equipment_state", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOLEAN));
-		public static final ComponentType<Integer> EQUIPMENT_STATE = RegistryHelper.registerDataComponent("equipment_state", builder -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER));
-		public static final ComponentType<Boolean> EQUIPMENT_VISIBLE = RegistryHelper.registerDataComponent("equipment_visible", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOLEAN));
-		static void load() {};
 	}
 
 }

@@ -9,7 +9,19 @@
 		"ScreenMixin",
 		"PlayerEntityRendererMixin",
 		"EquipmentRendererMixin",
-		"ItemMixin"
+		"ItemMixin",
+		"CameraMixin",
+		"InGameHudMixin",
+		"ConsumableComponentMixin",
+		"LivingEntityMixin",
+		"BlockItemMixin",
+		"HeldItemRenderMixin",
+		"CrossbowItemMixin",
+		"ItemModelMixin",
+		"KeyboardInputMixin",
+		"MixinMinecraftClient",
+		"ServerPlayerMixin",
+		"ItemEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

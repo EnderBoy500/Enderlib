@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 
-public interface AreaCloudReleasing {
+public interface AreaCloudCreator {
     default void spawnCloud(World world, BlockPos pos, RegistryEntry<StatusEffect> effect, ParticleEffect particle, int radius, int cloudDuration, int effectDuration, int effectAmplifier) {
         AreaEffectCloudEntity areaEffectCloud = new AreaEffectCloudEntity(world, pos.getX(), pos.getY(), pos.getZ());
 

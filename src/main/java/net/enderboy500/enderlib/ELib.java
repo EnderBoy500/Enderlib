@@ -11,9 +11,6 @@ public final class ELib {
     public static boolean getCompat(String modId) {
         return FabricLoader.getInstance().isModLoaded(modId);
     }
-    public static boolean isMidnightPresent() {
-        return FabricLoader.getInstance().isModLoaded("midnightlib");
-    }
     public static boolean isDev() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
     }

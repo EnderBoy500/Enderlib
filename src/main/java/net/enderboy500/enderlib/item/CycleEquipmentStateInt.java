@@ -1,6 +1,7 @@
 package net.enderboy500.enderlib.item;
 
 import net.enderboy500.enderlib.EnderLib;
+import net.enderboy500.enderlib.EnderLibComponents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -23,11 +24,11 @@ public interface CycleEquipmentStateInt {
     }
 
     default int getState(ItemStack stack) {
-        return stack.get(EnderLib.EnderLibComponents.EQUIPMENT_STATE);
+        return stack.get(EnderLibComponents.EQUIPMENT_STATE);
     }
 
     default String getKeyPerState(ItemStack stack, int state, String key, String falseValue) {
-        if (stack.get(EnderLib.EnderLibComponents.EQUIPMENT_STATE).equals(state))
+        if (stack.get(EnderLibComponents.EQUIPMENT_STATE).equals(state))
             return key;
         else
             return falseValue;

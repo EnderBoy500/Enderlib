@@ -1,7 +1,7 @@
 package net.enderboy500.enderlib.registry.impl;
 
 import com.mojang.datafixers.util.Pair;
-import net.enderboy500.enderlib.helper.ToolHelper;
+import net.enderboy500.enderlib.misc.ToolMaps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.HoeItem;
@@ -41,24 +41,24 @@ public final class ToolFunctionRegistryImpl {
     public static void creatingShearFunction(Block base, Block result) {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(result, "Result block cannot be null!");
-        ToolHelper.SHEAR.put(base, result.getDefaultState());
+        ToolMaps.SHEAR.put(base, result.getDefaultState());
     }
 
     public static void creatingShearStateModification(Block base, BlockState result) {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(result, "Result block cannot be null!");
-        ToolHelper.SHEAR.put(base, result);
+        ToolMaps.SHEAR.put(base, result);
     }
 
     public static void creatingSwordFunction(Block base, Block result) {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(result, "Result block cannot be null!");
-        ToolHelper.SWORD.put(base, result.getDefaultState());
+        ToolMaps.SWORD.put(base, result.getDefaultState());
     }
 
     public static void creatingSwordStateModification(Block base, BlockState result) {
         Objects.requireNonNull(base, "Base block cannot be null!");
         Objects.requireNonNull(result, "Result block cannot be null!");
-        ToolHelper.SWORD.put(base, result);
+        ToolMaps.SWORD.put(base, result);
     }
 }

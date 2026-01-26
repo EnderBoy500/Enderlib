@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.Entity;
@@ -38,81 +39,78 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 
-public interface RegistryHelper {
-    static Item registerItem(String id, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
+public class RegistryHelper {
+    public static Item registerItem(String id, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, EnderLib.customId(id));
         Item item = itemFactory.apply(settings.registryKey(itemKey));
         Registry.register(Registries.ITEM, itemKey, item);
         return item;
     }
-    static BlockEntityType<?> registerBlockEntity(String id, FabricBlockEntityTypeBuilder.Factory<?> blockEntityFunction, Block... block) {
+    public static <B extends BlockEntity> BlockEntityType<B> registerBlockEntity(String id, FabricBlockEntityTypeBuilder.Factory<B> blockEntityFunction, Block... block) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, EnderLib.customId(id),
                 FabricBlockEntityTypeBuilder.create(blockEntityFunction, block).build(null));
     }
-    static <B extends Block> B registerBlock(String id, Function<Settings, B> factory, AbstractBlock.Settings settings) {
+    public static <B extends Block> B registerBlock(String id, Function<Settings, B> factory, AbstractBlock.Settings settings) {
         RegistryKey<Block> key = RegistryKey.of(RegistryKeys.BLOCK, EnderLib.customId(id));
         B block = factory.apply(settings.registryKey(key));
-
         return Registry.register(Registries.BLOCK, key, block);
     }
     private static <I extends Item> I registerBlockItem(String id, Function<Item.Settings, I> factory, Item.Settings settings) {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, EnderLib.customId(id));
         I item = factory.apply(settings.registryKey(key));
-
         if (item instanceof BlockItem blockItem) {
             blockItem.appendBlocks(Item.BLOCK_ITEMS, blockItem);
         }
-
         return Registry.register(Registries.ITEM, key, item);
     }
-    static BlockItem registerBlockItem(String id, Block block) {
+    public static BlockItem registerBlockItem(String id, Block block) {
         return registerBlockItem(id , settings -> new BlockItem(block, settings), new Item.Settings().useBlockPrefixedTranslationKey());
     }
-    static RegistryKey<DamageType> registerDamageType(String id) {
+    public static RegistryKey<DamageType> registerDamageType(String id) {
         return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, EnderLib.customId(id));
     }
-    static <T extends Entity> EntityType<T> registerEntity(String id, EntityType.Builder<T> entityTypeBuilder) {
+    public static <T extends Entity> EntityType<T> registerEntity(String id, EntityType.Builder<T> entityTypeBuilder) {
         Identifier path = EnderLib.customId(id);
         RegistryKey<EntityType<?>> key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, path);
         return Registry.register(Registries.ENTITY_TYPE, key, entityTypeBuilder.build(key));
     }
-    static SimpleParticleType registerParticleType(String id, SimpleParticleType particleType) {
+    public static SimpleParticleType registerParticleType(String id, SimpleParticleType particleType) {
         return Registry.register(Registries.PARTICLE_TYPE, EnderLib.customId(id), particleType);
     }
-    static RegistryEntry<Potion> registerPotion(String id, Potion potion) {
+    public static RegistryEntry<Potion> registerPotion(String id, Potion potion) {
         return Registry.registerReference(Registries.POTION, Identifier.ofVanilla(id), potion);
     }
-    static RecipeSerializer<?> registerRecipeSerializer(String id, RecipeSerializer recipeSerializer) {
+    public static RecipeSerializer registerRecipeSerializer(String id, RecipeSerializer recipeSerializer) {
         return Registry.register(Registries.RECIPE_SERIALIZER, EnderLib.customId(id), recipeSerializer);
     }
-    static RecipeType<?> registerRecipeType(String id, RecipeType recipeType) {
+    public static RecipeType registerRecipeType(String id, RecipeType recipeType) {
         return Registry.register(Registries.RECIPE_TYPE, EnderLib.customId(id), recipeType);
     }
-    static ScreenHandlerType<?> registerScreenHandler(String id, ExtendedScreenHandlerType extendedScreenHandlerType) {
+    public static ScreenHandlerType<?> registerScreenHandler(String id, ExtendedScreenHandlerType extendedScreenHandlerType) {
         return Registry.register(Registries.SCREEN_HANDLER, EnderLib.customId(id),
                 extendedScreenHandlerType);
     }
-    static RegistryEntry<StatusEffect> registerEffect(String id, StatusEffect effect) {
+    public static RegistryEntry<StatusEffect> registerEffect(String id, StatusEffect effect) {
         return Registry.registerReference(Registries.STATUS_EFFECT, EnderLib.customId(id), effect);
     }
-    static TagKey<Block> registerBlockTags(String id) {
+    public static TagKey<Block> registerBlockTags(String id) {
         return TagKey.of(RegistryKeys.BLOCK, EnderLib.customId(id));
     }
-    static TagKey<Item> registerItemTags(String id) {
+    public static TagKey<Item> registerItemTags(String id) {
         return TagKey.of(RegistryKeys.ITEM, EnderLib.customId(id));
     }
-    static TagKey<Biome> registerBiomeTags(String id) {
+    public static TagKey<Biome> registerBiomeTags(String id) {
         return TagKey.of(RegistryKeys.BIOME, EnderLib.customId(id));
     }
-    static TagKey<EntityType<?>> registerEntityTags(String id) {
+    public static TagKey<EntityType<?>> registerEntityTags(String id) {
         return TagKey.of(RegistryKeys.ENTITY_TYPE, EnderLib.customId(id));
     }
-    static SoundEvent registerSound(String id) {
+    public static SoundEvent registerSound(String id) {
         Identifier name = EnderLib.customId(id);
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(name));
     }
 
-    static RegistryEntry.Reference<SoundEvent> registerSoundReference(String id) {
+    public static RegistryEntry.Reference<SoundEvent> registerSoundReference(String id) {
         return registerReference(EnderLib.customId(id));
     }
     private static RegistryEntry.Reference<SoundEvent> registerReference(Identifier id) {
@@ -121,29 +119,29 @@ public interface RegistryHelper {
     private static RegistryEntry.Reference<SoundEvent> registerReference(Identifier id, Identifier soundId) {
         return Registry.registerReference(Registries.SOUND_EVENT, id, SoundEvent.of(soundId));
     }
-    static <T>ComponentType<T> registerDataComponent(String id, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
+    public static <T>ComponentType<T> registerDataComponent(String id, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, EnderLib.customId(id),
                 builderOperator.apply(ComponentType.builder()).build());
     }
-    static RegistryKey<LootTable> registerVanillaLootTable(String path) {
+    public static RegistryKey<LootTable> registerVanillaLootTable(String path) {
         return RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.ofVanilla(path));
     }
-    static RegistryKey<LootTable> registerCustomLootTable(String path) {
+    public static RegistryKey<LootTable> registerCustomLootTable(String path) {
         return RegistryKey.of(RegistryKeys.LOOT_TABLE, EnderLib.customId(path));
     }
-    static <T extends Fluid> T registerFluid(String id, T value) {
+    public static <T extends Fluid> T registerFluid(String id, T value) {
         return (Registry.register(Registries.FLUID, id, value));
     }
-    static RegistryKey<Biome> registerBiome(String id) {
+    public static RegistryKey<Biome> registerBiome(String id) {
         return RegistryKey.of(RegistryKeys.BIOME, EnderLib.customId(id));
     }
-    static RegistryKey<DimensionOptions> registerDimensionOptions(String id) {
+    public static RegistryKey<DimensionOptions> registerDimensionOptions(String id) {
         return RegistryKey.of(RegistryKeys.DIMENSION, EnderLib.customId(id));
     }
-    static RegistryKey<World> registerWorld(String id) {
+    public static RegistryKey<World> registerWorld(String id) {
         return RegistryKey.of(RegistryKeys.WORLD, EnderLib.customId(id));
     }
-    static RegistryKey<DamageType> registerDimensionType(String id) {
+    public static RegistryKey<DamageType> registerDimensionType(String id) {
         return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, EnderLib.customId(id));
     }
 }

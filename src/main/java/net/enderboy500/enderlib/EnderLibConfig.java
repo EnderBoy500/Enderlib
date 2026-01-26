@@ -3,6 +3,7 @@ package net.enderboy500.enderlib;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
+import net.enderboy500.enderlib.misc.EquipmentStateCycleKeys;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 

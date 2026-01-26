@@ -27,7 +27,6 @@ public class RightClickEquipmentCycleItem extends Item {
             }
             return true;
         }
-
         return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
     }
 }
