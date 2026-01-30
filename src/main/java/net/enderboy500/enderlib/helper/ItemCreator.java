@@ -15,12 +15,6 @@ public class ItemCreator {
     public static Item defaultItem(String id) {
         return rawRegister(id, new Item(settings(id)));
     }
-    public static Item defaultItem(String id, Item item) {
-        return rawRegister(id, item);
-    }
-    public static Item defaultItem(String id, Item.Settings settings) {
-        return rawRegister(id, new Item(settings));
-    }
     public static Item armorItem(String id, EquipmentType equipmentType, ArmorMaterial armorMaterial) {
         return rawRegister(id, new Item(settings(id).armor(armorMaterial, equipmentType)));
     }

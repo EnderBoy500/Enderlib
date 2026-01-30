@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.registry.impl;
+package net.enderboy500.enderlib.misc.impl;
 
 import com.mojang.datafixers.util.Pair;
 import net.enderboy500.enderlib.misc.ToolMaps;

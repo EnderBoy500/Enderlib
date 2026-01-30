@@ -1,36 +1,25 @@
 package net.enderboy500.enderlib.mixin;
 
-import net.enderboy500.enderlib.ELib;
-import net.enderboy500.enderlib.EnderLib;
 import net.enderboy500.enderlib.EnderLibComponents;
-import net.enderboy500.enderlib.misc.EnderLibMisc;
 import net.enderboy500.enderlib.misc.HideName;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntityRenderer.class)
-public class PlayerEntityRendererMixin {
+public abstract class PlayerEntityRendererMixin {
+
 
     @Inject(method = "renderLabelIfPresent(Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
     at = @At("HEAD"), cancellable = true)
@@ -67,4 +56,5 @@ public class PlayerEntityRendererMixin {
             cir.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
         }
     }
+
 }

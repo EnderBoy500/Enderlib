@@ -1,24 +1,20 @@
 package net.enderboy500.enderlib;
 
 import net.enderboy500.enderlib.events.*;
-import net.enderboy500.enderlib.registry.RegisterCountry;
+import net.enderboy500.enderlib.registry.Country;
 import net.enderboy500.enderlib.test.TestInit;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.realms.dto.PlayerActivities;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,9 +47,9 @@ public class EnderLib implements ModInitializer {
 			if (player.hasStatusEffect(StatusEffects.SPEED)) return false;
 			return true;
 		});
-		RegisterCountry.addForbiddenCountryWithLogMessage("Israel", "Genocide Is Not Permitted");
+		Country.addForbiddenCountryWithLogMessage("Israel", "Genocide Is Not Permitted");
 		WorldConnectionEvent.JOIN.register( clientWorld -> {
-			if (RegisterCountry.fetchCountryAndCheck("Israel")) {
+			if (Country.fetchCountryAndCheck("Israel")) {
 				System.out.println("NO GENOCIDE");
 				MinecraftClient.getInstance().stop();
 			}

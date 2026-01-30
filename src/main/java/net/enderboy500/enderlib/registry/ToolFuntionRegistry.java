@@ -1,6 +1,6 @@
 package net.enderboy500.enderlib.registry;
 
-import net.enderboy500.enderlib.registry.impl.ToolFunctionRegistryImpl;
+import net.enderboy500.enderlib.misc.impl.ToolFunctionRegistryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 
