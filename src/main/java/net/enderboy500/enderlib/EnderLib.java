@@ -43,10 +43,6 @@ public class EnderLib implements ModInitializer {
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			TestInit.init();
 		}
-		CanConsumeEvent.EVENT.register(player -> {
-			if (player.hasStatusEffect(StatusEffects.SPEED)) return false;
-			return true;
-		});
 		Country.addForbiddenCountryWithLogMessage("Israel", "Genocide Is Not Permitted");
 		WorldConnectionEvent.JOIN.register( clientWorld -> {
 			if (Country.fetchCountryAndCheck("Israel")) {
@@ -54,9 +50,7 @@ public class EnderLib implements ModInitializer {
 				MinecraftClient.getInstance().stop();
 			}
 		});
-
 	}
-
 	public static boolean canRightClickToCycle() {
 		return EnderLibConfig.getInstance().swapKey.get() == SlotActionType.CLONE;
 	}

@@ -23,6 +23,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -171,17 +173,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ScreenSh
         builder.add(EnderLib.SCREENSHAKE_DURATION, 0);
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    public void enderlib$readNBT(NbtCompound nbt, CallbackInfo ci){
-        nbt.putInt("ScreenShakeDuration", getScreenShakeDuration());
-        nbt.putFloat("ScreenShakeIntensity", getScreenShakeIntensity());
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    public void enderlib$readNBT(ReadView view, CallbackInfo ci){
+        view.getInt("ScreenShakeDuration", getScreenShakeDuration());
+        view.getFloat("ScreenShakeIntensity", getScreenShakeIntensity());
 
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    public void enderlib$writeNBT(NbtCompound nbt, CallbackInfo ci){
-        setScreenShakeDuration(nbt.getInt("ScreenShakeDuration").isPresent() ? nbt.getInt("ScreenShakeDuration").get() : 0);
-        setScreenShakeIntensity(nbt.getFloat("ScreenShakeIntensity").isPresent() ? nbt.getFloat("ScreenShakeIntensity").get() : 0);
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    public void enderlib$writeNBT(WriteView view, CallbackInfo ci){
+        view.putInt("ScreenShakeDuration", getScreenShakeDuration());
+        view.putFloat("ScreenShakeIntensity", getScreenShakeIntensity());
     }
 
     @Unique

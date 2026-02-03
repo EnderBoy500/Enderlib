@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -26,11 +26,9 @@ repositories {
 }
 
 fabricApi {
-
-}
-
-loom {
-	accessWidenerPath = file("src/main/resources/enderlib.accesswidener")
+	configureDataGeneration {
+		client = true
+	}
 }
 
 dependencies {
@@ -39,10 +37,12 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+	
 }
 
 processResources {
@@ -65,6 +65,10 @@ java {
 
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/enderlib.accesswidener")
 }
 
 jar {

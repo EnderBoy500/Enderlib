@@ -19,7 +19,7 @@ public class TestItem extends ArrowItem {
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         World world = user.getWorld();
-        if (world instanceof ServerWorld) ScreenShaker.addDynamicScreenShake((ServerWorld) world, user.getBlockPos(), 20,2, 20, 100);
+        ScreenShaker.addScreenShake(user, 20, 100);
         return super.useOnEntity(stack, user, entity, hand);
     }
 }

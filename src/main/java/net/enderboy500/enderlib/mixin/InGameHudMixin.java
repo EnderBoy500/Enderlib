@@ -1,9 +1,11 @@
 package net.enderboy500.enderlib.mixin;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.enderboy500.enderlib.events.OverrideHeartSpriteEvent;
 import net.enderboy500.enderlib.events.OverrideHungerSpriteEvent;
 import net.enderboy500.enderlib.events.ScreenOverlayEvent;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderLayer;
@@ -61,7 +63,7 @@ public abstract class InGameHudMixin {
             if (blinking) texture = Identifier.of(id ,"hud/heart/" + name + "_container_blinking");
         }
 
-        context.drawGuiTexture(RenderLayer::getGuiTextured, texture, x, y, 9, 9);
+        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, texture, x, y, 9, 9);
 
         ci.cancel();
     }
@@ -83,13 +85,13 @@ public abstract class InGameHudMixin {
                 }
 
                 int l = right - j * 8 - 9;
-                context.drawGuiTexture(RenderLayer::getGuiTextured, identifier, l, k, 9, 9);
+                context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier, l, k, 9, 9);
                 if (j * 2 + 1 < i) {
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, identifier3, l, k, 9, 9);
+                    context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier3, l, k, 9, 9);
                 }
 
                 if (j * 2 + 1 == i) {
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, identifier2, l, k, 9, 9);
+                    context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, identifier2, l, k, 9, 9);
                 }
             }
             ci.cancel();
