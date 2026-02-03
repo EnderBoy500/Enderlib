@@ -3,6 +3,7 @@ package net.enderboy500.enderlib.helper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.HoverEvent;
+import net.minecraft.text.StyleSpriteSource;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Identifier;
@@ -37,7 +38,7 @@ public interface NameStyleHelper {
                         .withObfuscated(obfuscated)
                         .withStrikethrough(strikeThrough)
                         .withUnderline(underLine)
-                        .withFont(font)
+                        .withFont(new StyleSpriteSource.Sprite(font, font))
         );
     }
 
@@ -67,7 +68,7 @@ public interface NameStyleHelper {
                         .withObfuscated(obfuscated)
                         .withStrikethrough(strikeThrough)
                         .withUnderline(underLine)
-                        .withFont(font)
+                        .withFont(new StyleSpriteSource.Sprite(font, font))
         );
     }
 }

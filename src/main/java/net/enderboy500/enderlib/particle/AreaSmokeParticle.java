@@ -3,14 +3,17 @@ package net.enderboy500.enderlib.particle;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
-public class AreaSmokeParticle extends SpriteBillboardParticle {
+public class AreaSmokeParticle extends BillboardParticle {
 
-    AreaSmokeParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
-        super(world, x, y, z);
+    AreaSmokeParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Sprite sprite) {
+        super(world, x, y, z, sprite);
         this.scale(3.0F);
         this.setBoundingBoxSpacing(0.25F, 0.25F);
         this.gravityStrength = 3.0E-6F;
@@ -38,24 +41,29 @@ public class AreaSmokeParticle extends SpriteBillboardParticle {
     }
 
     public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+        return ParticleTextureSheet.SINGLE_QUADS;
     }
 
     public float getSize(float tickProgress) {
         return this.scale * MathHelper.clamp(((float) this.age + tickProgress) / (float) this.maxAge * 32.0F, 0.0F, 1.0F);
     }
 
+    @Override
+    protected RenderType getRenderType() {
+        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
+    }
+
     @Environment(EnvType.CLIENT)
     public static class Factory implements ParticleFactory<SimpleParticleType> {
-        private final SpriteProvider spriteProvider;
+        private final Sprite spriteProvider;
 
-        public Factory(SpriteProvider spriteProvider) {
-            this.spriteProvider = spriteProvider;
+        public Factory(Sprite sprite) {
+            this.spriteProvider = sprite;
         }
 
-        public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-            AreaSmokeParticle smokeParticle = new AreaSmokeParticle(clientWorld, d, e, f, g, h, i);
-            smokeParticle.setSprite(spriteProvider);
+        @Override
+        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+            AreaSmokeParticle smokeParticle = new AreaSmokeParticle(world, x, y, z, velocityX, velocityY, velocityZ, spriteProvider);
             return smokeParticle;
         }
     }

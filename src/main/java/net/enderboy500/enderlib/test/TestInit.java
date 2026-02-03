@@ -14,7 +14,6 @@ import net.minecraft.component.ComponentType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
-import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.network.codec.PacketCodecs;
@@ -25,8 +24,10 @@ public class TestInit {
 
     public static final Item TEST = RegistryHelper.registerItem("test", TestItem::new, new Item.Settings().component(EnderLibComponents.ATTACK_STATUS_EFFECT, new AttackStatusEffectComponent(List.of(new StatusEffectInstance(StatusEffects.SPEED, 200), new StatusEffectInstance(StatusEffects.POISON, 100)))));
     public static final Item TEST_2 = RegistryHelper.registerItem("test_2", TestItem::new, new Item.Settings());
+    public static final Item POOP = RegistryHelper.registerItem("poop", TestItem::new, new Item.Settings().armor(ArmorMaterials.IRON, EquipmentType.HELMET));
     public static final ComponentType<UUIDComponent> TEST_ID = RegistryHelper.registerDataComponent("test_pos", builder -> builder.codec(UUIDComponent.CODEC).packetCodec(UUIDComponent.PACKET_CODEC));
     public static final ComponentType<String> TEST_NAME = RegistryHelper.registerDataComponent("test_name", builder -> builder.codec(Codec.STRING).packetCodec(PacketCodecs.STRING));
     public static final Block TEST_BLOCK = BlockCreator.defaultBlock("test_block", Blocks.AMETHYST_BLOCK);
+    public static final ArmorItemSet EMERALD = ItemCreator.armorItem("emerald", ArmorMaterials.DIAMOND);
     public static void init() {}
 }

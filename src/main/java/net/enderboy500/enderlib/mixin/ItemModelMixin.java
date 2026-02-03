@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.HeldItemContext;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,7 @@ public class ItemModelMixin {
             method = "update",
             at = @At("HEAD"), cancellable = true
     )
-    private void enderlib$chargedModel(ItemRenderState renderState, ItemStack stack, ItemDisplayContext displayContext, World world, LivingEntity entity, int seed, CallbackInfo ci) {
+    private void enderlib$chargedModel(ItemRenderState renderState, ItemStack stack, ItemDisplayContext displayContext, World world, HeldItemContext heldItemContext, int seed, CallbackInfo ci) {
         Identifier chargedModel = getChargedModel(stack);
         if (chargedModel != null) {
             ItemModel var10000 = this.modelGetter.apply(chargedModel);
@@ -45,7 +46,7 @@ public class ItemModelMixin {
             } else {
                 var10005 = null;
             }
-            var10000.update(renderState, stack, (ItemModelManager) (Object) this, displayContext, var10005, entity, seed);
+            var10000.update(renderState, stack, (ItemModelManager) (Object) this, displayContext, var10005, heldItemContext, seed);
             ci.cancel();
         }
     }

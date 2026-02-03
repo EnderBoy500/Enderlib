@@ -103,8 +103,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ScreenSh
     public void spawnSweepAttackParticles() {
         double d = (double)(-MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)));
         double e = (double)MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F));
-        if (this.getWorld() instanceof ServerWorld && !(this.getMainHandStack().getItem() instanceof CustomSweepingEffect)) {
-            ((ServerWorld)this.getWorld()).spawnParticles(ParticleTypes.SWEEP_ATTACK, this.getX() + d, this.getBodyY((double)0.5F), this.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
+        if (this.getEntityWorld() instanceof ServerWorld && !(this.getMainHandStack().getItem() instanceof CustomSweepingEffect)) {
+            ((ServerWorld)this.getEntityWorld()).spawnParticles(ParticleTypes.SWEEP_ATTACK, this.getX() + d, this.getBodyY((double)0.5F), this.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
         }
     }
 

@@ -19,7 +19,7 @@
 		"CrossbowItemMixin",
 		"ItemModelMixin",
 		"KeyboardInputMixin",
-		"MixinMinecraftClient",
+		"MinecraftClientMixin",
 		"ServerPlayerMixin",
 		"ItemEntityMixin"
 	],

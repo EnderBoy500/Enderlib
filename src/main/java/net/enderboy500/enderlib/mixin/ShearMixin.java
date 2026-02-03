@@ -37,7 +37,7 @@ public class ShearMixin {
             world.setBlockState(pos, blockState2, 11);
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(playerEntity, blockState2));
             if (playerEntity != null) {
-                context.getStack().damage(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
+                context.getStack().damage(1, playerEntity);
             }
             cir.setReturnValue(ActionResult.SUCCESS);
         }

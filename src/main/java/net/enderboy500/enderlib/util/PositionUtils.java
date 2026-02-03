@@ -30,7 +30,7 @@ public class PositionUtils {
                 user.stopRiding();
             }
 
-            Vec3d vec3d = user.getPos();
+            Vec3d vec3d = user.getEntityPos();
             if (user.teleport(d, e, f, true)) {
                 world.emitGameEvent(GameEvent.TELEPORT, vec3d, GameEvent.Emitter.of(user));
                 SoundCategory soundCategory;
@@ -78,7 +78,7 @@ public class PositionUtils {
     }
 
     public static void applyVelocityByPos(LivingEntity target, BlockPos pos, float multiplier, boolean inverted) {
-        target.setVelocity(target.getPos().subtract(new Vec3d(pos)).multiply(inverted ? -multiplier : multiplier));
+        target.setVelocity(target.getEntityPos().subtract(new Vec3d(pos)).multiply(inverted ? -multiplier : multiplier));
         target.velocityModified = true;
     }
 }

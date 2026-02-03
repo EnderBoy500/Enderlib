@@ -29,7 +29,7 @@ public abstract class LivingEntityMixin {
     @WrapMethod(method = "clearStatusEffects")
     private boolean preventClear(Operation<Boolean> original) {
         LivingEntity living = (LivingEntity)(Object)this;
-        if (!living.getWorld().isClient()) {
+        if (!living.getEntityWorld().isClient()) {
             for (StatusEffectInstance instance : living.getActiveStatusEffects().values()) {
                 if (instance.getEffectType().value() instanceof Unclearable) {
                     boolean result = original.call();

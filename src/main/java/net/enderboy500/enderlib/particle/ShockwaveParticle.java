@@ -7,6 +7,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -25,7 +26,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         this.green = 1;
         this.blue = 1;
         this.alpha = 0.5f;
-        this.setSpriteForAge(spriteProvider);
+        this.updateSprite(spriteProvider);
     }
 
     @Override
@@ -71,8 +72,8 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
     }
 
     @Override
-    public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+    public RenderType getRenderType() {
+        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
     }
 
     public static class RandomSize implements ParticleFactory<SimpleParticleType> {
@@ -82,7 +83,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, new Random().nextFloat(10) + 1);
         }
     }
@@ -93,7 +94,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 1);
         }
     }
@@ -104,7 +105,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 2);
         }
     }
@@ -115,7 +116,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 3);
         }
     }
@@ -126,7 +127,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 4);
         }
     }
@@ -137,7 +138,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 5);
         }
     }
@@ -148,7 +149,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 6);
         }
     }
@@ -159,7 +160,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 7);
         }
     }
@@ -170,7 +171,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 8);
         }
     }
@@ -181,7 +182,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 9);
         }
     }
@@ -192,7 +193,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(SimpleParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, net.minecraft.util.math.random.Random random) {
             return new ShockwaveParticle(clientWorld, d, e, f, g, this.spriteProvider, 10);
         }
     }

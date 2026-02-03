@@ -33,9 +33,9 @@ public abstract class ItemEntityMixin extends Entity{
         ItemStack stack = this.getStack();
         Entity owner = this.getOwner();
         if (stack.contains(EnderLibComponents.UNDROPPABlE)) {
-            if (!this.getWorld().isClient && owner instanceof PlayerEntity player) {
+            if (!this.getEntityWorld().isClient() && owner instanceof PlayerEntity player) {
                 player.giveItemStack(stack);
-                this.kill(this.getServer().getWorld(this.getWorld().getRegistryKey()));
+                this.kill(this.getEntityWorld().getServer().getWorld(this.getEntityWorld().getRegistryKey()));
             }
         }
     }

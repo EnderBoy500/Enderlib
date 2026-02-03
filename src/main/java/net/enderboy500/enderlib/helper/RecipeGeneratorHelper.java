@@ -238,7 +238,7 @@ public class RecipeGeneratorHelper extends RecipeGenerator {
                 .offerTo(exporter);
         this.createShaped(RecipeCategory.BUILDING_BLOCKS, hangingSign, 6)
                 .input('#', strippedLog)
-                .input('|', Items.CHAIN)
+                .input('|', Items.IRON_CHAIN)
                 .pattern("| |")
                 .pattern("###")
                 .pattern("###")

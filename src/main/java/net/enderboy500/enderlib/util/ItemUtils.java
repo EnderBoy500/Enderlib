@@ -94,7 +94,7 @@ public class ItemUtils {
             boolean bl = h > 0.9F;
             boolean bl2;
             if (player.isSprinting() && bl) {
-                player.getWorld().playSound((Entity)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, player.getSoundCategory(), 1.0F, 1.0F);
+                player.getEntityWorld().playSound((Entity)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, player.getSoundCategory(), 1.0F, 1.0F);
                 bl2 = true;
             } else {
                 bl2 = false;
@@ -117,7 +117,7 @@ public class ItemUtils {
             }
 
             if (bl4) {
-                for (LivingEntity livingEntity3 : player.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand((double) 1.0F, (double) 0.25F, (double) 1.0F))) {
+                for (LivingEntity livingEntity3 : player.getEntityWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand((double) 1.0F, (double) 0.25F, (double) 1.0F))) {
                     if (livingEntity3 != player && livingEntity3 != target && !player.isTeammate(livingEntity3)) {
                         if (livingEntity3 instanceof ArmorStandEntity) {
                             ArmorStandEntity armorStandEntity = (ArmorStandEntity) livingEntity3;
@@ -128,7 +128,7 @@ public class ItemUtils {
 
                         if (player.squaredDistanceTo(livingEntity3) < (double) 9.0F) {
                             float m = player.getDamageAgainst(livingEntity3, l, damageSource) * h;
-                            World var22 = player.getWorld();
+                            World var22 = player.getEntityWorld();
                             if (var22 instanceof ServerWorld) {
                                 ServerWorld serverWorld = (ServerWorld) var22;
                                 if (livingEntity3.damage(serverWorld, damageSource, m)) {
@@ -140,7 +140,7 @@ public class ItemUtils {
                     }
                 }
 
-                player.getWorld().playSound((Entity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+                player.getEntityWorld().playSound((Entity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
                 player.spawnSweepAttackParticles();
             }
     }
@@ -148,8 +148,8 @@ public class ItemUtils {
     public static void spawnSweepAttackParticles(PlayerEntity player, ParticleEffect particleType) {
         double d = (double)(-MathHelper.sin(player.getYaw() * ((float)Math.PI / 180F)));
         double e = (double)MathHelper.cos(player.getYaw() * ((float)Math.PI / 180F));
-        if (player.getWorld() instanceof ServerWorld) {
-            ((ServerWorld)player.getWorld()).spawnParticles(particleType, player.getX() + d, player.getBodyY((double)0.5F), player.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
+        if (player.getEntityWorld() instanceof ServerWorld) {
+            ((ServerWorld)player.getEntityWorld()).spawnParticles(particleType, player.getX() + d, player.getBodyY((double)0.5F), player.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
         }
 
     }
