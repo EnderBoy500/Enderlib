@@ -6,6 +6,7 @@ import net.enderboy500.enderlib.test.TestInit;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -36,6 +37,7 @@ public class EnderLib implements ModInitializer {
 	public static final TagKey<Item> CROSSBOW_AMMO = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "crossbow_ammo"));
 	public static final TrackedData<Float> SCREENSHAKE_INTENSITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	public static final TrackedData<Integer> SCREENSHAKE_DURATION = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	public static final EntityModelLayer ADVANCED_ARMOR = new EntityModelLayer(Identifier.of(MOD_ID, "advanced_armor"), "main");
 	@Override
 	public void onInitialize() {
 		ELib.addModId(MOD_ID);

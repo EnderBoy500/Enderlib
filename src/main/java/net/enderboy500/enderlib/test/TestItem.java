@@ -1,5 +1,6 @@
 package net.enderboy500.enderlib.test;
 
+import net.enderboy500.enderlib.client.armor.AdvancedArmor;
 import net.enderboy500.enderlib.misc.HideName;
 import net.enderboy500.enderlib.misc.ScreenShaker;
 import net.minecraft.entity.LivingEntity;
@@ -11,7 +12,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-public class TestItem extends ArrowItem implements HideName {
+public class TestItem extends ArrowItem implements HideName, AdvancedArmor {
 
     public TestItem(Item.Settings settings) {
         super(settings);

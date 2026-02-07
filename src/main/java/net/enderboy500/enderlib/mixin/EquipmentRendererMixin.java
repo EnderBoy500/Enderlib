@@ -1,5 +1,6 @@
 package net.enderboy500.enderlib.mixin;
 
+import net.enderboy500.enderlib.client.armor.AdvancedArmor;
 import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.VertexConsumerProvider;

@@ -7,4 +7,6 @@ accessible class net/minecraft/client/gui/hud/InGameHud$HeartType
 accessible class net/minecraft/entity/effect/StatusEffect
 accessible class net/minecraft/particle/SimpleParticleType
 accessible field net/minecraft/entity/LivingEntity riptideAttackDamage F
+accessible class net/minecraft/client/render/entity/feature/FeatureRendererContext
+accessible class net/minecraft/client/render/VertexConsumerProvider$Immediate
 accessible method net/minecraft/entity/player/PlayerEntity getDamageAgainst (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;)F
