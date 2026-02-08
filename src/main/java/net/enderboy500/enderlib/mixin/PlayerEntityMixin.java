@@ -11,11 +11,14 @@ import net.enderboy500.enderlib.item.CustomSweepingEffect;
 import net.enderboy500.enderlib.util.ItemUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlocksAttacksComponent;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -23,6 +26,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.MutableText;
@@ -52,6 +57,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ScreenSh
 
     @Shadow protected abstract float getDamageAgainst(Entity target, float baseDamage, DamageSource damageSource);
 
+    @Shadow public abstract void playAttackSound(SoundEvent sound);
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -77,22 +84,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ScreenSh
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"))
     private void enderlib$spawnCustomHitParticlesAndPlayCustomHitSound(Entity target, CallbackInfo ci) {
-        PlayerEntity player = (PlayerEntity) (Object)this;
-        if (this.getAttackCooldownProgress(0.5F) > 0.90F) {
-            if (this.getMainHandStack().getItem() instanceof CustomSweepingEffect customSweepingEffect) {
-                ItemUtils.spawnSweepAttackParticles(player, customSweepingEffect.sweepParticle());
-            }
-            if (this.getMainHandStack().getItem() instanceof CustomAttackSoundEffect customAttackSoundEffect) {
-                player.playSoundToPlayer(customAttackSoundEffect.attackSound(), SoundCategory.PLAYERS,10,1);
-            }
-        }
-        ItemStack stack = player.getMainHandStack();
-        if (!stack.isEmpty() && stack.contains(EnderLibComponents.HAS_SWEEP_ATTACK)) {
-            ItemUtils.createSweepAttack(player, target, stack);
-        }
+        ItemStack stack = this.getMainHandStack();
         if (!stack.isEmpty() && stack.contains(EnderLibComponents.ATTACK_STATUS_EFFECT) && target instanceof LivingEntity livingEntity) {
             stack.getComponents().get(EnderLibComponents.ATTACK_STATUS_EFFECT).applyEffect(livingEntity);
         }
+    }
+
+    @Inject(method = "canUseSweepAttack", at = @At("HEAD"), cancellable = true)
+    public void enderlib$canSweep(boolean cooldownPassed, boolean criticalHit, boolean knockback, CallbackInfoReturnable<Boolean> cir) {
+        if (getMainHandStack().hasChangedComponent(EnderLibComponents.HAS_SWEEP_ATTACK)) cir.setReturnValue(getMainHandStack().get(EnderLibComponents.HAS_SWEEP_ATTACK));
     }
 
     /**
@@ -100,11 +100,50 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ScreenSh
      * @reason To look cool
      */
     @Overwrite
-    public void spawnSweepAttackParticles() {
-        double d = (double)(-MathHelper.sin(this.getYaw() * ((float)Math.PI / 180F)));
-        double e = (double)MathHelper.cos(this.getYaw() * ((float)Math.PI / 180F));
-        if (this.getEntityWorld() instanceof ServerWorld && !(this.getMainHandStack().getItem() instanceof CustomSweepingEffect)) {
-            ((ServerWorld)this.getEntityWorld()).spawnParticles(ParticleTypes.SWEEP_ATTACK, this.getX() + d, this.getBodyY((double)0.5F), this.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
+    public final void doSweepingAttack(Entity target, float damage, DamageSource damageSource, float cooldownProgress) {
+        PlayerEntity player = (PlayerEntity) (Object) this;
+        player.playAttackSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP);
+        World var6 = this.getEntityWorld();
+        if (var6 instanceof ServerWorld serverWorld) {
+            float var12 = 1.0F + (float)this.getAttributeValue(EntityAttributes.SWEEPING_DAMAGE_RATIO) * damage;
+
+            for(LivingEntity livingEntity : this.getEntityWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand((double)1.0F, (double)0.25F, (double)1.0F))) {
+                if (livingEntity != this && livingEntity != target && !this.isTeammate(livingEntity)) {
+                    if (livingEntity instanceof ArmorStandEntity) {
+                        ArmorStandEntity armorStandEntity = (ArmorStandEntity)livingEntity;
+                        if (armorStandEntity.isMarker()) {
+                            continue;
+                        }
+                    }
+
+                    if (this.squaredDistanceTo(livingEntity) < (double)9.0F) {
+                        float g = this.getDamageAgainst(livingEntity, var12, damageSource) * cooldownProgress;
+                        if (livingEntity.damage(serverWorld, damageSource, g)) {
+                            livingEntity.takeKnockback((double)0.4F, (double)MathHelper.sin((double)(this.getYaw() * ((float)Math.PI / 180F))), (double)(-MathHelper.cos((double)(this.getYaw() * ((float)Math.PI / 180F)))));
+                            EnchantmentHelper.onTargetDamaged(serverWorld, livingEntity, damageSource);
+                        }
+                    }
+                }
+            }
+
+            double d = (double)(-MathHelper.sin((double)(this.getYaw() * ((float)Math.PI / 180F))));
+            double e = (double)MathHelper.cos((double)(this.getYaw() * ((float)Math.PI / 180F)));
+            if (getMainHandStack().getItem() instanceof CustomSweepingEffect sweepingEffect) {
+                serverWorld.spawnParticles(sweepingEffect.sweepParticle(), this.getX() + d, this.getBodyY((double) 0.5F), this.getZ() + e, 0, d, (double) 0.0F, e, (double) 0.0F);
+            } if (getMainHandStack().get(EnderLibComponents.SWEEP_ATTACK_PARTICLE) != null) {
+                serverWorld.spawnParticles(getMainHandStack().get(EnderLibComponents.SWEEP_ATTACK_PARTICLE).particle(), this.getX() + d, this.getBodyY((double) 0.5F), this.getZ() + e, 0, d, (double) 0.0F, e, (double) 0.0F);
+            } else {
+                serverWorld.spawnParticles(ParticleTypes.SWEEP_ATTACK, this.getX() + d, this.getBodyY((double) 0.5F), this.getZ() + e, 0, d, (double) 0.0F, e, (double) 0.0F);
+            }
+        }
+    }
+
+    @Inject(method = "playAttackSound", at = @At("HEAD"), cancellable = true)
+    public void enderlib$sound(SoundEvent sound, CallbackInfo ci) {
+        if (getMainHandStack().getItem() instanceof CustomAttackSoundEffect soundEffect) {
+            this.getEntityWorld().playSound((Entity)null, this.getX(), this.getY(), this.getZ(), soundEffect.attackSound(), this.getSoundCategory(), 1.0F, 1.0F);
+        }if (getMainHandStack().hasChangedComponent(EnderLibComponents.ATTACK_SOUND_EFFECT)) {
+            this.getEntityWorld().playSound((Entity)null, this.getX(), this.getY(), this.getZ(), getMainHandStack().get(EnderLibComponents.ATTACK_SOUND_EFFECT).soundEvent(), this.getSoundCategory(), 1.0F, 1.0F);
         }
     }
 

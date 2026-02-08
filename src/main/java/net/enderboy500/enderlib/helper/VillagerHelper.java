@@ -1,6 +1,5 @@
 package net.enderboy500.enderlib.helper;
 
-import com.google.common.collect.ImmutableSet;
 import net.enderboy500.enderlib.EnderLib;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
@@ -18,6 +17,7 @@ import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
+import com.google.common.collect.ImmutableSet;
 
 public class VillagerHelper {
 
@@ -46,7 +46,7 @@ public class VillagerHelper {
 
     public static void createVillagerTrade(RegistryKey<VillagerProfession> profession, TraderLevel traderLevel, Item payment, int paymentCount, Item soldItem, int soldItemCount, int maxTradeCount, int experienceGained, float priceMultiplier) {
         TradeOfferHelper.registerVillagerOffers(profession, traderLevel.getLevel(), factories -> {
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world, entity, random) -> new TradeOffer(
                     new TradedItem(payment, paymentCount),
                     new ItemStack(soldItem, soldItemCount), maxTradeCount, experienceGained, priceMultiplier));
         });
@@ -54,7 +54,7 @@ public class VillagerHelper {
 
     public static void createVillagerTrade(RegistryKey<VillagerProfession> profession, int traderLevel, Item payment, int paymentCount, Item soldItem, int soldItemCount, int maxTradeCount, int experienceGained, float priceMultiplier) {
         TradeOfferHelper.registerVillagerOffers(profession, traderLevel, factories -> {
-            factories.add((entity, random) -> new TradeOffer(
+            factories.add((world, entity, random) -> new TradeOffer(
                     new TradedItem(payment, paymentCount),
                     new ItemStack(soldItem, soldItemCount), maxTradeCount, experienceGained, priceMultiplier));
         });
@@ -62,7 +62,7 @@ public class VillagerHelper {
 
     public static void createWanderingTraderTrade(Identifier identifier, Item payment, int paymentCount, Item soldItem, int soldItemCount, int maxUses) {
         TradeOfferHelper.registerWanderingTraderOffers(factories -> {
-            factories.addAll(identifier, (entity, random) -> new TradeOffer(
+            factories.addAll(identifier, (world, entity, random) -> new TradeOffer(
                     new TradedItem(payment, paymentCount),
                     new ItemStack(soldItem, soldItemCount), maxUses, 7, 0.04f));
         });

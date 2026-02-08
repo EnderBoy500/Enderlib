@@ -74,11 +74,11 @@ public class PositionUtils {
                 living.getRotationVector().y * (inverted ? -multiplier : multiplier),
                 living.getRotationVector().z * (inverted ? -multiplier : multiplier)
         );
-        living.velocityModified = true;
+        living.velocityDirty = true;
     }
 
     public static void applyVelocityByPos(LivingEntity target, BlockPos pos, float multiplier, boolean inverted) {
         target.setVelocity(target.getEntityPos().subtract(new Vec3d(pos)).multiply(inverted ? -multiplier : multiplier));
-        target.velocityModified = true;
+        target.velocityDirty = true;
     }
 }

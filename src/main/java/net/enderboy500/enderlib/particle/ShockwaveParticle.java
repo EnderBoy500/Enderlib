@@ -41,7 +41,7 @@ public class ShockwaveParticle extends ExplosionLargeParticle {
     }
 
     public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-        Vec3d vec3d = camera.getPos();
+        Vec3d vec3d = camera.getCameraPos();
         float f = (float) (MathHelper.lerp(tickDelta, this.lastX, this.x) - vec3d.getX());
         float g = (float) (MathHelper.lerp(tickDelta, this.lastY, this.y) - vec3d.getY());
         float h = (float) (MathHelper.lerp(tickDelta, this.lastZ, this.z) - vec3d.getZ());

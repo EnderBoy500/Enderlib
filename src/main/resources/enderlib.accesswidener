@@ -7,4 +7,7 @@ accessible class net/minecraft/client/gui/hud/InGameHud$HeartType
 accessible class net/minecraft/entity/effect/StatusEffect
 accessible class net/minecraft/particle/SimpleParticleType
 accessible field net/minecraft/entity/LivingEntity riptideAttackDamage F
+accessible method net/minecraft/entity/player/PlayerEntity playAttackSound (Lnet/minecraft/sound/SoundEvent;)V
+accessible method net/minecraft/entity/player/PlayerEntity canUseSweepAttack (ZZZ)Z
+accessible method net/minecraft/entity/player/PlayerEntity doSweepingAttack (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;F)V
 accessible method net/minecraft/entity/player/PlayerEntity getDamageAgainst (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;)F

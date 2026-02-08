@@ -1,5 +1,6 @@
 package net.enderboy500.enderlib.helper;
 
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -36,7 +37,7 @@ public interface BlockEntityRenderHelper {
             matrices.scale(scale, scale, scale);
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotationDeg));
             int[] l = {};
-            ItemRenderer.renderItem(itemDisplayContext, matrices, consumerProvider, light, 1, l , new ArrayList<BakedQuad>(), RenderLayer.getLines(), ItemRenderState.Glint.NONE);
+            ItemRenderer.renderItem(itemDisplayContext, matrices, consumerProvider, light, 1, l , new ArrayList<BakedQuad>(), null, ItemRenderState.Glint.NONE);
             matrices.pop();
     }
 
