@@ -34,6 +34,7 @@ import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionOptions;
+import net.minecraft.world.dimension.DimensionType;
 
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
@@ -141,7 +142,7 @@ public class RegistryHelper {
     public static RegistryKey<World> registerWorld(String id) {
         return RegistryKey.of(RegistryKeys.WORLD, EnderLib.customId(id));
     }
-    public static RegistryKey<DamageType> registerDimensionType(String id) {
-        return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, EnderLib.customId(id));
+    public static RegistryKey<DimensionType> registerDimensionType(String id) {
+        return RegistryKey.of(RegistryKeys.DIMENSION_TYPE, EnderLib.customId(id));
     }
 }
