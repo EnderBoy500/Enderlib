@@ -47,7 +47,7 @@ public class PositionUtils {
         }
     }
 
-    public TeleportTarget createDimentionalTeleportTarget(ServerWorld world, Entity entity, RegistryKey<World> dimention1, RegistryKey<World> dimention2, BlockPos pos, boolean spawnEndPlatform) {
+    public static TeleportTarget createDimentionalTeleportTarget(ServerWorld world, Entity entity, RegistryKey<World> dimention1, RegistryKey<World> dimention2, BlockPos pos, boolean spawnEndPlatform) {
         RegistryKey<World> registryKey = world.getRegistryKey() == dimention1 ? dimention2 : dimention1;
         ServerWorld serverWorld = world.getServer().getWorld(registryKey);
 
