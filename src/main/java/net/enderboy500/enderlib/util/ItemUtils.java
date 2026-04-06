@@ -24,8 +24,10 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -69,16 +71,6 @@ public class ItemUtils {
         return items;
     }
 
-    public static List<Block> getBlocksInTag(TagKey<Block> tagKey) {
-        List<Block> blocks = new ArrayList<>();
-        for (Block block : getAll(Registries.BLOCK)) {
-            if (block.getDefaultState().isIn(tagKey)) {
-                blocks.add(block);
-            }
-        }
-        return blocks;
-    }
-
     public static <T> void addComponentToAllItems(ComponentType<T> type, T value) {
         DefaultItemComponentEvents.MODIFY.register(ctx -> ctx.modify(
                 getAll(Registries.ITEM),
@@ -86,21 +78,54 @@ public class ItemUtils {
         ));
     }
 
-    public static void spawnSweepAttackParticles(PlayerEntity player, ParticleEffect particleType) {
-        double d = (-MathHelper.sin(player.getYaw() * ((float)Math.PI / 180F)));
-        double e = MathHelper.cos(player.getYaw() * ((float)Math.PI / 180F));
-        if (player.getEntityWorld() instanceof ServerWorld) {
-            ((ServerWorld)player.getEntityWorld()).spawnParticles(particleType, player.getX() + d, player.getBodyY((double)0.5F), player.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
-        }
-
+    public static boolean isWearingFullSet(PlayerEntity player, TagKey<Item> itemTagKey) {
+        return player.getEquippedStack(EquipmentSlot.HEAD).isIn(itemTagKey) && player.getEquippedStack(EquipmentSlot.CHEST).isIn(itemTagKey)
+                && player.getEquippedStack(EquipmentSlot.LEGS).isIn(itemTagKey) && player.getEquippedStack(EquipmentSlot.FEET).isIn(itemTagKey);
     }
 
-    public static boolean isWearingFullSet(PlayerEntity player, TagKey<Item> itemTagKey) {
-        if (player.getEquippedStack(EquipmentSlot.HEAD).isIn(itemTagKey) && player.getEquippedStack(EquipmentSlot.CHEST).isIn(itemTagKey)
-                && player.getEquippedStack(EquipmentSlot.LEGS).isIn(itemTagKey) && player.getEquippedStack(EquipmentSlot.FEET).isIn(itemTagKey)) {
-            return true;
-        } else {
-            return false;
+    public static boolean isWearingFullArmorSet(PlayerEntity player, List<Item> list) {
+        return player.getEquippedStack(EquipmentSlot.HEAD).isOf(list.get(0).asItem()) && player.getEquippedStack(EquipmentSlot.CHEST).isOf(list.get(1).asItem())
+                && player.getEquippedStack(EquipmentSlot.LEGS).isOf(list.get(2).asItem()) && player.getEquippedStack(EquipmentSlot.FEET).isOf(list.get(3).asItem());
+    }
+    public static boolean isWearingFullSet(PlayerEntity player, List<TagKey<Item>> list) {
+        return player.getEquippedStack(EquipmentSlot.HEAD).isIn(list.get(0)) && player.getEquippedStack(EquipmentSlot.CHEST).isIn(list.get(1))
+                && player.getEquippedStack(EquipmentSlot.LEGS).isIn(list.get(2)) && player.getEquippedStack(EquipmentSlot.FEET).isIn(list.get(3));
+    }
+
+    public static void doSweepAttack(PlayerEntity player, ParticleEffect particleEffect, SoundEvent soundEvent) {
+        Entity target = player.getAttacking();
+        player.playAttackSound(soundEvent);
+        float f = player.isUsingRiptide() ? player.riptideAttackDamage : (float)player.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
+        f *= player.getAttackCooldownDamageModifier();
+        ItemStack itemStack = player.getWeaponStack();
+        float v = player.getAttackCooldownProgress(0.5F);
+        DamageSource damageSource = player.getDamageSource(itemStack);
+        World var6 = player.getEntityWorld();
+        if (var6 instanceof ServerWorld serverWorld) {
+            float var12 = 1.0F + (float)player.getAttributeValue(EntityAttributes.SWEEPING_DAMAGE_RATIO) * f;
+
+            for(LivingEntity livingEntity : player.getEntityWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand((double)1.0F, (double)0.25F, (double)1.0F))) {
+                if (livingEntity != player && livingEntity != target && !player.isTeammate(livingEntity)) {
+                    if (livingEntity instanceof ArmorStandEntity) {
+                        ArmorStandEntity armorStandEntity = (ArmorStandEntity)livingEntity;
+                        if (armorStandEntity.isMarker()) {
+                            continue;
+                        }
+                    }
+
+                    if (player.squaredDistanceTo(livingEntity) < (double)9.0F) {
+                        float g = player.getDamageAgainst(livingEntity, var12, damageSource) * v;
+                        if (livingEntity.damage(serverWorld, damageSource, g)) {
+                            livingEntity.takeKnockback((double)0.4F, (double)MathHelper.sin((double)(player.getYaw() * ((float)Math.PI / 180F))), (double)(-MathHelper.cos((double)(player.getYaw() * ((float)Math.PI / 180F)))));
+                            EnchantmentHelper.onTargetDamaged(serverWorld, livingEntity, damageSource);
+                        }
+                    }
+                }
+            }
+
+            double d = (double)(-MathHelper.sin((double)(player.getYaw() * ((float)Math.PI / 180F))));
+            double e = (double)MathHelper.cos((double)(player.getYaw() * ((float)Math.PI / 180F)));
+            serverWorld.spawnParticles(particleEffect, player.getX() + d, player.getBodyY((double)0.5F), player.getZ() + e, 0, d, (double)0.0F, e, (double)0.0F);
         }
     }
 

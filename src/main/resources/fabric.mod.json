@@ -3,13 +3,11 @@
 	"id": "enderlib",
 	"version": "${version}",
 	"name": "Enderlib",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "",
 	"authors": [
-		"Me!"
+		"Enderboy500"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/enderlib/icon.png",
@@ -21,8 +19,8 @@
 		"client": [
 			"net.enderboy500.enderlib.client.EnderLibClient"
 		],
-		"fabric-datagen": [
-			"net.enderboy500.enderlib.EnderLibDataGenerator"
+		"modmenu": [
+			"net.enderboy500.enderlib.EnderLibModMenu"
 		]
 	},
 	"mixins": [

@@ -1,5 +1,6 @@
 package net.enderboy500.enderlib.util;
 
+import net.enderboy500.enderlib.misc.BasePlatformFeature;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
@@ -67,6 +68,28 @@ public class PositionUtils {
             return new TeleportTarget(serverWorld, new Vec3d(pos), Vec3d.ZERO, 0, 0.0F, set, TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET.then(TeleportTarget.ADD_PORTAL_CHUNK_TICKET));
         }
     }
+
+    public static TeleportTarget createDimentionalTeleportTarget(ServerWorld world, Entity entity, RegistryKey<World> dimention1, RegistryKey<World> dimention2, BlockPos pos, boolean spawnFeature, BasePlatformFeature feature) {
+        RegistryKey<World> registryKey = world.getRegistryKey() == dimention1 ? dimention2 : dimention1;
+        ServerWorld serverWorld = world.getServer().getWorld(registryKey);
+
+        if (serverWorld == null) {
+            return null;
+        } else {
+            Vec3d vec3d = new Vec3d(pos.down());
+            if (spawnFeature) {
+                feature.generate(serverWorld, pos, true);
+            }
+            boolean bl = serverWorld.getRegistryKey() == dimention1;
+            WorldBorder worldBorder = serverWorld.getWorldBorder();
+            Set<PositionFlag> set;
+            double d = DimensionType.getCoordinateScaleFactor(world.getDimension(), serverWorld.getDimension());
+            BlockPos blockPos = worldBorder.clampFloored(entity.getX() * d, entity.getY(), entity.getZ() * d);
+            set = PositionFlag.combine(new Set[]{PositionFlag.DELTA, PositionFlag.ROT});
+            return new TeleportTarget(serverWorld, new Vec3d(pos), Vec3d.ZERO, 0, 0.0F, set, TeleportTarget.SEND_TRAVEL_THROUGH_PORTAL_PACKET.then(TeleportTarget.ADD_PORTAL_CHUNK_TICKET));
+        }
+    }
+
 
     public static void applyVelocityInLookDirection(LivingEntity living, float multiplier, boolean inverted) {
         living.setVelocity(

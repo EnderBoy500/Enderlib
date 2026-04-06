@@ -11,3 +11,18 @@ accessible method net/minecraft/entity/player/PlayerEntity playAttackSound (Lnet
 accessible method net/minecraft/entity/player/PlayerEntity canUseSweepAttack (ZZZ)Z
 accessible method net/minecraft/entity/player/PlayerEntity doSweepingAttack (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;F)V
 accessible method net/minecraft/entity/player/PlayerEntity getDamageAgainst (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;)F
+
+accessible method net/minecraft/world/rule/GameRules registerBooleanRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;Z)Lnet/minecraft/world/rule/GameRule;
+accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;II)Lnet/minecraft/world/rule/GameRule;
+accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;III)Lnet/minecraft/world/rule/GameRule;
+accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;IIILnet/minecraft/resource/featuretoggle/FeatureSet;)Lnet/minecraft/world/rule/GameRule;
+accessible method net/minecraft/world/rule/GameRules register (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;Lnet/minecraft/world/rule/GameRuleType;Lcom/mojang/brigadier/arguments/ArgumentType;Lcom/mojang/serialization/Codec;Ljava/lang/Object;Lnet/minecraft/resource/featuretoggle/FeatureSet;Lnet/minecraft/world/rule/GameRules$Acceptor;Ljava/util/function/ToIntFunction;)Lnet/minecraft/world/rule/GameRule;
+accessible method net/minecraft/entity/player/PlayerEntity cannotAttack (Lnet/minecraft/entity/Entity;)Z
+accessible method net/minecraft/entity/player/PlayerEntity getAttackCooldownDamageModifier ()F
+accessible method net/minecraft/entity/player/PlayerEntity getDamageSource (Lnet/minecraft/item/ItemStack;)Lnet/minecraft/entity/damage/DamageSource;
+accessible method net/minecraft/entity/player/PlayerEntity tryDeflect (Lnet/minecraft/entity/Entity;)Z
+accessible method net/minecraft/entity/player/PlayerEntity isCriticalHit (Lnet/minecraft/entity/Entity;)Z
+accessible method net/minecraft/entity/LivingEntity getAttackKnockbackAgainst (Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;)F
+accessible method net/minecraft/entity/player/PlayerEntity onTargetDamaged (Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/damage/DamageSource;Z)V
+accessible method net/minecraft/entity/player/PlayerEntity handleAttackDamage (Lnet/minecraft/entity/Entity;F)V
+accessible method net/minecraft/entity/player/PlayerEntity addAttackParticlesAndSounds (Lnet/minecraft/entity/Entity;ZZZZF)V

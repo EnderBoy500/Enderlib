@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.misc;
+package net.enderboy500.enderlib.util.interfaces;
 
 import net.minecraft.item.ItemStack;
 

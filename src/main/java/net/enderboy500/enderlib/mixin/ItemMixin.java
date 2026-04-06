@@ -1,11 +1,16 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.EnderLib;
+import net.enderboy500.enderlib.EnderLibComponents;
 import net.enderboy500.enderlib.events.CanPlayerModifyWorldEvent;
 import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
 import net.enderboy500.enderlib.item.CycleEquipmentStateInt;
 import net.enderboy500.enderlib.item.SlotChangeFunction;
 import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
+import net.enderboy500.enderlib.util.skin.ItemSkinSet;
+import net.enderboy500.enderlib.util.skin.ModifierSkin;
+import net.minecraft.block.Blocks;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
@@ -44,4 +49,32 @@ public class ItemMixin {
         }
     }
 
+    @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)
+    public void enderlib$smith(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+        ItemStack stack = context.getStack();
+        PlayerEntity player = context.getPlayer();
+        if (player != null && player.isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isOf(Blocks.SMITHING_TABLE) && ItemSkinSet.getMap().containsKey(stack.getItem())) {
+
+            if (!stack.contains(EnderLibComponents.SKIN_ID)) stack.set(EnderLibComponents.SKIN_ID, 0);
+
+            if (ItemSkinSet.getMap().containsKey(stack.getItem()) && stack.contains(EnderLibComponents.SKIN_ID)) {
+                if (stack.get(EnderLibComponents.SKIN_ID) < ItemSkinSet.getMap().get(stack.getItem()).size()) {
+                    if (ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID)) instanceof ModifierSkin modifierSkin) {
+                        modifierSkin.modify(stack);
+                    } else if (stack.get(EnderLibComponents.SKIN_ID) > 0 && ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID) - 1) instanceof ModifierSkin modifierSkin) {
+                        modifierSkin.resetDefaults(stack);
+                    }
+                    stack.set(DataComponentTypes.ITEM_MODEL, ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID)).getModelId());
+                    stack.set(EnderLibComponents.SKIN_ID, stack.get(EnderLibComponents.SKIN_ID) + 1);
+                } else {
+                    if (stack.get(EnderLibComponents.SKIN_ID) == ItemSkinSet.getMap().get(stack.getItem()).size() && ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID) - 1) instanceof ModifierSkin modifierSkin) {
+                        modifierSkin.resetDefaults(stack);
+                    }
+                    stack.set(DataComponentTypes.ITEM_MODEL, stack.getDefaultComponents().get(DataComponentTypes.ITEM_MODEL));
+                    stack.set(EnderLibComponents.SKIN_ID, 0);
+                }
+                cir.setReturnValue(ActionResult.SUCCESS);
+            }
+        }
+    }
 }

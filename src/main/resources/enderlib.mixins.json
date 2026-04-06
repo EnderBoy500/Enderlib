@@ -3,6 +3,9 @@
 	"package": "net.enderboy500.enderlib.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"BlockItemMixin",
+		"BlockMixin",
+		"CameraMixin",
 		"ExampleMixin",
 		"PlayerEntityMixin",
 		"ShearMixin",
@@ -10,18 +13,20 @@
 		"PlayerEntityRendererMixin",
 		"EquipmentRendererMixin",
 		"ItemMixin",
-		"CameraMixin",
 		"InGameHudMixin",
 		"ConsumableComponentMixin",
 		"LivingEntityMixin",
-		"BlockItemMixin",
 		"HeldItemRenderMixin",
 		"CrossbowItemMixin",
 		"ItemModelMixin",
 		"KeyboardInputMixin",
 		"MinecraftClientMixin",
 		"ServerPlayerMixin",
-		"ItemEntityMixin"
+		"ItemEntityMixin",
+		"RiptideFeatureMixin",
+		"PlayerEntityRenderStateMixin",
+		"EntityMixin",
+		"AbstrackFireBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
