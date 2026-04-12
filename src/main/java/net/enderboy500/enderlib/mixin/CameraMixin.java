@@ -1,11 +1,10 @@
 package net.enderboy500.enderlib.mixin;
 
-import net.enderboy500.enderlib.client.ScreenShake;
+import net.enderboy500.enderlib.util.interfaces.ScreenShake;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

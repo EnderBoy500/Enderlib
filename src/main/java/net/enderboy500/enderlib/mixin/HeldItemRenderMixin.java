@@ -1,8 +1,7 @@
 package net.enderboy500.enderlib.mixin;
 
-import net.enderboy500.enderlib.EnderLibComponents;
+import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;

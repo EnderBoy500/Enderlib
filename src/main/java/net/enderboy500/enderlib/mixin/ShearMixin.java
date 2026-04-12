@@ -1,8 +1,7 @@
 package net.enderboy500.enderlib.mixin;
 
-import net.enderboy500.enderlib.misc.ToolMaps;
+import net.enderboy500.enderlib.util.interfaces.ToolMaps;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.ShearsItem;

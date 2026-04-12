@@ -20,7 +20,7 @@
 			"net.enderboy500.enderlib.client.EnderLibClient"
 		],
 		"modmenu": [
-			"net.enderboy500.enderlib.EnderLibModMenu"
+          "net.enderboy500.enderlib.client.config.EnderLibModMenu"
 		]
 	},
 	"mixins": [

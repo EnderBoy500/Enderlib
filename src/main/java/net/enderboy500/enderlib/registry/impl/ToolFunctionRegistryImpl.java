@@ -1,7 +1,7 @@
 package net.enderboy500.enderlib.registry.impl;
 
 import com.mojang.datafixers.util.Pair;
-import net.enderboy500.enderlib.misc.ToolMaps;
+import net.enderboy500.enderlib.util.interfaces.ToolMaps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.HoeItem;

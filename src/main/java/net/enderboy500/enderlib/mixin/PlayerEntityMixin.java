@@ -1,12 +1,11 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.EnderLibComponents;
-import net.enderboy500.enderlib.client.ScreenShake;
+import net.enderboy500.enderlib.item.component.EnderLibComponents;
+import net.enderboy500.enderlib.util.interfaces.ScreenShake;
 import net.enderboy500.enderlib.events.BedInteractionEvent;
 import net.enderboy500.enderlib.events.CanPlayerModifyWorldEvent;
 import net.enderboy500.enderlib.events.DeathEvent;
-import net.enderboy500.enderlib.util.ItemUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlocksAttacksComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,7 +18,6 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -33,12 +31,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 

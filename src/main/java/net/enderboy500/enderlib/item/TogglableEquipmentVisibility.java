@@ -1,7 +1,6 @@
 package net.enderboy500.enderlib.item;
 
-import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.EnderLibComponents;
+import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.minecraft.item.ItemStack;
 
 public interface TogglableEquipmentVisibility {

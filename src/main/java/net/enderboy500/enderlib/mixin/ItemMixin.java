@@ -1,8 +1,7 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.EnderLibComponents;
-import net.enderboy500.enderlib.events.CanPlayerModifyWorldEvent;
+import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
 import net.enderboy500.enderlib.item.CycleEquipmentStateInt;
 import net.enderboy500.enderlib.item.SlotChangeFunction;

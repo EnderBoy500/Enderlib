@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.client;
+package net.enderboy500.enderlib.util.interfaces;
 
 public interface ScreenShake {
     default boolean isScreenShaking(){

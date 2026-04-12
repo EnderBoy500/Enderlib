@@ -1,8 +1,7 @@
-package net.enderboy500.enderlib;
+package net.enderboy500.enderlib.item.component;
 
 import com.mojang.serialization.Codec;
 import net.enderboy500.enderlib.helper.RegistryHelper;
-import net.enderboy500.enderlib.item.AttackStatusEffectComponent;
 import net.minecraft.component.ComponentType;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.particle.ParticleEffect;
@@ -28,5 +27,5 @@ public class EnderLibComponents {
     public static final ComponentType<Identifier> CUSTOM_RIPTIDE_TEXTURE = RegistryHelper.registerDataComponent("custom_riptide_texture", builder -> builder.codec(Identifier.CODEC).packetCodec(Identifier.PACKET_CODEC));
     public static final ComponentType<Integer> SKIN_ID = RegistryHelper.registerDataComponent("skin_id", builder -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER));
 
-    static void load() {};
+    public static void load() {};
 }

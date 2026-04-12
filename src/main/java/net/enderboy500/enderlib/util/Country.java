@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.registry;
+package net.enderboy500.enderlib.util;
 
 import net.minecraft.client.MinecraftClient;
 

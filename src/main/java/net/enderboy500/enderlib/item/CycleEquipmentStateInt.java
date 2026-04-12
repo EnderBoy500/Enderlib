@@ -1,7 +1,6 @@
 package net.enderboy500.enderlib.item;
 
-import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.EnderLibComponents;
+import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.entity.EquipmentSlot;

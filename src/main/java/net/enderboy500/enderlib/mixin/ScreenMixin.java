@@ -1,6 +1,6 @@
 package net.enderboy500.enderlib.mixin;
 import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.EnderLibConfig;
+import net.enderboy500.enderlib.client.config.EnderLibConfig;
 import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
 import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
 import net.enderboy500.enderlib.item.CycleEquipmentStateInt;

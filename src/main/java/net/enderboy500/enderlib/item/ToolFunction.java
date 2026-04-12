@@ -1,9 +1,8 @@
 package net.enderboy500.enderlib.item;
 
 import com.mojang.datafixers.util.Pair;
-import net.enderboy500.enderlib.misc.ToolMaps;
+import net.enderboy500.enderlib.util.interfaces.ToolMaps;
 import net.minecraft.block.*;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.BlockTags;

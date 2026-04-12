@@ -1,4 +1,4 @@
-package net.enderboy500.enderlib.item;
+package net.enderboy500.enderlib.item.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

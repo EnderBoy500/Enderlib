@@ -1,7 +1,9 @@
 package net.enderboy500.enderlib;
 
+import net.enderboy500.enderlib.client.config.EnderLibConfig;
 import net.enderboy500.enderlib.events.*;
-import net.enderboy500.enderlib.registry.Country;
+import net.enderboy500.enderlib.item.component.EnderLibComponents;
+import net.enderboy500.enderlib.util.Country;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.data.DataTracker;
@@ -18,14 +20,7 @@ import org.slf4j.LoggerFactory;
 
 public class EnderLib implements ModInitializer {
 	public static final String MOD_ID = "enderlib";
-	public static String currentModId = "";
-
-	public static Identifier customId(String path) {
-		return Identifier.of(currentModId, path);
-	}
-
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
 	public static Identifier id(String string) {
 		return Identifier.of(MOD_ID, string);
 	}

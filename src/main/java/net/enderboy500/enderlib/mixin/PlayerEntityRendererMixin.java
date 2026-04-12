@@ -1,6 +1,6 @@
 package net.enderboy500.enderlib.mixin;
 
-import net.enderboy500.enderlib.EnderLibComponents;
+import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.enderboy500.enderlib.util.interfaces.HideName;
 import net.enderboy500.enderlib.util.interfaces.PlayerRenderStateAccessor;
 import net.minecraft.client.network.ClientPlayerLikeEntity;
@@ -11,7 +11,6 @@ import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.PlayerLikeEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
