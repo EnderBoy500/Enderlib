@@ -8,35 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ItemSkinSet {
-    private final List<ItemSkin> skins;
+public class ItemSkinRegistry {
     private static final Map<Item, List<ItemSkin>> MAP = new HashMap<>();
 
-    public ItemSkinSet(List<ItemSkin> skins) {
-        this.skins = skins;
-    }
-
-    public static void registerSkinSet(Item item, ItemSkinSet skinSet) {
-        for (ItemSkin skin : skinSet.getSkins()) {
-            MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
-        }
-        item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
-    }
-    public static void registerSkinSet(Item item, List<ItemSkin> skinSet) {
+    public static void registerSkins(Item item, List<ItemSkin> skinSet) {
         for (ItemSkin skin : skinSet) {
             MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
         }
         item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
     }
-    public static void registerSkinSet(List<Item> items, ItemSkinSet skinSet) {
-        for (Item item : items) {
-            for (ItemSkin skin : skinSet.getSkins()) {
-                MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
-            }
-            item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
-        }
-    }
-    public static void registerSkinSet(List<Item> items, List<ItemSkin> skinSet) {
+
+    public static void registerSkin(List<Item> items, List<ItemSkin> skinSet) {
         for (Item item : items) {
             for (ItemSkin skin : skinSet) {
                 MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
@@ -45,11 +27,20 @@ public class ItemSkinSet {
         }
     }
 
+    public static void registerSkin(Item item, ItemSkin skin) {
+        MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
+        item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
+    }
+
+    public static void registerSkin(List<Item> items, ItemSkin skin) {
+        for (Item item : items) {
+            MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
+            item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
+        }
+    }
+
     public static Map<Item, List<ItemSkin>> getMap() {
         return MAP;
     }
 
-    public List<ItemSkin> getSkins() {
-        return skins;
-    }
 }

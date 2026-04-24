@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
-public abstract class ModifierSkin extends ItemSkin{
+public abstract class ModifierSkin extends ItemSkin {
     public ModifierSkin(String id, Identifier modelId) {
         super(id, modelId);
     }

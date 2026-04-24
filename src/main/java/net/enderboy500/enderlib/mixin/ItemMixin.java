@@ -6,7 +6,8 @@ import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
 import net.enderboy500.enderlib.item.CycleEquipmentStateInt;
 import net.enderboy500.enderlib.item.SlotChangeFunction;
 import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
-import net.enderboy500.enderlib.util.skin.ItemSkinSet;
+import net.enderboy500.enderlib.util.skin.ItemNameSkin;
+import net.enderboy500.enderlib.util.skin.ItemSkinRegistry;
 import net.enderboy500.enderlib.util.skin.ModifierSkin;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
@@ -52,21 +53,29 @@ public class ItemMixin {
     public void enderlib$smith(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack stack = context.getStack();
         PlayerEntity player = context.getPlayer();
-        if (player != null && player.isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isOf(Blocks.SMITHING_TABLE) && ItemSkinSet.getMap().containsKey(stack.getItem())) {
+        if (player != null && player.isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isOf(Blocks.SMITHING_TABLE) && ItemSkinRegistry.getMap().containsKey(stack.getItem())) {
 
             if (!stack.contains(EnderLibComponents.SKIN_ID)) stack.set(EnderLibComponents.SKIN_ID, 0);
 
-            if (ItemSkinSet.getMap().containsKey(stack.getItem()) && stack.contains(EnderLibComponents.SKIN_ID)) {
-                if (stack.get(EnderLibComponents.SKIN_ID) < ItemSkinSet.getMap().get(stack.getItem()).size()) {
-                    if (ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID)) instanceof ModifierSkin modifierSkin) {
+            if (ItemSkinRegistry.getMap().containsKey(stack.getItem()) && stack.contains(EnderLibComponents.SKIN_ID)) {
+                if (stack.get(EnderLibComponents.SKIN_ID) < ItemSkinRegistry.getMap().get(stack.getItem()).size()) {
+
+/*                    if (ItemSkinRegistry.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID)) instanceof ModifierSkin modifierSkin) {
                         modifierSkin.modify(stack);
-                    } else if (stack.get(EnderLibComponents.SKIN_ID) > 0 && ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID) - 1) instanceof ModifierSkin modifierSkin) {
+                    } else if (stack.get(EnderLibComponents.SKIN_ID) > 0 && ItemSkinRegistry.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID) - 1) instanceof ModifierSkin modifierSkin) {
+                        modifierSkin.resetDefaults(stack);
+                    }*/
+                    if (stack.get(EnderLibComponents.SKIN_ID) > 0 && ItemSkinRegistry.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID) - 1) instanceof ModifierSkin modifierSkin) {
+                        System.out.println("1");
                         modifierSkin.resetDefaults(stack);
                     }
-                    stack.set(DataComponentTypes.ITEM_MODEL, ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID)).getModelId());
+                    if (ItemSkinRegistry.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID)) instanceof ModifierSkin modifierSkin) {
+                        modifierSkin.modify(stack);
+                    }
+                    stack.set(DataComponentTypes.ITEM_MODEL, ItemSkinRegistry.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID)).getModelId());
                     stack.set(EnderLibComponents.SKIN_ID, stack.get(EnderLibComponents.SKIN_ID) + 1);
                 } else {
-                    if (stack.get(EnderLibComponents.SKIN_ID) == ItemSkinSet.getMap().get(stack.getItem()).size() && ItemSkinSet.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID) - 1) instanceof ModifierSkin modifierSkin) {
+                    if (stack.get(EnderLibComponents.SKIN_ID) == ItemSkinRegistry.getMap().get(stack.getItem()).size() && ItemSkinRegistry.getMap().get(stack.getItem()).get(stack.get(EnderLibComponents.SKIN_ID) - 1) instanceof ModifierSkin modifierSkin) {
                         modifierSkin.resetDefaults(stack);
                     }
                     stack.set(DataComponentTypes.ITEM_MODEL, stack.getDefaultComponents().get(DataComponentTypes.ITEM_MODEL));

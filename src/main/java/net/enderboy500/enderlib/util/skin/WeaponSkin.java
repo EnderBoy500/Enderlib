@@ -1,12 +1,16 @@
 package net.enderboy500.enderlib.util.skin;
 
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
+import net.enderboy500.enderlib.util.ModifiedComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
-public class WeaponSkin extends ModifierSkin {
+import java.util.ArrayList;
+import java.util.List;
+
+public class WeaponSkin extends ComponentSkin {
     private final Modifier modifier;
 
     public WeaponSkin(String id, Identifier modelId, Modifier modifier) {
@@ -15,13 +19,8 @@ public class WeaponSkin extends ModifierSkin {
     }
 
     @Override
-    public void modify(ItemStack item) {
-        modifier.modify(item);
-    }
-
-    @Override
-    public void resetDefaults(ItemStack item) {
-        modifier.resetDefaults(item);
+    public <T> List<ModifiedComponent<T>> modifiedComponents(ItemStack stack) {
+        return modifier.modifiedComponents();
     }
 
     public static class Modifier {
@@ -32,13 +31,12 @@ public class WeaponSkin extends ModifierSkin {
             this.particleEffect = particleEffect;
             this.soundEvent = soundEvent;
         }
-        public void modify(ItemStack item) {
-            if (particleEffect != null) item.set(EnderLibComponents.SWEEP_ATTACK_PARTICLE, particleEffect);
-            if (soundEvent != null) item.set(EnderLibComponents.ATTACK_SOUND_EFFECT, soundEvent);
-        }
-        public void resetDefaults(ItemStack item) {
-            if (particleEffect != null) item.remove(EnderLibComponents.SWEEP_ATTACK_PARTICLE);
-            if (soundEvent != null) item.remove(EnderLibComponents.ATTACK_SOUND_EFFECT);
+
+        public <T> List<ModifiedComponent<T>> modifiedComponents() {
+            List<ModifiedComponent<T>> list = new ArrayList<>();
+            if (particleEffect != null) list.add(ModifiedComponent.create(EnderLibComponents.SWEEP_ATTACK_PARTICLE, particleEffect));
+            if (soundEvent != null) list.add(ModifiedComponent.create(EnderLibComponents.ATTACK_SOUND_EFFECT, soundEvent));
+            return list;
         }
 
         public static Modifier create(ParticleEffect particleEffect, SoundEvent soundEvent) {

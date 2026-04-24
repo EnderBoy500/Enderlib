@@ -1,6 +1,5 @@
 package net.enderboy500.enderlib;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 
 public final class ELib {
