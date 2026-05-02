@@ -1,6 +1,7 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.EnderLib;
+import net.enderboy500.enderlib.util.EnderlibTags;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
@@ -16,7 +17,7 @@ import java.util.function.Predicate;
 public abstract class CrossbowItemMixin {
     @Unique
     private static Predicate<ItemStack> heldPredicate() {
-        return RangedWeaponItem.CROSSBOW_HELD_PROJECTILES.or(itemStack -> itemStack.isIn(EnderLib.CROSSBOW_AMMO));
+        return RangedWeaponItem.CROSSBOW_HELD_PROJECTILES.or(itemStack -> itemStack.isIn(EnderlibTags.CROSSBOW_AMMO));
     }
 
     @Inject(method = "getHeldProjectiles", at = @At("HEAD"), cancellable = true)

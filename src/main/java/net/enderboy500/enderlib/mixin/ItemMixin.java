@@ -6,6 +6,7 @@ import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
 import net.enderboy500.enderlib.item.CycleEquipmentStateInt;
 import net.enderboy500.enderlib.item.SlotChangeFunction;
 import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
+import net.enderboy500.enderlib.util.EnderlibTags;
 import net.enderboy500.enderlib.util.skin.ItemNameSkin;
 import net.enderboy500.enderlib.util.skin.ItemSkinRegistry;
 import net.enderboy500.enderlib.util.skin.ModifierSkin;
@@ -53,7 +54,7 @@ public class ItemMixin {
     public void enderlib$smith(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack stack = context.getStack();
         PlayerEntity player = context.getPlayer();
-        if (player != null && player.isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isOf(Blocks.SMITHING_TABLE) && ItemSkinRegistry.getMap().containsKey(stack.getItem())) {
+        if (player != null && player.isSneaking() && context.getWorld().getBlockState(context.getBlockPos()).isOf(Blocks.SMITHING_TABLE) && ItemSkinRegistry.getMap().containsKey(stack.getItem()) && !stack.isIn(EnderlibTags.SKIN_INCOMPATIBILITY)) {
 
             if (!stack.contains(EnderLibComponents.SKIN_ID)) stack.set(EnderLibComponents.SKIN_ID, 0);
 

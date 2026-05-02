@@ -1,9 +1,11 @@
 package net.enderboy500.enderlib;
 
 import net.enderboy500.enderlib.client.config.EnderLibConfig;
+import net.enderboy500.enderlib.commands.EnderlibCommands;
 import net.enderboy500.enderlib.events.*;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.enderboy500.enderlib.util.Country;
+import net.enderboy500.enderlib.util.EnderlibTags;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.data.DataTracker;
@@ -25,7 +27,6 @@ public class EnderLib implements ModInitializer {
 		return Identifier.of(MOD_ID, string);
 	}
 
-	public static final TagKey<Item> CROSSBOW_AMMO = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "crossbow_ammo"));
 	public static final TrackedData<Float> SCREENSHAKE_INTENSITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	public static final TrackedData<Integer> SCREENSHAKE_DURATION = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -34,6 +35,8 @@ public class EnderLib implements ModInitializer {
 		ELib.addModId(MOD_ID);
 
 		EnderLibComponents.load();
+		EnderlibTags.loadTags();
+		EnderlibCommands.loadCommands();
 		Country.addForbiddenCountryWithLogMessage("Israel", "Genocide Is Not Permitted");
 		WorldConnectionEvent.JOIN.register( clientWorld -> {
 			if (Country.fetchCountryAndCheck("Israel")) {
@@ -41,6 +44,8 @@ public class EnderLib implements ModInitializer {
 				MinecraftClient.getInstance().stop();
 			}
 		});
+
+		EnderLibTest.load();
 	}
 
 	public static boolean canRightClickToCycle() {

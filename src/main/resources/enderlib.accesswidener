@@ -11,7 +11,8 @@ accessible method net/minecraft/entity/player/PlayerEntity playAttackSound (Lnet
 accessible method net/minecraft/entity/player/PlayerEntity canUseSweepAttack (ZZZ)Z
 accessible method net/minecraft/entity/player/PlayerEntity doSweepingAttack (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;F)V
 accessible method net/minecraft/entity/player/PlayerEntity getDamageAgainst (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;)F
-
+accessible method net/minecraft/client/data/BlockStateModelGenerator$BlockTexturePool ensureModel (Lnet/minecraft/client/data/Model;Lnet/minecraft/block/Block;)Lnet/minecraft/util/Identifier;
+accessible field net/minecraft/client/data/BlockStateModelGenerator UNORIENTABLE_TRAPDOORS Ljava/util/List;
 accessible method net/minecraft/world/rule/GameRules registerBooleanRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;Z)Lnet/minecraft/world/rule/GameRule;
 accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;II)Lnet/minecraft/world/rule/GameRule;
 accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;III)Lnet/minecraft/world/rule/GameRule;

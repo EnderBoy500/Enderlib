@@ -1,9 +1,11 @@
 package net.enderboy500.enderlib.util;
 
+import com.twelvemonkeys.imageio.metadata.iptc.IPTC;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.block.Block;
 import net.minecraft.component.ComponentType;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -18,10 +20,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.*;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -135,5 +137,62 @@ public class ItemUtils {
                         .getOrThrow(RegistryKeys.DAMAGE_TYPE)
                         .getEntry(damageTypeRegistryEntry.getValue()).get());
         return damageSource;
+    }
+
+    public static void applyShield(List<Item> items, int durability, TagKey<Item> repairIngredients, float blockPercentage) {
+        RegistryEntryLookup<Item> registryEntryLookup = Registries.createEntryLookup(Registries.ITEM);
+        DefaultItemComponentEvents.MODIFY.register(ctx -> ctx.modify(
+                items,
+                (builder, item) -> builder.add(DataComponentTypes.MAX_DAMAGE, durability)
+                        .add(DataComponentTypes.MAX_STACK_SIZE, 1)
+                        .add(DataComponentTypes.BANNER_PATTERNS, BannerPatternsComponent.DEFAULT)
+                        .add(DataComponentTypes.REPAIRABLE, new RepairableComponent(registryEntryLookup.getOrThrow(repairIngredients)))
+                        .add(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.OFFHAND).swappable(false).build())
+                        .add(DataComponentTypes.BLOCKS_ATTACKS, new BlocksAttacksComponent(0.25F, 1.0F, List.of(new BlocksAttacksComponent.DamageReduction(90.0F, Optional.empty(), 0.0F, blockPercentage)),
+                                new BlocksAttacksComponent.ItemDamage(3.0F, 1.0F, 1.0F), Optional.of(DamageTypeTags.BYPASSES_SHIELD), Optional.of(SoundEvents.ITEM_SHIELD_BLOCK), Optional.of(SoundEvents.ITEM_SHIELD_BREAK)))
+                        .add(DataComponentTypes.BREAK_SOUND, SoundEvents.ITEM_SHIELD_BREAK))
+        );
+    }
+    public static void applyShield(Item item, int durability, TagKey<Item> repairIngredients, float blockPercentage) {
+        RegistryEntryLookup<Item> registryEntryLookup = Registries.createEntryLookup(Registries.ITEM);
+        DefaultItemComponentEvents.MODIFY.register(ctx -> ctx.modify(
+                List.of(item),
+                (builder, item2) -> builder.add(DataComponentTypes.MAX_DAMAGE, durability)
+                        .add(DataComponentTypes.MAX_STACK_SIZE, 1)
+                        .add(DataComponentTypes.BANNER_PATTERNS, BannerPatternsComponent.DEFAULT)
+                        .add(DataComponentTypes.REPAIRABLE, new RepairableComponent(registryEntryLookup.getOrThrow(repairIngredients)))
+                        .add(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.OFFHAND).swappable(false).build())
+                        .add(DataComponentTypes.BLOCKS_ATTACKS, new BlocksAttacksComponent(0.25F, 1.0F, List.of(new BlocksAttacksComponent.DamageReduction(90.0F, Optional.empty(), 0.0F, blockPercentage)),
+                                new BlocksAttacksComponent.ItemDamage(3.0F, 1.0F, 1.0F), Optional.of(DamageTypeTags.BYPASSES_SHIELD), Optional.of(SoundEvents.ITEM_SHIELD_BLOCK), Optional.of(SoundEvents.ITEM_SHIELD_BREAK)))
+                        .add(DataComponentTypes.BREAK_SOUND, SoundEvents.ITEM_SHIELD_BREAK))
+        );
+    }
+    public static void applyShield(List<Item> items, int durability, TagKey<Item> repairIngredients, float blockPercentage, RegistryEntry.Reference<SoundEvent> blockAttackSound, RegistryEntry.Reference<SoundEvent> shieldBreakSound) {
+        RegistryEntryLookup<Item> registryEntryLookup = Registries.createEntryLookup(Registries.ITEM);
+        DefaultItemComponentEvents.MODIFY.register(ctx -> ctx.modify(
+                items,
+                (builder, item) -> builder.add(DataComponentTypes.MAX_DAMAGE, durability)
+                        .add(DataComponentTypes.MAX_STACK_SIZE, 1)
+                        .add(DataComponentTypes.BANNER_PATTERNS, BannerPatternsComponent.DEFAULT)
+                        .add(DataComponentTypes.REPAIRABLE, new RepairableComponent(registryEntryLookup.getOrThrow(repairIngredients)))
+                        .add(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.OFFHAND).swappable(false).build())
+                        .add(DataComponentTypes.BLOCKS_ATTACKS, new BlocksAttacksComponent(0.25F, 1.0F, List.of(new BlocksAttacksComponent.DamageReduction(90.0F, Optional.empty(), 0.0F, blockPercentage)),
+                                new BlocksAttacksComponent.ItemDamage(3.0F, 1.0F, 1.0F), Optional.of(DamageTypeTags.BYPASSES_SHIELD), Optional.of(blockAttackSound), Optional.of(shieldBreakSound)))
+                        .add(DataComponentTypes.BREAK_SOUND, shieldBreakSound))
+        );
+    }
+    public static void applyShield(Item item, int durability, TagKey<Item> repairIngredients, float blockPercentage, RegistryEntry.Reference<SoundEvent> blockAttackSound, RegistryEntry.Reference<SoundEvent> shieldBreakSound) {
+        RegistryEntryLookup<Item> registryEntryLookup = Registries.createEntryLookup(Registries.ITEM);
+        DefaultItemComponentEvents.MODIFY.register(ctx -> ctx.modify(
+                List.of(item),
+                (builder, item2) -> builder.add(DataComponentTypes.MAX_DAMAGE, durability)
+                        .add(DataComponentTypes.MAX_STACK_SIZE, 1)
+                        .add(DataComponentTypes.BANNER_PATTERNS, BannerPatternsComponent.DEFAULT)
+                        .add(DataComponentTypes.REPAIRABLE, new RepairableComponent(registryEntryLookup.getOrThrow(repairIngredients)))
+                        .add(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(EquipmentSlot.OFFHAND).swappable(false).build())
+                        .add(DataComponentTypes.BLOCKS_ATTACKS, new BlocksAttacksComponent(0.25F, 1.0F, List.of(new BlocksAttacksComponent.DamageReduction(90.0F, Optional.empty(), 0.0F, blockPercentage)),
+                                new BlocksAttacksComponent.ItemDamage(3.0F, 1.0F, 1.0F), Optional.of(DamageTypeTags.BYPASSES_SHIELD), Optional.of(blockAttackSound), Optional.of(shieldBreakSound)))
+                        .add(DataComponentTypes.BREAK_SOUND, shieldBreakSound))
+        );
     }
 }

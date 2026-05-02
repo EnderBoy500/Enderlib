@@ -11,8 +11,8 @@ import net.minecraft.registry.tag.TagKey;
 
 import java.util.List;
 
-public class RecipeGeneratorHelper extends RecipeGenerator {
-    public RecipeGeneratorHelper(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
+public class EnderlibRecipeGenerator extends RecipeGenerator {
+    public EnderlibRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
         super(registries, exporter);
     }
 
