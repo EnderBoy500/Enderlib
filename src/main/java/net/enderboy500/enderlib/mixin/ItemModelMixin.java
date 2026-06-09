@@ -64,7 +64,7 @@ public class ItemModelMixin {
     @Unique
     @Nullable
     private static Identifier getChargedModel(ItemStack stack, Item item) {
-        if (CustomCrossbowItemModel.getAmmo(item))
+        if (CustomCrossbowItemModel.getModelApplier(item))
             return CustomCrossbowItemModel.getId(item);
         return null;
     }

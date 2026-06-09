@@ -9,7 +9,7 @@ import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.concurrent.CompletableFuture;
 
-public class SkinResetSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
+public class EnderLibCommandSuggestionProvider implements SuggestionProvider<ServerCommandSource> {
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) throws CommandSyntaxException {
         builder.suggest("resetItemSkin");

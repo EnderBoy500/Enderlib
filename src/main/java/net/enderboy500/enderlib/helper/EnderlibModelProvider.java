@@ -29,11 +29,11 @@ public class EnderlibModelProvider extends FabricModelProvider {
     }
 
     public void generateFullArmor(ItemModelGenerator itemModelGenerator , RegistryKey<EquipmentAsset> key,
-                                  Item helmet, Item chestplate, Item leggings, Item boots) {
-        itemModelGenerator.registerArmor(helmet, key, ItemModelGenerator.HELMET_TRIM_ID_PREFIX, false);
-        itemModelGenerator.registerArmor(chestplate, key, ItemModelGenerator.CHESTPLATE_TRIM_ID_PREFIX, false);
-        itemModelGenerator.registerArmor(leggings, key, ItemModelGenerator.LEGGINGS_TRIM_ID_PREFIX, false);
-        itemModelGenerator.registerArmor(boots, key, ItemModelGenerator.BOOTS_TRIM_ID_PREFIX, false);
+                                  Item helmet, Item chestplate, Item leggings, Item boots , boolean dyable) {
+        itemModelGenerator.registerArmor(helmet, key, ItemModelGenerator.HELMET_TRIM_ID_PREFIX, dyable);
+        itemModelGenerator.registerArmor(chestplate, key, ItemModelGenerator.CHESTPLATE_TRIM_ID_PREFIX, dyable);
+        itemModelGenerator.registerArmor(leggings, key, ItemModelGenerator.LEGGINGS_TRIM_ID_PREFIX, dyable);
+        itemModelGenerator.registerArmor(boots, key, ItemModelGenerator.BOOTS_TRIM_ID_PREFIX, dyable);
     }
 
     public void registerCutBlocks(BlockStateModelGenerator blockStateModelGenerator, Block base, Block stair, Block slab) {

@@ -1,10 +1,7 @@
 package net.enderboy500.enderlib.mixin;
 import net.enderboy500.enderlib.EnderLib;
 import net.enderboy500.enderlib.client.config.EnderLibConfig;
-import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
-import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
-import net.enderboy500.enderlib.item.CycleEquipmentStateInt;
-import net.enderboy500.enderlib.item.SlotChangeFunction;
+import net.enderboy500.enderlib.item.InventoryInteraction;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -27,26 +24,9 @@ public class ScreenMixin {
         if (!EnderLib.canRightClickToCycle() && actionType == EnderLibConfig.getInstance().swapKey.get()) {
             Slot slot = this.slots.get(slotIndex);
             ItemStack stack = slot.getStack();
-            if (stack.getItem() instanceof CycleEquipmentStateBool cycleEquippmentStateBool) {
+            if (stack.getItem() instanceof InventoryInteraction slotChangeFunction) {
                 boolean bl = actionType == EnderLibConfig.getInstance().swapKey.get();
-                cycleEquippmentStateBool.changeState(stack, bl);
-                cycleEquippmentStateBool.updateEquippmentState(stack);
-                ci.cancel();
-            }
-            if (stack.getItem() instanceof CycleEquipmentStateInt cycleEquipmentStateInt) {
-                boolean bl = actionType == EnderLibConfig.getInstance().swapKey.get();
-                cycleEquipmentStateInt.changeState(stack, bl);
-                cycleEquipmentStateInt.updateEquippmentState(stack);
-                ci.cancel();
-            }
-            if (stack.getItem() instanceof SlotChangeFunction slotChangeFunction) {
-                boolean bl = actionType == EnderLibConfig.getInstance().swapKey.get();
-                slotChangeFunction.slotChangeFunction(stack, bl);
-                ci.cancel();
-            }
-            if (stack.getItem() instanceof TogglableEquipmentVisibility togglableEquipmentVisibility) {
-                boolean bl = actionType == EnderLibConfig.getInstance().swapKey.get();
-                togglableEquipmentVisibility.changeState(stack, bl);
+                slotChangeFunction.onSlotInteraction(stack, bl);
                 ci.cancel();
             }
         }

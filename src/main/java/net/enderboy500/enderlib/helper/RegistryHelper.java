@@ -47,7 +47,7 @@ public class RegistryHelper {
         Registry.register(Registries.ITEM, itemKey, item);
         return item;
     }
-    public static <B extends BlockEntity> BlockEntityType<B> registerBlockEntity(String id, FabricBlockEntityTypeBuilder.Factory<B> blockEntityFunction, Block... block) {
+    public static <B extends BlockEntity> BlockEntityType<? extends B> registerBlockEntity(String id, FabricBlockEntityTypeBuilder.Factory<B> blockEntityFunction, Block... block) {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, ELib.customId(id),
                 FabricBlockEntityTypeBuilder.create(blockEntityFunction, block).build(null));
     }
@@ -56,6 +56,14 @@ public class RegistryHelper {
         B block = factory.apply(settings.registryKey(key));
         return Registry.register(Registries.BLOCK, key, block);
     }
+
+    public static <B extends Block> B registerBlockWithItem(String id, Function<Settings, B> factory, AbstractBlock.Settings settings) {
+        RegistryKey<Block> key = RegistryKey.of(RegistryKeys.BLOCK, ELib.customId(id));
+        B block = factory.apply(settings.registryKey(key));
+        registerBlockItem(id, block);
+        return Registry.register(Registries.BLOCK, key, block);
+    }
+
     private static <I extends Item> I registerBlockItem(String id, Function<Item.Settings, I> factory, Item.Settings settings) {
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, ELib.customId(id));
         I item = factory.apply(settings.registryKey(key));
@@ -70,21 +78,16 @@ public class RegistryHelper {
     public static RegistryKey<DamageType> registerDamageType(String id) {
         return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, ELib.customId(id));
     }
-    public static <T extends Entity> EntityType<T> registerEntity(String id, EntityType.Builder<T> entityTypeBuilder) {
-        Identifier path = ELib.customId(id);
-        RegistryKey<EntityType<?>> key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, path);
-        return Registry.register(Registries.ENTITY_TYPE, key, entityTypeBuilder.build(key));
-    }
     public static SimpleParticleType registerParticleType(String id, SimpleParticleType particleType) {
         return Registry.register(Registries.PARTICLE_TYPE, ELib.customId(id), particleType);
     }
     public static RegistryEntry<Potion> registerPotion(String id, Potion potion) {
         return Registry.registerReference(Registries.POTION, Identifier.ofVanilla(id), potion);
     }
-    public static RecipeSerializer registerRecipeSerializer(String id, RecipeSerializer recipeSerializer) {
+    public static RecipeSerializer<? extends Recipe<?>> registerRecipeSerializer(String id, RecipeSerializer recipeSerializer) {
         return Registry.register(Registries.RECIPE_SERIALIZER, ELib.customId(id), recipeSerializer);
     }
-    public static RecipeType registerRecipeType(String id, RecipeType recipeType) {
+    public static RecipeType<? extends Recipe<?>> registerRecipeType(String id, RecipeType recipeType) {
         return Registry.register(Registries.RECIPE_TYPE, ELib.customId(id), recipeType);
     }
     public static ScreenHandlerType<?> registerScreenHandler(String id, ExtendedScreenHandlerType extendedScreenHandlerType) {

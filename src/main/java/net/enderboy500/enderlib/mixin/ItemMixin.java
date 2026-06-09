@@ -2,12 +2,8 @@ package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.EnderLib;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
-import net.enderboy500.enderlib.item.CycleEquipmentStateBool;
-import net.enderboy500.enderlib.item.CycleEquipmentStateInt;
-import net.enderboy500.enderlib.item.SlotChangeFunction;
-import net.enderboy500.enderlib.item.TogglableEquipmentVisibility;
+import net.enderboy500.enderlib.item.InventoryInteraction;
 import net.enderboy500.enderlib.util.EnderlibTags;
-import net.enderboy500.enderlib.util.skin.ItemNameSkin;
 import net.enderboy500.enderlib.util.skin.ItemSkinRegistry;
 import net.enderboy500.enderlib.util.skin.ModifierSkin;
 import net.minecraft.block.Blocks;
@@ -30,19 +26,8 @@ public class ItemMixin {
     @Inject(method = "onClicked", at = @At("HEAD"), cancellable = true)
     public void enderlib$itemSwap(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference, CallbackInfoReturnable<Boolean> cir) {
         if (clickType == ClickType.RIGHT && EnderLib.canRightClickToCycle()) {
-            if (this instanceof CycleEquipmentStateBool cycleEquipmentStateBool) {
-                cycleEquipmentStateBool.changeState(stack, true);
-                cycleEquipmentStateBool.updateEquippmentState(stack);
-                cir.setReturnValue(true);
-            } else if (this instanceof SlotChangeFunction slotChangeFunction) {
-                slotChangeFunction.slotChangeFunction(stack, true);
-                cir.setReturnValue(true);
-            } else if (this instanceof CycleEquipmentStateInt cycleEquipmentStateInt) {
-                cycleEquipmentStateInt.changeState(stack, true);
-                cycleEquipmentStateInt.updateEquippmentState(stack);
-                cir.setReturnValue(true);
-            } else if (this instanceof TogglableEquipmentVisibility togglableEquipmentVisibility) {
-                togglableEquipmentVisibility.changeState(stack, true);
+            if (this instanceof InventoryInteraction slotChangeFunction) {
+                slotChangeFunction.onSlotInteraction(stack, true);
                 cir.setReturnValue(true);
             } else {
                 cir.setReturnValue(false);

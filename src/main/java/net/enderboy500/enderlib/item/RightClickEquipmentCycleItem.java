@@ -16,14 +16,8 @@ public class RightClickEquipmentCycleItem extends Item {
     @Override
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (clickType == ClickType.RIGHT) {
-            if (this instanceof CycleEquipmentStateBool cycleEquipmentStateBool) {
-                cycleEquipmentStateBool.changeState(stack, true);
-                cycleEquipmentStateBool.updateEquippmentState(stack);
-            } else if (this instanceof SlotChangeFunction slotChangeFunction) {
-                slotChangeFunction.slotChangeFunction(stack, true);
-            } else if (this instanceof CycleEquipmentStateInt cycleEquipmentStateInt) {
-                cycleEquipmentStateInt.changeState(stack, true);
-                cycleEquipmentStateInt.updateEquippmentState(stack);
+            if (this instanceof InventoryInteraction slotChangeFunction) {
+                slotChangeFunction.onSlotInteraction(stack, true);
             }
             return true;
         }

@@ -10,24 +10,25 @@ import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
-public interface CycleEquipmentStateBool {
+public interface CycleEquipmentStateBool extends InventoryInteraction {
     String trueKey();
     String falseKey();
     EquipmentSlot equipmentType();
 
-    default void updateEquippmentState(ItemStack stack) {
+    default void updateEquipmentState(ItemStack stack) {
         stack.set(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(equipmentType()).model(key(stack)).build());
     }
 
-    default void changeState(ItemStack stack, boolean sneaking) {
-        if (sneaking) {
+    @Override
+    default void onSlotInteraction(ItemStack stack, boolean bl) {
+        if (bl) {
             if (Boolean.TRUE.equals(stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE))) {
                 stack.set(EnderLibComponents.CYCLED_EQUIPMENT_STATE, false);
             } else {
                 stack.set(EnderLibComponents.CYCLED_EQUIPMENT_STATE, true);
             }
         }
-    }
+    };
 
     default RegistryKey<EquipmentAsset> key(ItemStack stack) {
         if (stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE)) {

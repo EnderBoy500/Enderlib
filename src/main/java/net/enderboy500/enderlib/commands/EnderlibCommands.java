@@ -1,15 +1,11 @@
 package net.enderboy500.enderlib.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import net.enderboy500.enderlib.EnderLib;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.enderboy500.enderlib.util.skin.ItemSkinRegistry;
 import net.enderboy500.enderlib.util.skin.ModifierSkin;
-import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -23,7 +19,7 @@ public class EnderlibCommands {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(CommandManager.literal("enderlib")
                             .then(CommandManager.argument("enderlib_suggestions", StringArgumentType.string())
-                                    .suggests(new SkinResetSuggestionProvider())
+                                    .suggests(new EnderLibCommandSuggestionProvider())
                                     .executes(context -> {
                     String typ = StringArgumentType.getString(context, "enderlib_suggestions");
 

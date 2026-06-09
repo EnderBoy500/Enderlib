@@ -18,7 +18,6 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
 
     @Override
     public void generate() {
-
     }
 
     public void offer2x2CompactingRecipe(RecipeCategory category, ItemConvertible input, ItemConvertible output, int count) {
@@ -35,11 +34,11 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .input('#', input)
                 .pattern("##")
                 .pattern("##")
-                .criterion(hasItem(input), conditionsFromItem(input))
+                .criterion(hasItem(reverseInput), conditionsFromItem(input))
                 .offerTo(exporter);
         this.createShapeless(reverseCategory, input, reverseCount)
                 .input(reverseInput)
-                .criterion(hasItem(reverseInput), conditionsFromItem(reverseInput))
+                .criterion(hasItem(input), conditionsFromItem(reverseInput))
                 .offerTo(exporter);
     }
 
@@ -48,7 +47,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .input('#', ingredient)
                 .pattern("###")
                 .pattern("# #")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(helmet), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void offerChestplateRecipe(ItemConvertible ingredient, ItemConvertible chestplate) {
@@ -57,7 +56,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .pattern("# #")
                 .pattern("###")
                 .pattern("###")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(chestplate), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void offerLeggingsRecipe(ItemConvertible ingredient, ItemConvertible leggings) {
@@ -66,7 +65,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .pattern("###")
                 .pattern("# #")
                 .pattern("# #")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(leggings), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void offerBootsRecipe(ItemConvertible ingredient, ItemConvertible boots) {
@@ -74,7 +73,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .input('#', ingredient)
                 .pattern("# #")
                 .pattern("# #")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(boots), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void createFullArmorRecipes(ItemConvertible ingredient, ItemConvertible helmet, ItemConvertible chestplate, ItemConvertible leggings, ItemConvertible boots) {
@@ -91,7 +90,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .pattern("#")
                 .pattern("#")
                 .pattern("/")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(sword), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void offerShovelRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible shovel) {
@@ -101,7 +100,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .pattern("#")
                 .pattern("/")
                 .pattern("/")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(shovel), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void offerPickaxeRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible pickaxe) {
@@ -111,7 +110,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .pattern("###")
                 .pattern(" / ")
                 .pattern(" / ")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(pickaxe), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void offerAxeRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible axe) {
@@ -121,7 +120,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .pattern("##")
                 .pattern("#/")
                 .pattern(" /")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(axe), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void offerHoeRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible hoe) {
@@ -131,7 +130,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .pattern("##")
                 .pattern(" /")
                 .pattern(" /")
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
+                .criterion(hasItem(hoe), conditionsFromItem(ingredient))
                 .offerTo(exporter);
     }
     public void createToolRecipes(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible sword, ItemConvertible shovel, ItemConvertible pickaxe, ItemConvertible axe, ItemConvertible hoe) {
@@ -258,12 +257,21 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                 .criterion(hasItem(chestBoat), conditionsFromItem(boat))
                 .offerTo(exporter);
     }
+    public void offerShelfRecipe(ItemConvertible ingredient, ItemConvertible shelf) {
+        this.createShaped(RecipeCategory.BUILDING_BLOCKS, shelf)
+                .input('#', ingredient)
+                .pattern("###")
+                .pattern("   ")
+                .pattern("###")
+                .criterion(hasItem(shelf), conditionsFromItem(ingredient))
+                .offerTo(exporter);
+    }
     public void createWoodSetRecipes(ItemConvertible planks, ItemConvertible log, ItemConvertible wood,
                                      ItemConvertible strippedLog, ItemConvertible strippedWood,
                                      ItemConvertible stairs, ItemConvertible slab,
                                      ItemConvertible fence, ItemConvertible fenceGate, ItemConvertible door,
                                      ItemConvertible trapdoor, ItemConvertible pressurePlate,
-                                     ItemConvertible button) {
+                                     ItemConvertible button, ItemConvertible shelf) {
         offerWoodRecipe(log, wood, strippedLog, strippedWood);
         offerPlankRecipe(log, wood, strippedLog, strippedWood, planks);
         offerStairsRecipe(planks, stairs);
@@ -271,6 +279,7 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
         offerFenceAndGateRecipes(planks, fence, fenceGate);
         offerDoorAndTrapdoorRecipes(planks, door, trapdoor);
         offerPressurePlateAndButtonRecipes(planks, pressurePlate, button);
+        offerShelfRecipe(strippedLog, shelf);
     }
     public void createCompleteFullWoodSetRecipes(ItemConvertible planks, ItemConvertible log, ItemConvertible wood,
                                                  ItemConvertible strippedLog, ItemConvertible strippedWood,
@@ -278,10 +287,11 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
                                                  ItemConvertible fence, ItemConvertible fenceGate,
                                                  ItemConvertible door, ItemConvertible trapdoor,
                                                  ItemConvertible pressurePlate, ItemConvertible button,
-                                                 ItemConvertible sign, ItemConvertible hangingSign,
-                                                 ItemConvertible boat, ItemConvertible chestBoat) {
+                                                 ItemConvertible shelf, ItemConvertible sign,
+                                                 ItemConvertible hangingSign, ItemConvertible boat,
+                                                 ItemConvertible chestBoat) {
         createWoodSetRecipes(planks, log, wood, strippedLog, strippedWood, stairs, slab, fence, fenceGate,
-                door, trapdoor, pressurePlate, button);
+                door, trapdoor, pressurePlate, button, shelf);
         offerSignsRecipe(planks, strippedLog, sign, hangingSign);
         offerBoatRecipes(planks, boat, chestBoat);
     }

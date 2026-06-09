@@ -26,12 +26,11 @@ public class NamedWeaponSkin extends ComponentSkin{
     @Override
     public void modify(ItemStack item) {
         super.modify(item);
-        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.CUSTOM_NAME, text);
+        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, text);
     }
 
     @Override
     public void resetDefaults(ItemStack item) {
-        super.resetDefaults(item);
-        if (item.getCustomName().equals(text)) item.remove(DataComponentTypes.CUSTOM_NAME);
+        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, item.getDefaultComponents().get(DataComponentTypes.ITEM_NAME));
     }
 }

@@ -17,11 +17,11 @@ public class ItemNameSkin extends ModifierSkin {
 
     @Override
     public void modify(ItemStack item) {
-        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.CUSTOM_NAME, text);
+        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, text);
     }
 
     @Override
     public void resetDefaults(ItemStack item) {
-        if (item.getCustomName().equals(text)) item.remove(DataComponentTypes.CUSTOM_NAME);
+        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, item.getDefaultComponents().get(DataComponentTypes.ITEM_NAME));
     }
 }

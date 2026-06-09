@@ -6,7 +6,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.particle.ParticleEffect;
 
 public class ParticleStatusEffect extends StatusEffect {
-    public static ParticleEffect particle;
+    public ParticleEffect particle;
 
     public ParticleStatusEffect(StatusEffectCategory category, int color, ParticleEffect particle) {
         super(category, color);

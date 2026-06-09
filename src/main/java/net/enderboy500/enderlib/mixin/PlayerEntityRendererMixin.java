@@ -60,7 +60,7 @@ public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends PlayerL
 
     @Inject(method = "updateRenderState(Lnet/minecraft/entity/PlayerLikeEntity;Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;F)V", at = @At("HEAD"))
     public void update(AvatarlikeEntity playerLikeEntity, PlayerEntityRenderState playerEntityRenderState, float f, CallbackInfo ci) {
-        if (playerEntityRenderState instanceof PlayerRenderStateAccessor stateAccessor) {
+        if (playerEntityRenderState instanceof PlayerRenderStateAccessor stateAccessor && stateAccessor != null) {
             stateAccessor.setPlayer(playerLikeEntity);
         }
     }

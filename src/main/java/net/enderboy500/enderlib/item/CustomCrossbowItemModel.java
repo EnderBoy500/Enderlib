@@ -7,18 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomCrossbowItemModel {
-    private static Map<Item, Identifier> ammo = new HashMap<>();
+    private static final Map<Item, Identifier> modelApplier = new HashMap<>();
 
     public static void addNewModel(Item item, Identifier name) {
-        ammo.put(item, name);
+        modelApplier.put(item, name);
     }
 
-    public static boolean getAmmo(Item item) {
-        return ammo.containsKey(item);
+    public static boolean getModelApplier(Item item) {
+        return modelApplier.containsKey(item);
     }
 
 
     public static Identifier getId(Item item) {
-        return ammo.get(item);
+        return modelApplier.get(item);
     }
 }

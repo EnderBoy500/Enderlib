@@ -38,12 +38,6 @@ public class EnderLib implements ModInitializer {
 		EnderlibTags.loadTags();
 		EnderlibCommands.loadCommands();
 		Country.addForbiddenCountryWithLogMessage("Israel", "Genocide Is Not Permitted");
-		WorldConnectionEvent.JOIN.register( clientWorld -> {
-			if (Country.fetchCountryAndCheck("Israel")) {
-				System.out.println("Genocide Is Not Permitted");
-				MinecraftClient.getInstance().stop();
-			}
-		});
 
 		EnderLibTest.load();
 	}

@@ -2,7 +2,6 @@ package net.enderboy500.enderlib.mixin;
 
 import com.mojang.datafixers.util.Either;
 import net.enderboy500.enderlib.events.BedInteractionEvent;
-import net.enderboy500.enderlib.events.WorldConnectionEvent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Unit;
@@ -17,10 +16,6 @@ import java.io.IOException;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerMixin {
-    @Inject(method = "onDisconnect",at = @At("HEAD"), cancellable = true)
-    public void enderlib$disconnect(CallbackInfo ci) throws IOException {
-        WorldConnectionEvent.LEAVE.invoker().leave((ServerPlayerEntity) (Object) this);
-    }
     @Inject(method = "sleep",at = @At("HEAD"), cancellable = true)
     public void enderlib$sleep(BlockPos pos, CallbackInfo ci) {
         BedInteractionEvent.SLEEP.invoker().sleep((PlayerEntity) (Object) this, pos);

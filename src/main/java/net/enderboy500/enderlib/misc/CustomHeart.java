@@ -45,9 +45,9 @@ public class CustomHeart {
         return new CustomHeart(Identifier.DEFAULT_NAMESPACE, heartFull, heartHalf, container, containerBlinking);
     }
     public static CustomHeart create(String modId, String heartPrefix, String containerPrefix) {
-        return new CustomHeart(modId, heartPrefix + "_full", heartPrefix + "half", containerPrefix, containerPrefix + "_blinking");
+        return new CustomHeart(modId, heartPrefix + "_full", heartPrefix + "_half", containerPrefix, containerPrefix + "_blinking");
     }
     public static CustomHeart create(String modId, String basePrefix) {
-        return new CustomHeart(modId, basePrefix + "_full", basePrefix + "half", basePrefix + "_container", basePrefix + "_container_blinking");
+        return new CustomHeart(modId, basePrefix + "_full", basePrefix + "_half", basePrefix + "_container", basePrefix + "_container_blinking");
     }
 }

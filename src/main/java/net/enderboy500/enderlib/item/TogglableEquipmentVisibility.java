@@ -3,10 +3,11 @@ package net.enderboy500.enderlib.item;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.minecraft.item.ItemStack;
 
-public interface TogglableEquipmentVisibility {
+public interface TogglableEquipmentVisibility extends InventoryInteraction{
 
-    default void changeState(ItemStack stack, boolean sneaking) {
-        if (sneaking) {
+    @Override
+    default void onSlotInteraction(ItemStack stack, boolean bl) {
+        if (bl) {
             if (Boolean.TRUE.equals(stack.get(EnderLibComponents.EQUIPMENT_VISIBLE))) {
                 stack.set(EnderLibComponents.EQUIPMENT_VISIBLE, false);
             } else {
