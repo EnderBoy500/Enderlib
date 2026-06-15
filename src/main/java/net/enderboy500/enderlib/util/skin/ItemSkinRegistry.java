@@ -1,8 +1,7 @@
 package net.enderboy500.enderlib.util.skin;
 
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
-import net.minecraft.item.Item;
-
+import net.minecraft.world.item.Item;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ public class ItemSkinRegistry {
         for (ItemSkin skin : skinSet) {
             MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
         }
-        item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
+        item.getDefaultInstance().set(EnderLibComponents.SKIN_ID, 0);
     }
 
     public static void registerSkin(List<Item> items, List<ItemSkin> skinSet) {
@@ -23,19 +22,19 @@ public class ItemSkinRegistry {
             for (ItemSkin skin : skinSet) {
                 MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
             }
-            item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
+            item.getDefaultInstance().set(EnderLibComponents.SKIN_ID, 0);
         }
     }
 
     public static void registerSkin(Item item, ItemSkin skin) {
         MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
-        item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
+        item.getDefaultInstance().set(EnderLibComponents.SKIN_ID, 0);
     }
 
     public static void registerSkin(List<Item> items, ItemSkin skin) {
         for (Item item : items) {
             MAP.computeIfAbsent(item, k -> new ArrayList<>()).add(skin);
-            item.getDefaultStack().set(EnderLibComponents.SKIN_ID, 0);
+            item.getDefaultInstance().set(EnderLibComponents.SKIN_ID, 0);
         }
     }
 

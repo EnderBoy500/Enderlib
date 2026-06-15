@@ -1,16 +1,16 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.util.interfaces.ToolMaps;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.ShearsItem;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,25 +20,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ShearMixin {
 
 
-    @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)
-    public void enderlib$useInjection(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        World world = context.getWorld();
-        PlayerEntity playerEntity = context.getPlayer();
-        BlockPos pos = context.getBlockPos();
-        BlockState blockState = context.getWorld().getBlockState(pos);
+    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
+    public void enderlib$useInjection(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
+        Level world = context.getLevel();
+        Player playerEntity = context.getPlayer();
+        BlockPos pos = context.getClickedPos();
+        BlockState blockState = context.getLevel().getBlockState(pos);
         BlockState blockState1 = ToolMaps.SHEAR.get(blockState.getBlock());
         BlockState blockState2 = null;
         if (blockState1 != null) {
-            world.playSound(playerEntity, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(playerEntity, pos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
             blockState2 = blockState1;
         }
         if (blockState2 != null) {
-            world.setBlockState(pos, blockState2, 11);
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(playerEntity, blockState2));
+            world.setBlock(pos, blockState2, 11);
+            world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(playerEntity, blockState2));
             if (playerEntity != null) {
-                context.getStack().damage(1, playerEntity);
+                context.getItemInHand().hurtWithoutBreaking(1, playerEntity);
             }
-            cir.setReturnValue(ActionResult.SUCCESS);
+            cir.setReturnValue(InteractionResult.SUCCESS);
         }
     }
 

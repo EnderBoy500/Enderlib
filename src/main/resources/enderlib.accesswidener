@@ -1,29 +1,12 @@
 accessWidener v2 named
 
-accessible field net/minecraft/item/HoeItem TILLING_ACTIONS Ljava/util/Map;
-accessible field net/minecraft/item/ShovelItem PATH_STATES Ljava/util/Map;
-accessible field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
-accessible class net/minecraft/client/gui/hud/InGameHud$HeartType
-accessible class net/minecraft/entity/effect/StatusEffect
-accessible class net/minecraft/particle/SimpleParticleType
-accessible field net/minecraft/entity/LivingEntity riptideAttackDamage F
-accessible method net/minecraft/entity/player/PlayerEntity playAttackSound (Lnet/minecraft/sound/SoundEvent;)V
-accessible method net/minecraft/entity/player/PlayerEntity canUseSweepAttack (ZZZ)Z
-accessible method net/minecraft/entity/player/PlayerEntity doSweepingAttack (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;F)V
-accessible method net/minecraft/entity/player/PlayerEntity getDamageAgainst (Lnet/minecraft/entity/Entity;FLnet/minecraft/entity/damage/DamageSource;)F
-accessible method net/minecraft/client/data/BlockStateModelGenerator$BlockTexturePool ensureModel (Lnet/minecraft/client/data/Model;Lnet/minecraft/block/Block;)Lnet/minecraft/util/Identifier;
-accessible field net/minecraft/client/data/BlockStateModelGenerator UNORIENTABLE_TRAPDOORS Ljava/util/List;
-accessible method net/minecraft/world/rule/GameRules registerBooleanRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;Z)Lnet/minecraft/world/rule/GameRule;
-accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;II)Lnet/minecraft/world/rule/GameRule;
-accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;III)Lnet/minecraft/world/rule/GameRule;
-accessible method net/minecraft/world/rule/GameRules registerIntRule (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;IIILnet/minecraft/resource/featuretoggle/FeatureSet;)Lnet/minecraft/world/rule/GameRule;
-accessible method net/minecraft/world/rule/GameRules register (Ljava/lang/String;Lnet/minecraft/world/rule/GameRuleCategory;Lnet/minecraft/world/rule/GameRuleType;Lcom/mojang/brigadier/arguments/ArgumentType;Lcom/mojang/serialization/Codec;Ljava/lang/Object;Lnet/minecraft/resource/featuretoggle/FeatureSet;Lnet/minecraft/world/rule/GameRules$Acceptor;Ljava/util/function/ToIntFunction;)Lnet/minecraft/world/rule/GameRule;
-accessible method net/minecraft/entity/player/PlayerEntity cannotAttack (Lnet/minecraft/entity/Entity;)Z
-accessible method net/minecraft/entity/player/PlayerEntity getAttackCooldownDamageModifier ()F
-accessible method net/minecraft/entity/player/PlayerEntity getDamageSource (Lnet/minecraft/item/ItemStack;)Lnet/minecraft/entity/damage/DamageSource;
-accessible method net/minecraft/entity/player/PlayerEntity tryDeflect (Lnet/minecraft/entity/Entity;)Z
-accessible method net/minecraft/entity/player/PlayerEntity isCriticalHit (Lnet/minecraft/entity/Entity;)Z
-accessible method net/minecraft/entity/LivingEntity getAttackKnockbackAgainst (Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;)F
-accessible method net/minecraft/entity/player/PlayerEntity onTargetDamaged (Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/damage/DamageSource;Z)V
-accessible method net/minecraft/entity/player/PlayerEntity handleAttackDamage (Lnet/minecraft/entity/Entity;F)V
-accessible method net/minecraft/entity/player/PlayerEntity addAttackParticlesAndSounds (Lnet/minecraft/entity/Entity;ZZZZF)V
+accessible class net/minecraft/client/gui/Gui$HeartType
+
+accessible method net/minecraft/world/entity/player/Player playServerSideSound (Lnet/minecraft/sounds/SoundEvent;)V
+accessible method net/minecraft/world/entity/player/Player baseDamageScaleFactor ()F
+accessible method net/minecraft/world/entity/player/Player createAttackSource (Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/damagesource/DamageSource;
+accessible method net/minecraft/world/entity/player/Player getEnchantedDamage (Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)F
+
+accessible field net/minecraft/world/item/HoeItem TILLABLES Ljava/util/Map;
+accessible field net/minecraft/world/item/ShovelItem FLATTENABLES Ljava/util/Map;
+accessible field net/minecraft/world/entity/LivingEntity autoSpinAttackDmg F

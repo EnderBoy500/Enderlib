@@ -1,10 +1,9 @@
 package net.enderboy500.enderlib.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 
 public class CustomCrossbowItemModel {
     private static final Map<Item, Identifier> modelApplier = new HashMap<>();

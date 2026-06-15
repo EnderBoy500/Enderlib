@@ -1,24 +1,23 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.util.interfaces.PlayerRenderStateAccessor;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
-import net.minecraft.entity.PlayerLikeEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.world.entity.Avatar;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(PlayerEntityRenderState.class)
+@Mixin(AvatarRenderState.class)
 public class PlayerEntityRenderStateMixin implements PlayerRenderStateAccessor {
     @Unique
-    private PlayerLikeEntity player;
+    private Avatar player;
 
     @Override
-    public PlayerLikeEntity player() {
+    public Avatar player() {
         return player;
     }
 
     @Override
-    public void setPlayer(PlayerLikeEntity player) {
+    public void setPlayer(Avatar player) {
         this.player = player;
     }
 }

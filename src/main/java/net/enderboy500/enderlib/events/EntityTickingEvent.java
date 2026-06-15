@@ -2,11 +2,8 @@ package net.enderboy500.enderlib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
-
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -29,13 +26,13 @@ public interface EntityTickingEvent {
     });
 
     interface PreTicking {
-        void ticking(Entity entity, World world);
+        void ticking(Entity entity, Level world);
         default int getPriority() {
             return 1000;
         }
     }
     interface PostTicking {
-        void ticking(Entity entity, World world);
+        void ticking(Entity entity, Level world);
         default int getPriority() {
             return 1000;
         }

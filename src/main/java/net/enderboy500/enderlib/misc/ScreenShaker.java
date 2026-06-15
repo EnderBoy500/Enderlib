@@ -1,39 +1,38 @@
 package net.enderboy500.enderlib.misc;
 
 import net.enderboy500.enderlib.util.interfaces.ScreenShake;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.UUID;
 
 public class ScreenShaker {
-    public static void addScreenShake(PlayerEntity player, float intensity, int duration) {
+    public static void addScreenShake(Player player, float intensity, int duration) {
         if (player instanceof ScreenShake screenShake) {
             screenShake.addScreenShake(intensity, duration);
         }
     }
 
-    public static void addScreenShake(ServerWorld world, BlockPos pos, double radius, float intensity, int duration) {
-        List<ServerPlayerEntity> playersInRange = ((ServerWorld) world).getPlayers(p -> p.getBlockPos().isWithinDistance(pos, radius));
-        for (ServerPlayerEntity serverPlayerEntity : playersInRange) {
+    public static void addScreenShake(ServerLevel world, BlockPos pos, double radius, float intensity, int duration) {
+        List<ServerPlayer> playersInRange = ((ServerLevel) world).getPlayers(p -> p.blockPosition().closerThan(pos, radius));
+        for (ServerPlayer serverPlayerEntity : playersInRange) {
             if (serverPlayerEntity instanceof ScreenShake screenShake) screenShake.addScreenShake(intensity, duration);
         }
     }
-    public static void addDynamicScreenShake(ServerWorld world, BlockPos pos, double radius, double distanceModifier, float intensity, int duration) {
-        List<ServerPlayerEntity> playersInRange = ((ServerWorld) world).getPlayers(p -> p.getBlockPos().isWithinDistance(pos, radius));
-        for (ServerPlayerEntity serverPlayerEntity : playersInRange) {
-            double distance = serverPlayerEntity.getBlockPos().getSquaredDistance(pos);
+    public static void addDynamicScreenShake(ServerLevel world, BlockPos pos, double radius, double distanceModifier, float intensity, int duration) {
+        List<ServerPlayer> playersInRange = ((ServerLevel) world).getPlayers(p -> p.blockPosition().closerThan(pos, radius));
+        for (ServerPlayer serverPlayerEntity : playersInRange) {
+            double distance = serverPlayerEntity.blockPosition().distSqr(pos);
             float dynamicIntensity = (float) (intensity  / (Math.sqrt(distance) * distanceModifier));
             if (serverPlayerEntity instanceof ScreenShake screenShake) screenShake.addScreenShake(dynamicIntensity, duration);
         }
     }
 
-    public static void addScreenShake(World world, UUID uuid, float intensity, int duration) {
-        PlayerEntity player = world.getPlayerByUuid(uuid);
+    public static void addScreenShake(Level world, UUID uuid, float intensity, int duration) {
+        Player player = world.getPlayerByUUID(uuid);
         addScreenShake(player, intensity, duration);
     }
 }

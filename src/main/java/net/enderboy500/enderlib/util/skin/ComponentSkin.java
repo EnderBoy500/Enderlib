@@ -1,11 +1,8 @@
 package net.enderboy500.enderlib.util.skin;
 
 import net.enderboy500.enderlib.util.ModifiedComponent;
-import net.minecraft.component.ComponentType;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 public abstract class ComponentSkin extends ModifierSkin {
@@ -34,10 +31,10 @@ public abstract class ComponentSkin extends ModifierSkin {
 
     private void removeComponents(ItemStack stack) {
         for (ModifiedComponent<Object> component : modifiedComponents(stack)) {
-            if (!stack.getDefaultComponents().contains(component.getComponentType())) {
+            if (!stack.getPrototype().has(component.getComponentType())) {
                 stack.remove(component.getComponentType());
             } else {
-                stack.set(component.getComponentType(), stack.getDefaultComponents().get(component.getComponentType()));
+                stack.set(component.getComponentType(), stack.getPrototype().get(component.getComponentType()));
             }
         }
     }

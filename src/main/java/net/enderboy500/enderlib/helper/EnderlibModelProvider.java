@@ -2,17 +2,16 @@ package net.enderboy500.enderlib.helper;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
-import net.minecraft.client.render.model.json.WeightedVariant;
-import net.minecraft.data.family.BlockFamily;
-import net.minecraft.item.Item;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.level.block.Block;
 
-import static net.minecraft.client.data.BlockStateModelGenerator.*;
+import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
 public class EnderlibModelProvider extends FabricModelProvider {
     public EnderlibModelProvider(FabricDataOutput output) {
@@ -20,41 +19,41 @@ public class EnderlibModelProvider extends FabricModelProvider {
     }
 
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+    public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
 
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+    public void generateItemModels(ItemModelGenerators itemModelGenerator) {
     }
 
-    public void generateFullArmor(ItemModelGenerator itemModelGenerator , RegistryKey<EquipmentAsset> key,
+    public void generateFullArmor(ItemModelGenerators itemModelGenerator , ResourceKey<EquipmentAsset> key,
                                   Item helmet, Item chestplate, Item leggings, Item boots , boolean dyable) {
-        itemModelGenerator.registerArmor(helmet, key, ItemModelGenerator.HELMET_TRIM_ID_PREFIX, dyable);
-        itemModelGenerator.registerArmor(chestplate, key, ItemModelGenerator.CHESTPLATE_TRIM_ID_PREFIX, dyable);
-        itemModelGenerator.registerArmor(leggings, key, ItemModelGenerator.LEGGINGS_TRIM_ID_PREFIX, dyable);
-        itemModelGenerator.registerArmor(boots, key, ItemModelGenerator.BOOTS_TRIM_ID_PREFIX, dyable);
+        itemModelGenerator.generateTrimmableItem(helmet, key, ItemModelGenerators.TRIM_PREFIX_HELMET, dyable);
+        itemModelGenerator.generateTrimmableItem(chestplate, key, ItemModelGenerators.TRIM_PREFIX_CHESTPLATE, dyable);
+        itemModelGenerator.generateTrimmableItem(leggings, key, ItemModelGenerators.TRIM_PREFIX_LEGGINGS, dyable);
+        itemModelGenerator.generateTrimmableItem(boots, key, ItemModelGenerators.TRIM_PREFIX_BOOTS, dyable);
     }
 
-    public void registerCutBlocks(BlockStateModelGenerator blockStateModelGenerator, Block base, Block stair, Block slab) {
-        BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(base);
+    public void registerCutBlocks(BlockModelGenerators blockStateModelGenerator, Block base, Block stair, Block slab) {
+        BlockModelGenerators.BlockFamilyProvider pool = blockStateModelGenerator.family(base);
         pool.stairs(stair);
         pool.slab(slab);
     }
 
-    public void registerStoneBlocks(BlockStateModelGenerator blockStateModelGenerator, Block base, Block stair, Block slab, Block wall) {
-        BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(base);
+    public void registerStoneBlocks(BlockModelGenerators blockStateModelGenerator, Block base, Block stair, Block slab, Block wall) {
+        BlockModelGenerators.BlockFamilyProvider pool = blockStateModelGenerator.family(base);
         pool.stairs(stair);
         pool.slab(slab);
         pool.wall(wall);
     }
 
-    public void generateFullToolSet(ItemModelGenerator itemModelGenerator, Item sword, Item pickaxe, Item axe,
+    public void generateFullToolSet(ItemModelGenerators itemModelGenerator, Item sword, Item pickaxe, Item axe,
                                     Item shovel, Item hoe) {
-        itemModelGenerator.register(sword, Models.HANDHELD);
-        itemModelGenerator.register(pickaxe, Models.HANDHELD);
-        itemModelGenerator.register(axe, Models.HANDHELD);
-        itemModelGenerator.register(shovel, Models.HANDHELD);
-        itemModelGenerator.register(hoe, Models.HANDHELD);
+        itemModelGenerator.generateFlatItem(sword, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(pickaxe, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(axe, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(shovel, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerator.generateFlatItem(hoe, ModelTemplates.FLAT_HANDHELD_ITEM);
     }
 }

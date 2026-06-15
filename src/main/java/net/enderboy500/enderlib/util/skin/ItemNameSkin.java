@@ -1,27 +1,26 @@
 package net.enderboy500.enderlib.util.skin;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
 import java.util.Objects;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 
 public class ItemNameSkin extends ModifierSkin {
-    private final Text text;
+    private final Component text;
 
-    public ItemNameSkin(String id, Identifier modelId, Text text) {
+    public ItemNameSkin(String id, Identifier modelId, Component text) {
         super(id, modelId);
         this.text = text;
     }
 
     @Override
     public void modify(ItemStack item) {
-        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, text);
+        if (!item.has(DataComponents.CUSTOM_NAME)) item.set(DataComponents.ITEM_NAME, text);
     }
 
     @Override
     public void resetDefaults(ItemStack item) {
-        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, item.getDefaultComponents().get(DataComponentTypes.ITEM_NAME));
+        if (!item.has(DataComponents.CUSTOM_NAME)) item.set(DataComponents.ITEM_NAME, item.getPrototype().get(DataComponents.ITEM_NAME));
     }
 }

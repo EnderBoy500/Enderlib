@@ -1,14 +1,14 @@
 package net.enderboy500.enderlib.item;
 
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.EquippableComponent;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.item.equipment.EquipmentAssetKeys;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.EquipmentAssets;
+import net.minecraft.world.item.equipment.Equippable;
 
 public interface CycleEquipmentStateBool extends InventoryInteraction {
     String trueKey();
@@ -16,7 +16,7 @@ public interface CycleEquipmentStateBool extends InventoryInteraction {
     EquipmentSlot equipmentType();
 
     default void updateEquipmentState(ItemStack stack) {
-        stack.set(DataComponentTypes.EQUIPPABLE, EquippableComponent.builder(equipmentType()).model(key(stack)).build());
+        stack.set(DataComponents.EQUIPPABLE, Equippable.builder(equipmentType()).setAsset(key(stack)).build());
     }
 
     @Override
@@ -30,11 +30,11 @@ public interface CycleEquipmentStateBool extends InventoryInteraction {
         }
     };
 
-    default RegistryKey<EquipmentAsset> key(ItemStack stack) {
+    default ResourceKey<EquipmentAsset> key(ItemStack stack) {
         if (stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE)) {
-            return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.ofVanilla(trueKey()));
+            return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.withDefaultNamespace(trueKey()));
         } else {
-            return RegistryKey.of(EquipmentAssetKeys.REGISTRY_KEY, Identifier.ofVanilla(falseKey()));
+            return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.withDefaultNamespace(falseKey()));
         }
     }
 }

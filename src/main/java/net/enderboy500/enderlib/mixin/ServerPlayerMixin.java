@@ -2,10 +2,10 @@ package net.enderboy500.enderlib.mixin;
 
 import com.mojang.datafixers.util.Either;
 import net.enderboy500.enderlib.events.BedInteractionEvent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Unit;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.IOException;
 
-@Mixin(ServerPlayerEntity.class)
+@Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
-    @Inject(method = "sleep",at = @At("HEAD"), cancellable = true)
+    @Inject(method = "startSleeping",at = @At("HEAD"), cancellable = true)
     public void enderlib$sleep(BlockPos pos, CallbackInfo ci) {
-        BedInteractionEvent.SLEEP.invoker().sleep((PlayerEntity) (Object) this, pos);
+        BedInteractionEvent.SLEEP.invoker().sleep((Player) (Object) this, pos);
     }
-    @Inject(method = "trySleep",at = @At("HEAD"), cancellable = true)
-    public void enderlib$trySleep(BlockPos pos, CallbackInfoReturnable<Either<PlayerEntity.SleepFailureReason, Unit>> cir) {
-        BedInteractionEvent.TRY_SLEEP.invoker().sleep((PlayerEntity) (Object) this, pos);
+    @Inject(method = "startSleepInBed",at = @At("HEAD"), cancellable = true)
+    public void enderlib$trySleep(BlockPos pos, CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
+        BedInteractionEvent.TRY_SLEEP.invoker().sleep((Player) (Object) this, pos);
     }
 }

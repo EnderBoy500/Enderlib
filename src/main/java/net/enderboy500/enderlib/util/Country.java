@@ -1,13 +1,12 @@
 package net.enderboy500.enderlib.util;
 
-import net.minecraft.client.MinecraftClient;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
+import net.minecraft.client.Minecraft;
 
 public class Country {
     public static void addForbiddenCountry(String forbiddenCountry) {
@@ -19,7 +18,7 @@ public class Country {
             String country = bufferedReader.readLine();
             bufferedReader.close();
             if (Objects.equals(country, forbiddenCountry)) {
-                MinecraftClient.getInstance().stop();
+                Minecraft.getInstance().destroy();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,11 +53,10 @@ public class Country {
             bufferedReader.close();
             if (Objects.equals(country, forbiddenCountry)) {
                 System.out.println(logMessage);
-                MinecraftClient.getInstance().stop();
+                Minecraft.getInstance().destroy();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

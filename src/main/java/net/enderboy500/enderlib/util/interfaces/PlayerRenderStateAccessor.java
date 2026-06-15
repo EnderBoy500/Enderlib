@@ -1,9 +1,8 @@
 package net.enderboy500.enderlib.util.interfaces;
 
-import net.minecraft.entity.PlayerLikeEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Avatar;
 
 public interface PlayerRenderStateAccessor {
-    PlayerLikeEntity player();
-    void setPlayer(PlayerLikeEntity player);
+    Avatar player();
+    void setPlayer(Avatar player);
 }

@@ -1,9 +1,7 @@
 package net.enderboy500.enderlib.util.skin;
 
 import net.enderboy500.enderlib.util.ItemUtils;
-import net.minecraft.item.Item;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;

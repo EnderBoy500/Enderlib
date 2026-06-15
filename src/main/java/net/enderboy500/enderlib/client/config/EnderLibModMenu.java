@@ -6,9 +6,8 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.ControllerBuilder;
 import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import net.enderboy500.enderlib.misc.EquipmentStateCycleKeys;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
-
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -21,23 +20,23 @@ public class EnderLibModMenu implements ModMenuApi {
 
     private static Screen buildMenu(Screen parent) {
         return YetAnotherConfigLib.create(
-                EnderLibConfig.HANDLER, (defaults, config, builder) -> builder.title(Text.translatable("config.enderlib.menu"))
+                EnderLibConfig.HANDLER, (defaults, config, builder) -> builder.title(Component.translatable("config.enderlib.menu"))
                         .category(EnderLibModMenu.createCategory(config))
         ).generateScreen(parent);
     }
 
     private static <T> Option<T> enumOption(String name, T defaultValue, Supplier<T> getter, Consumer<T> setter, Function<Option<T>, ControllerBuilder<T>> builder) {
         return Option.<T>createBuilder()
-                .name(Text.translatable("config.enderlib.option." + name))
+                .name(Component.translatable("config.enderlib.option." + name))
                 .binding(defaultValue, getter, setter)
-                .description(OptionDescription.of(Text.translatable("config.enderlib.option." + name + ".desc")))
+                .description(OptionDescription.of(Component.translatable("config.enderlib.option." + name + ".desc")))
                 .controller(builder)
                 .build();
     }
 
     private static ConfigCategory createCategory(EnderLibConfig config) {
 
-        ConfigCategory.Builder main = ConfigCategory.createBuilder().name(Text.translatable("config.enderlib.category.main"));
+        ConfigCategory.Builder main = ConfigCategory.createBuilder().name(Component.translatable("config.enderlib.category.main"));
 
         addMainOptions(config, main);
 
@@ -53,11 +52,11 @@ public class EnderLibModMenu implements ModMenuApi {
                 value -> config.swapKey = value,
                 opt -> EnumControllerBuilder.create(opt)
                         .enumClass(EquipmentStateCycleKeys.class)
-                        .valueFormatter(v -> Text.translatable("config.enderlib.option.swap_key.text." + v.name().toLowerCase()))
+                        .valueFormatter(v -> Component.translatable("config.enderlib.option.swap_key.text." + v.name().toLowerCase()))
         );
 
         builder.group(OptionGroup.createBuilder()
-                .name(Text.translatable("config.enderlib.group.main"))
+                .name(Component.translatable("config.enderlib.group.main"))
                         .option(swapKey)
                 .build()
         );

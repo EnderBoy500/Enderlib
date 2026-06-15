@@ -4,9 +4,8 @@ import net.enderboy500.enderlib.misc.CustomHeart;
 import net.enderboy500.enderlib.misc.CustomHunger;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -50,21 +49,21 @@ public interface HudEvents {
     });
     
     interface Heart {
-        CustomHeart getHeart(PlayerEntity player);
+        CustomHeart getHeart(Player player);
         default int getPriority() {
             return 1000;
         }
     }
     
     interface Hunger {
-        CustomHunger getHunger(PlayerEntity player);
+        CustomHunger getHunger(Player player);
         default int getPriority() {
             return 1000;
         }
     }
     
     interface ScreenOverlay {
-        Identifier getOverlay(PlayerEntity player);
+        Identifier getOverlay(Player player);
         default int getPriority() {
             return 1000;
         }

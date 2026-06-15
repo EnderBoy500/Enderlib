@@ -2,8 +2,7 @@ package net.enderboy500.enderlib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.LivingEntity;
-
+import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;

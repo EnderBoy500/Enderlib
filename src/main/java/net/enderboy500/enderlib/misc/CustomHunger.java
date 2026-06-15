@@ -1,6 +1,6 @@
 package net.enderboy500.enderlib.misc;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 public class CustomHunger {
     private final String id;

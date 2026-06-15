@@ -1,18 +1,17 @@
 package net.enderboy500.enderlib.util.skin;
 
 import net.enderboy500.enderlib.util.ModifiedComponent;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 public class NamedWeaponSkin extends ComponentSkin{
     private final WeaponSkin.Modifier modifier;
-    private final Text text;
+    private final Component text;
 
-    public NamedWeaponSkin(String id, Identifier modelId, WeaponSkin.Modifier modifier, Text text) {
+    public NamedWeaponSkin(String id, Identifier modelId, WeaponSkin.Modifier modifier, Component text) {
         super(id, modelId);
         this.modifier = modifier;
         this.text = text;
@@ -26,11 +25,11 @@ public class NamedWeaponSkin extends ComponentSkin{
     @Override
     public void modify(ItemStack item) {
         super.modify(item);
-        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, text);
+        if (!item.has(DataComponents.CUSTOM_NAME)) item.set(DataComponents.ITEM_NAME, text);
     }
 
     @Override
     public void resetDefaults(ItemStack item) {
-        if (!item.contains(DataComponentTypes.CUSTOM_NAME)) item.set(DataComponentTypes.ITEM_NAME, item.getDefaultComponents().get(DataComponentTypes.ITEM_NAME));
+        if (!item.has(DataComponents.CUSTOM_NAME)) item.set(DataComponents.ITEM_NAME, item.getPrototype().get(DataComponents.ITEM_NAME));
     }
 }

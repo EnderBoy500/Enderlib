@@ -1,65 +1,65 @@
 package net.enderboy500.enderlib.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.enderboy500.enderlib.util.interfaces.HideName;
 import net.enderboy500.enderlib.util.interfaces.PlayerRenderStateAccessor;
-import net.minecraft.client.network.ClientPlayerLikeEntity;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.PlayerLikeEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.client.entity.ClientAvatarEntity;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Avatar;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(PlayerEntityRenderer.class)
-public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends PlayerLikeEntity & ClientPlayerLikeEntity> {
+@Mixin(AvatarRenderer.class)
+public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends Avatar & ClientAvatarEntity> {
 
 
-    @Inject(method = "renderLabelIfPresent(Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V",
+    @Inject(method = "submitNameTag(Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
     at = @At("HEAD"), cancellable = true)
-    public void enderlib$renderLabelIfPresent(PlayerEntityRenderState playerEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState, CallbackInfo ci) {
+    public void enderlib$renderLabelIfPresent(AvatarRenderState playerEntityRenderState, PoseStack matrixStack, SubmitNodeCollector orderedRenderCommandQueue, CameraRenderState cameraRenderState, CallbackInfo ci) {
 
-        if (playerEntityRenderState.equippedHeadStack.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.equippedHeadStack)) {
+        if (playerEntityRenderState.headEquipment.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.headEquipment)) {
             ci.cancel();
         }
-        if (playerEntityRenderState.equippedChestStack.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.equippedChestStack)) {
+        if (playerEntityRenderState.chestEquipment.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.chestEquipment)) {
             ci.cancel();
         }
-        if (playerEntityRenderState.equippedLegsStack.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.equippedLegsStack)) {
+        if (playerEntityRenderState.legsEquipment.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.legsEquipment)) {
             ci.cancel();
         }
-        if (playerEntityRenderState.equippedFeetStack.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.equippedFeetStack)) {
+        if (playerEntityRenderState.feetEquipment.getItem() instanceof HideName hideName && hideName.hideName(playerEntityRenderState.feetEquipment)) {
             ci.cancel();
         }
     }
 
     @Inject(
-            method = "getArmPose(Lnet/minecraft/entity/PlayerLikeEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;",
+            method = "getArmPose(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/client/model/HumanoidModel$ArmPose;",
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void twoHandedPoses(PlayerLikeEntity player, ItemStack stack, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
-        if (stack.contains(EnderLibComponents.HOLD_WITH_BOTH_HANDS)) {
-            cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
+    private static void twoHandedPoses(Avatar player, ItemStack stack, InteractionHand hand, CallbackInfoReturnable<HumanoidModel.ArmPose> cir) {
+        if (stack.has(EnderLibComponents.HOLD_WITH_BOTH_HANDS)) {
+            cir.setReturnValue(HumanoidModel.ArmPose.CROSSBOW_CHARGE);
         }
-        if (stack.contains(EnderLibComponents.POINT_TO_CAMERA)) {
-            cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
+        if (stack.has(EnderLibComponents.POINT_TO_CAMERA)) {
+            cir.setReturnValue(HumanoidModel.ArmPose.CROSSBOW_HOLD);
         }
-        if (stack.contains(EnderLibComponents.POINT_LIKE_BOW)) {
-            cir.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
+        if (stack.has(EnderLibComponents.POINT_LIKE_BOW)) {
+            cir.setReturnValue(HumanoidModel.ArmPose.BOW_AND_ARROW);
         }
     }
 
-    @Inject(method = "updateRenderState(Lnet/minecraft/entity/PlayerLikeEntity;Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;F)V", at = @At("HEAD"))
-    public void update(AvatarlikeEntity playerLikeEntity, PlayerEntityRenderState playerEntityRenderState, float f, CallbackInfo ci) {
+    @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V", at = @At("HEAD"))
+    public void update(AvatarlikeEntity playerLikeEntity, AvatarRenderState playerEntityRenderState, float f, CallbackInfo ci) {
         if (playerEntityRenderState instanceof PlayerRenderStateAccessor stateAccessor && stateAccessor != null) {
             stateAccessor.setPlayer(playerLikeEntity);
         }

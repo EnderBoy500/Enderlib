@@ -2,12 +2,9 @@ package net.enderboy500.enderlib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -24,7 +21,7 @@ public interface PlaceFireEvent {
     });
 
     interface BaseBlock {
-        Block baseBlock(BlockView blockView, BlockPos pos);
+        Block baseBlock(BlockGetter blockView, BlockPos pos);
         default int getPriority() {
             return 1000;
         }

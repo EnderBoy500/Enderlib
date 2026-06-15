@@ -1,11 +1,11 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.util.interfaces.ScreenShake;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.Camera;
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,16 +17,16 @@ public abstract class CameraMixin {
 
     @Shadow protected abstract void setRotation(float yaw, float pitch);
 
-    @Shadow private float yaw;
+    @Shadow private float yRot;
 
     @Shadow
-    private float pitch;
+    private float xRot;
 
-    @Inject(method = "update", at = @At("TAIL"))
-    private void enderlib$update(World area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickProgress, CallbackInfo ci){
-        float y = this.yaw;
-        float p = this.pitch;
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+    @Inject(method = "setup", at = @At("TAIL"))
+    private void enderlib$update(Level area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickProgress, CallbackInfo ci){
+        float y = this.yRot;
+        float p = this.xRot;
+        LocalPlayer player = Minecraft.getInstance().player;
         if(player != null){
             if (player instanceof ScreenShake shaker){
                 float mult = 1;

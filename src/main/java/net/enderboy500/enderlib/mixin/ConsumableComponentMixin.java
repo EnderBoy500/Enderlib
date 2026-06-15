@@ -1,16 +1,16 @@
 package net.enderboy500.enderlib.mixin;
 
 import net.enderboy500.enderlib.events.CanConsumeEvent;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ConsumableComponent.class)
+@Mixin(Consumable.class)
 public abstract class ConsumableComponentMixin {
 
     @Shadow public abstract boolean canConsume(LivingEntity user, ItemStack stack);

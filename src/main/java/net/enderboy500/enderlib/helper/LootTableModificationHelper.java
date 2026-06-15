@@ -1,23 +1,23 @@
 package net.enderboy500.enderlib.helper;
 
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.minecraft.item.Item;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.SetCountLootFunction;
-import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class LootTableModificationHelper {
 
-    public static void addLootTableModification(RegistryKey<LootTable> lootTableRegistryKey, Item item, int weight, float minPerChest, float maxPerChest) {
+    public static void addLootTableModification(ResourceKey<LootTable> lootTableRegistryKey, Item item, int weight, float minPerChest, float maxPerChest) {
         LootTableEvents.MODIFY.register(((registryKey, builder, lootTableSource, wrapperLookup) -> {
             if (lootTableSource.isBuiltin() && lootTableRegistryKey.equals(registryKey)) {
-                LootPool.Builder poolBuilder = LootPool.builder()
-                        .with(ItemEntry.builder(item).weight(weight))
-                        .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(minPerChest, maxPerChest)).build());
-                builder.pool(poolBuilder);
+                LootPool.Builder poolBuilder = LootPool.lootPool()
+                        .add(LootItem.lootTableItem(item).setWeight(weight))
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(minPerChest, maxPerChest)).build());
+                builder.withPool(poolBuilder);
             }
         }));
     }

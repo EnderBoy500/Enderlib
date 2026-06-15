@@ -1,26 +1,26 @@
 package net.enderboy500.enderlib.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.StackReference;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.ClickType;
+import net.minecraft.world.entity.SlotAccess;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class RightClickEquipmentCycleItem extends Item {
 
-    public RightClickEquipmentCycleItem(Settings settings) {
+    public RightClickEquipmentCycleItem(Properties settings) {
         super(settings);
     }
 
     @Override
-    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        if (clickType == ClickType.RIGHT) {
+    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack otherStack, Slot slot, ClickAction clickType, Player player, SlotAccess cursorStackReference) {
+        if (clickType == ClickAction.SECONDARY) {
             if (this instanceof InventoryInteraction slotChangeFunction) {
                 slotChangeFunction.onSlotInteraction(stack, true);
             }
             return true;
         }
-        return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
+        return super.overrideOtherStackedOnMe(stack, otherStack, slot, clickType, player, cursorStackReference);
     }
 }

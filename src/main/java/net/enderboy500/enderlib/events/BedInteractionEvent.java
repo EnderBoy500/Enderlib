@@ -2,9 +2,8 @@ package net.enderboy500.enderlib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -34,19 +33,19 @@ public interface BedInteractionEvent {
         }
     });
     interface Sleep {
-        void sleep(PlayerEntity player, BlockPos pos);
+        void sleep(Player player, BlockPos pos);
         default int getPriority() {
             return 1000;
         }
     }
     interface TrySleep {
-        void sleep(PlayerEntity player, BlockPos pos);
+        void sleep(Player player, BlockPos pos);
         default int getPriority() {
             return 1000;
         }
     }
     interface WakeUp {
-        void sleep(PlayerEntity player);
+        void sleep(Player player);
         default int getPriority() {
             return 1000;
         }

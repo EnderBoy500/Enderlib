@@ -1,21 +1,21 @@
 package net.enderboy500.enderlib.misc;
 
-import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.world.inventory.ClickType;
 
 public enum EquipmentStateCycleKeys {
-    Swap(SlotActionType.SWAP),
-    QuickMove(SlotActionType.QUICK_MOVE),
-    RightClick(SlotActionType.CLONE)
+    Swap(ClickType.SWAP),
+    QuickMove(ClickType.QUICK_MOVE),
+    RightClick(ClickType.CLONE)
     ;
 
-    private final SlotActionType key;
+    private final ClickType key;
 
 
-    EquipmentStateCycleKeys(SlotActionType key) {
+    EquipmentStateCycleKeys(ClickType key) {
         this.key = key;
     }
 
-    public SlotActionType get() {
+    public ClickType get() {
         return this.key;
     }
 }

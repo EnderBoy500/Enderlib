@@ -2,11 +2,10 @@ package net.enderboy500.enderlib.util.skin;
 
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.enderboy500.enderlib.util.ModifiedComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +23,10 @@ public class WeaponSkin extends ComponentSkin {
     }
 
     public static class Modifier {
-        private final ParticleEffect particleEffect;
+        private final ParticleOptions particleEffect;
         private final SoundEvent soundEvent;
 
-        public Modifier(ParticleEffect particleEffect, SoundEvent soundEvent) {
+        public Modifier(ParticleOptions particleEffect, SoundEvent soundEvent) {
             this.particleEffect = particleEffect;
             this.soundEvent = soundEvent;
         }
@@ -39,10 +38,10 @@ public class WeaponSkin extends ComponentSkin {
             return list;
         }
 
-        public static Modifier create(ParticleEffect particleEffect, SoundEvent soundEvent) {
+        public static Modifier create(ParticleOptions particleEffect, SoundEvent soundEvent) {
             return new Modifier(particleEffect, soundEvent);
         }
-        public static Modifier create(ParticleEffect particleEffect) {
+        public static Modifier create(ParticleOptions particleEffect) {
             return new Modifier(particleEffect, null);
         }
         public static Modifier create(SoundEvent soundEvent) {

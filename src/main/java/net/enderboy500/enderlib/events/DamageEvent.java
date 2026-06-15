@@ -2,10 +2,9 @@ package net.enderboy500.enderlib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.server.world.ServerWorld;
-
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -20,7 +19,7 @@ public interface DamageEvent {
         }
     });
 
-    void damage(LivingEntity entity, ServerWorld world, DamageSource source, float amount);
+    void damage(LivingEntity entity, ServerLevel world, DamageSource source, float amount);
     default int getPriority() {
         return 1000;
     }

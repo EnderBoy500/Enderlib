@@ -6,12 +6,10 @@ import net.enderboy500.enderlib.effect.Unclearable;
 import net.enderboy500.enderlib.events.CanEntityHealEvent;
 import net.enderboy500.enderlib.events.DamageEvent;
 import net.enderboy500.enderlib.events.DeathEvent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,9 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @Shadow public abstract boolean addStatusEffect(StatusEffectInstance effect);
+    @Shadow public abstract boolean addEffect(MobEffectInstance effect);
 
-    @Shadow public abstract @Nullable LivingEntity getEntity();
+    @Shadow public abstract @Nullable LivingEntity asLivingEntity();
 
     @Inject(method = "heal", at = @At("HEAD"), cancellable = true)
     public void enderlib$canHeal(float amount, CallbackInfo ci) {
@@ -35,14 +33,14 @@ public abstract class LivingEntityMixin {
             ci.cancel();
         }
     }
-    @WrapMethod(method = "clearStatusEffects")
+    @WrapMethod(method = "removeAllEffects")
     private boolean preventClear(Operation<Boolean> original) {
         LivingEntity living = (LivingEntity)(Object)this;
-        if (!living.getEntityWorld().isClient()) {
-            for (StatusEffectInstance instance : living.getActiveStatusEffects().values()) {
-                if (instance.getEffectType().value() instanceof Unclearable) {
+        if (!living.level().isClientSide()) {
+            for (MobEffectInstance instance : living.getActiveEffectsMap().values()) {
+                if (instance.getEffect().value() instanceof Unclearable) {
                     boolean result = original.call();
-                    this.addStatusEffect(instance);
+                    this.addEffect(instance);
                     return result;
                 }
             }
@@ -50,13 +48,13 @@ public abstract class LivingEntityMixin {
         return original.call();
     }
 
-    @Inject(method = "damage", at = @At("TAIL"))
-    public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "hurtServer", at = @At("TAIL"))
+    public void damage(ServerLevel world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         DamageEvent.ON_DAMAGED.invoker().damage((LivingEntity) (Object) this, world, source, amount);
     }
 
-    @Inject(method = "onDeath", at = @At("TAIL"))
+    @Inject(method = "die", at = @At("TAIL"))
     public void enderlib$death(DamageSource damageSource, CallbackInfo ci) {
-        DeathEvent.DEATH.invoker().die((LivingEntity) (Object) this, this.getEntity().getEntityWorld(), damageSource);
+        DeathEvent.DEATH.invoker().die((LivingEntity) (Object) this, this.asLivingEntity().level(), damageSource);
     }
 }

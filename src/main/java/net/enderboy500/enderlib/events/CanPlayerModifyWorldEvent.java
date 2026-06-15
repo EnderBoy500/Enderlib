@@ -2,9 +2,7 @@ package net.enderboy500.enderlib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-
+import net.minecraft.world.entity.player.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,5 +23,5 @@ public interface CanPlayerModifyWorldEvent {
         return 1000;
     }
 
-    boolean getB(PlayerEntity player);
+    boolean getB(Player player);
 }

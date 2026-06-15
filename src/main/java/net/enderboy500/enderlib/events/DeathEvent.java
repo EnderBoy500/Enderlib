@@ -2,13 +2,10 @@ package net.enderboy500.enderlib.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
-
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,13 +28,13 @@ public interface DeathEvent {
         }
     });
     interface PlayerDeath {
-        void die(PlayerEntity player, World world, DamageSource damageSource);
+        void die(Player player, Level world, DamageSource damageSource);
         default int getPriority() {
             return 1000;
         }
     }
     interface Death {
-        void die(LivingEntity entity, World world, DamageSource damageSource);
+        void die(LivingEntity entity, Level world, DamageSource damageSource);
         default int getPriority() {
             return 1000;
         }

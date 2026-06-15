@@ -1,22 +1,22 @@
 package net.enderboy500.enderlib.util;
 
 import com.ibm.icu.impl.UResource;
-import net.minecraft.component.ComponentType;
+import net.minecraft.core.component.DataComponentType;
 
 public class ModifiedComponent<T> {
-    private final ComponentType<T> componentType;
+    private final DataComponentType<T> componentType;
     private final T v;
 
-    public ModifiedComponent(ComponentType<T> type, T value) {
+    public ModifiedComponent(DataComponentType<T> type, T value) {
         componentType = type;
         v = value;
     }
 
-    public static <S> ModifiedComponent create(ComponentType<S> type, S val) {
+    public static <S> ModifiedComponent create(DataComponentType<S> type, S val) {
         return new ModifiedComponent(type, val);
     }
 
-    public ComponentType<T> getComponentType() {
+    public DataComponentType<T> getComponentType() {
         return componentType;
     }
 

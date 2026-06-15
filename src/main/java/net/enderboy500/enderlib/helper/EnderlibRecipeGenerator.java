@@ -1,139 +1,138 @@
 package net.enderboy500.enderlib.helper;
 
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
-
 import java.util.List;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 
-public class EnderlibRecipeGenerator extends RecipeGenerator {
-    public EnderlibRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
-        super(registries, exporter);
+public class EnderlibRecipeGenerator extends RecipeProvider {
+    public EnderlibRecipeGenerator(HolderLookup.Provider registries, RecipeOutput recipeOutput) {
+        super(registries, recipeOutput);
     }
 
     @Override
-    public void generate() {
+    public void buildRecipes() {
     }
 
-    public void offer2x2CompactingRecipe(RecipeCategory category, ItemConvertible input, ItemConvertible output, int count) {
-        this.createShaped(category, output, count)
-                .input('#', input)
+    public void offer2x2CompactingRecipe(RecipeCategory category, ItemLike input, ItemLike outputItem, int count) {
+        this.shaped(category, outputItem, count)
+                .define('#', input)
                 .pattern("##")
                 .pattern("##")
-                .criterion(hasItem(output), conditionsFromItem(input))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(outputItem), has(input))
+                .save(output);
     }
 
-    public void offerReversible2x2CompactingRecipe(RecipeCategory category, ItemConvertible input, int count, RecipeCategory reverseCategory, ItemConvertible reverseInput, int reverseCount) {
-        this.createShaped(category, reverseInput, count)
-                .input('#', input)
+    public void offerReversible2x2CompactingRecipe(RecipeCategory category, ItemLike input, int count, RecipeCategory reverseCategory, ItemLike reverseInput, int reverseCount) {
+        this.shaped(category, reverseInput, count)
+                .define('#', input)
                 .pattern("##")
                 .pattern("##")
-                .criterion(hasItem(reverseInput), conditionsFromItem(input))
-                .offerTo(exporter);
-        this.createShapeless(reverseCategory, input, reverseCount)
-                .input(reverseInput)
-                .criterion(hasItem(input), conditionsFromItem(reverseInput))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(reverseInput), has(input))
+                .save(output);
+        this.shapeless(reverseCategory, input, reverseCount)
+                .requires(reverseInput)
+                .unlockedBy(getHasName(input), has(reverseInput))
+                .save(output);
     }
 
-    public void offerHelmetRecipe(ItemConvertible ingredient, ItemConvertible helmet) {
-        this.createShaped(RecipeCategory.COMBAT, helmet)
-                .input('#', ingredient)
+    public void offerHelmetRecipe(ItemLike ingredient, ItemLike helmet) {
+        this.shaped(RecipeCategory.COMBAT, helmet)
+                .define('#', ingredient)
                 .pattern("###")
                 .pattern("# #")
-                .criterion(hasItem(helmet), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(helmet), has(ingredient))
+                .save(output);
     }
-    public void offerChestplateRecipe(ItemConvertible ingredient, ItemConvertible chestplate) {
-        this.createShaped(RecipeCategory.COMBAT, chestplate)
-                .input('#', ingredient)
+    public void offerChestplateRecipe(ItemLike ingredient, ItemLike chestplate) {
+        this.shaped(RecipeCategory.COMBAT, chestplate)
+                .define('#', ingredient)
                 .pattern("# #")
                 .pattern("###")
                 .pattern("###")
-                .criterion(hasItem(chestplate), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(chestplate), has(ingredient))
+                .save(output);
     }
-    public void offerLeggingsRecipe(ItemConvertible ingredient, ItemConvertible leggings) {
-        this.createShaped(RecipeCategory.COMBAT, leggings)
-                .input('#', ingredient)
+    public void offerLeggingsRecipe(ItemLike ingredient, ItemLike leggings) {
+        this.shaped(RecipeCategory.COMBAT, leggings)
+                .define('#', ingredient)
                 .pattern("###")
                 .pattern("# #")
                 .pattern("# #")
-                .criterion(hasItem(leggings), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(leggings), has(ingredient))
+                .save(output);
     }
-    public void offerBootsRecipe(ItemConvertible ingredient, ItemConvertible boots) {
-        this.createShaped(RecipeCategory.COMBAT, boots)
-                .input('#', ingredient)
+    public void offerBootsRecipe(ItemLike ingredient, ItemLike boots) {
+        this.shaped(RecipeCategory.COMBAT, boots)
+                .define('#', ingredient)
                 .pattern("# #")
                 .pattern("# #")
-                .criterion(hasItem(boots), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(boots), has(ingredient))
+                .save(output);
     }
-    public void createFullArmorRecipes(ItemConvertible ingredient, ItemConvertible helmet, ItemConvertible chestplate, ItemConvertible leggings, ItemConvertible boots) {
+    public void createFullArmorRecipes(ItemLike ingredient, ItemLike helmet, ItemLike chestplate, ItemLike leggings, ItemLike boots) {
         offerHelmetRecipe(ingredient, helmet);
         offerChestplateRecipe(ingredient, chestplate);
         offerLeggingsRecipe(ingredient, leggings);
         offerBootsRecipe(ingredient, boots);
     }
 
-    public void offerSwordRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible sword) {
-        this.createShaped(RecipeCategory.COMBAT, sword)
-                .input('#', ingredient)
-                .input('/', handle)
+    public void offerSwordRecipe(ItemLike ingredient, ItemLike handle, ItemLike sword) {
+        this.shaped(RecipeCategory.COMBAT, sword)
+                .define('#', ingredient)
+                .define('/', handle)
                 .pattern("#")
                 .pattern("#")
                 .pattern("/")
-                .criterion(hasItem(sword), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(sword), has(ingredient))
+                .save(output);
     }
-    public void offerShovelRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible shovel) {
-        this.createShaped(RecipeCategory.TOOLS, shovel)
-                .input('#', ingredient)
-                .input('/', handle)
+    public void offerShovelRecipe(ItemLike ingredient, ItemLike handle, ItemLike shovel) {
+        this.shaped(RecipeCategory.TOOLS, shovel)
+                .define('#', ingredient)
+                .define('/', handle)
                 .pattern("#")
                 .pattern("/")
                 .pattern("/")
-                .criterion(hasItem(shovel), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(shovel), has(ingredient))
+                .save(output);
     }
-    public void offerPickaxeRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible pickaxe) {
-        this.createShaped(RecipeCategory.TOOLS, pickaxe)
-                .input('#', ingredient)
-                .input('/', handle)
+    public void offerPickaxeRecipe(ItemLike ingredient, ItemLike handle, ItemLike pickaxe) {
+        this.shaped(RecipeCategory.TOOLS, pickaxe)
+                .define('#', ingredient)
+                .define('/', handle)
                 .pattern("###")
                 .pattern(" / ")
                 .pattern(" / ")
-                .criterion(hasItem(pickaxe), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(pickaxe), has(ingredient))
+                .save(output);
     }
-    public void offerAxeRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible axe) {
-        this.createShaped(RecipeCategory.TOOLS, axe)
-                .input('#', ingredient)
-                .input('/', handle)
+    public void offerAxeRecipe(ItemLike ingredient, ItemLike handle, ItemLike axe) {
+        this.shaped(RecipeCategory.TOOLS, axe)
+                .define('#', ingredient)
+                .define('/', handle)
                 .pattern("##")
                 .pattern("#/")
                 .pattern(" /")
-                .criterion(hasItem(axe), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(axe), has(ingredient))
+                .save(output);
     }
-    public void offerHoeRecipe(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible hoe) {
-        this.createShaped(RecipeCategory.TOOLS, hoe)
-                .input('#', ingredient)
-                .input('/', handle)
+    public void offerHoeRecipe(ItemLike ingredient, ItemLike handle, ItemLike hoe) {
+        this.shaped(RecipeCategory.TOOLS, hoe)
+                .define('#', ingredient)
+                .define('/', handle)
                 .pattern("##")
                 .pattern(" /")
                 .pattern(" /")
-                .criterion(hasItem(hoe), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(hoe), has(ingredient))
+                .save(output);
     }
-    public void createToolRecipes(ItemConvertible ingredient, ItemConvertible handle, ItemConvertible sword, ItemConvertible shovel, ItemConvertible pickaxe, ItemConvertible axe, ItemConvertible hoe) {
+    public void createToolRecipes(ItemLike ingredient, ItemLike handle, ItemLike sword, ItemLike shovel, ItemLike pickaxe, ItemLike axe, ItemLike hoe) {
         offerSwordRecipe(ingredient, handle, sword);
         offerShovelRecipe(ingredient, handle, shovel);
         offerPickaxeRecipe(ingredient, handle, pickaxe);
@@ -141,137 +140,137 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
         offerHoeRecipe(ingredient, handle, hoe);
     }
 
-    public void offerStairsRecipe(ItemConvertible ingredient, ItemConvertible stairs) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, stairs, 4)
-                .input('#', ingredient)
+    public void offerStairsRecipe(ItemLike ingredient, ItemLike stairs) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, stairs, 4)
+                .define('#', ingredient)
                 .pattern("#  ")
                 .pattern("## ")
                 .pattern("###")
-                .criterion(hasItem(stairs), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(stairs), has(ingredient))
+                .save(output);
     }
-    public void offerSlabRecipe(ItemConvertible ingredient, ItemConvertible slab) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, slab, 6)
-                .input('#', ingredient)
+    public void offerSlabRecipe(ItemLike ingredient, ItemLike slab) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, slab, 6)
+                .define('#', ingredient)
                 .pattern("###")
-                .criterion(hasItem(slab), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(slab), has(ingredient))
+                .save(output);
     }
-    public void offerFenceAndGateRecipes(ItemConvertible ingredient, ItemConvertible fence, ItemConvertible fenceGate) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, fence, 3)
-                .input('#', ingredient)
-                .input('/', Items.STICK)
+    public void offerFenceAndGateRecipes(ItemLike ingredient, ItemLike fence, ItemLike fenceGate) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, fence, 3)
+                .define('#', ingredient)
+                .define('/', Items.STICK)
                 .pattern("#/#")
                 .pattern("#/#")
-                .criterion(hasItem(fence), conditionsFromItem(ingredient))
-                .offerTo(exporter);
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, fenceGate, 1)
-                .input('#', ingredient)
-                .input('/', Items.STICK)
+                .unlockedBy(getHasName(fence), has(ingredient))
+                .save(output);
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, fenceGate, 1)
+                .define('#', ingredient)
+                .define('/', Items.STICK)
                 .pattern("/#/")
                 .pattern("/#/")
-                .criterion(hasItem(fenceGate), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(fenceGate), has(ingredient))
+                .save(output);
     }
-    public void offerWallRecipe(ItemConvertible ingredient, ItemConvertible wall) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, wall, 6)
-                .input('#', ingredient)
+    public void offerWallRecipe(ItemLike ingredient, ItemLike wall) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, wall, 6)
+                .define('#', ingredient)
                 .pattern("###")
                 .pattern("###")
-                .criterion(hasItem(wall), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(wall), has(ingredient))
+                .save(output);
     }
 
-    public void offerBarOrPaneRecipe(ItemConvertible ingredient, ItemConvertible output) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, output, 16)
-                .input('#', ingredient)
+    public void offerBarOrPaneRecipe(ItemLike ingredient, ItemLike outputItem) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, 16)
+                .define('#', ingredient)
                 .pattern("###")
                 .pattern("###")
-                .criterion(hasItem(output), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(outputItem), has(ingredient))
+                .save(output);
     }
-    public void offerDoorAndTrapdoorRecipes(ItemConvertible ingredient, ItemConvertible door, ItemConvertible trapdoor) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, door, 3)
-                .input('#', ingredient)
+    public void offerDoorAndTrapdoorRecipes(ItemLike ingredient, ItemLike door, ItemLike trapdoor) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, door, 3)
+                .define('#', ingredient)
                 .pattern("##")
                 .pattern("##")
                 .pattern("##")
-                .criterion(hasItem(door), conditionsFromItem(ingredient))
-                .offerTo(exporter);
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, trapdoor, 6)
-                .input('#', ingredient)
+                .unlockedBy(getHasName(door), has(ingredient))
+                .save(output);
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, trapdoor, 6)
+                .define('#', ingredient)
                 .pattern("###")
                 .pattern("###")
-                .criterion(hasItem(trapdoor), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(trapdoor), has(ingredient))
+                .save(output);
     }
-    public void offerPressurePlateAndButtonRecipes(ItemConvertible ingredient, ItemConvertible pressurePlate, ItemConvertible button) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, pressurePlate)
-                .input('#', ingredient)
+    public void offerPressurePlateAndButtonRecipes(ItemLike ingredient, ItemLike pressurePlate, ItemLike button) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, pressurePlate)
+                .define('#', ingredient)
                 .pattern("##")
-                .criterion(hasItem(pressurePlate), conditionsFromItem(ingredient))
-                .offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, button)
-                .input(ingredient)
-                .criterion(hasItem(button), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(pressurePlate), has(ingredient))
+                .save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, button)
+                .requires(ingredient)
+                .unlockedBy(getHasName(button), has(ingredient))
+                .save(output);
     }
-    public void offerWoodRecipe(ItemConvertible log, ItemConvertible wood, ItemConvertible strippedLog, ItemConvertible strippedWood) {
+    public void offerWoodRecipe(ItemLike log, ItemLike wood, ItemLike strippedLog, ItemLike strippedWood) {
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, wood, log, 3);
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, strippedWood, strippedLog, 3);
     }
-    public void offerPlankRecipe(ItemConvertible log, ItemConvertible wood, ItemConvertible strippedLog, ItemConvertible strippedWood, ItemConvertible planks) {
+    public void offerPlankRecipe(ItemLike log, ItemLike wood, ItemLike strippedLog, ItemLike strippedWood, ItemLike planks) {
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, log, planks, 4);
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, wood, planks, 4);
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, strippedLog, planks, 4);
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, strippedWood, planks, 4);
     }
-    public void offerSignsRecipe(ItemConvertible planks, ItemConvertible strippedLog, ItemConvertible sign, ItemConvertible hangingSign) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, sign, 3)
-                .input('#', planks)
-                .input('/', Items.STICK)
+    public void offerSignsRecipe(ItemLike planks, ItemLike strippedLog, ItemLike sign, ItemLike hangingSign) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, sign, 3)
+                .define('#', planks)
+                .define('/', Items.STICK)
                 .pattern("###")
                 .pattern("###")
                 .pattern(" / ")
-                .criterion(hasItem(sign), conditionsFromItem(planks))
-                .offerTo(exporter);
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, hangingSign, 6)
-                .input('#', strippedLog)
-                .input('|', Items.IRON_CHAIN)
+                .unlockedBy(getHasName(sign), has(planks))
+                .save(output);
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, hangingSign, 6)
+                .define('#', strippedLog)
+                .define('|', Items.IRON_CHAIN)
                 .pattern("| |")
                 .pattern("###")
                 .pattern("###")
-                .criterion(hasItem(hangingSign), conditionsFromItem(strippedLog))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(hangingSign), has(strippedLog))
+                .save(output);
     }
-    public void offerBoatRecipes(ItemConvertible ingredient, ItemConvertible boat, ItemConvertible chestBoat) {
-        this.createShaped(RecipeCategory.MISC, boat)
-                .input('#', ingredient)
+    public void offerBoatRecipes(ItemLike ingredient, ItemLike boat, ItemLike chestBoat) {
+        this.shaped(RecipeCategory.MISC, boat)
+                .define('#', ingredient)
                 .pattern("# #")
                 .pattern("###")
-                .criterion(hasItem(boat), conditionsFromItem(ingredient))
-                .offerTo(exporter);
-        this.createShapeless(RecipeCategory.MISC, chestBoat)
-                .input(boat)
-                .input(Items.CHEST)
-                .criterion(hasItem(chestBoat), conditionsFromItem(boat))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(boat), has(ingredient))
+                .save(output);
+        this.shapeless(RecipeCategory.MISC, chestBoat)
+                .requires(boat)
+                .requires(Items.CHEST)
+                .unlockedBy(getHasName(chestBoat), has(boat))
+                .save(output);
     }
-    public void offerShelfRecipe(ItemConvertible ingredient, ItemConvertible shelf) {
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, shelf)
-                .input('#', ingredient)
+    public void shelf(ItemLike ingredient, ItemLike shelf) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, shelf)
+                .define('#', ingredient)
                 .pattern("###")
                 .pattern("   ")
                 .pattern("###")
-                .criterion(hasItem(shelf), conditionsFromItem(ingredient))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(shelf), has(ingredient))
+                .save(output);
     }
-    public void createWoodSetRecipes(ItemConvertible planks, ItemConvertible log, ItemConvertible wood,
-                                     ItemConvertible strippedLog, ItemConvertible strippedWood,
-                                     ItemConvertible stairs, ItemConvertible slab,
-                                     ItemConvertible fence, ItemConvertible fenceGate, ItemConvertible door,
-                                     ItemConvertible trapdoor, ItemConvertible pressurePlate,
-                                     ItemConvertible button, ItemConvertible shelf) {
+    public void createWoodSetRecipes(ItemLike planks, ItemLike log, ItemLike wood,
+                                     ItemLike strippedLog, ItemLike strippedWood,
+                                     ItemLike stairs, ItemLike slab,
+                                     ItemLike fence, ItemLike fenceGate, ItemLike door,
+                                     ItemLike trapdoor, ItemLike pressurePlate,
+                                     ItemLike button, ItemLike shelf) {
         offerWoodRecipe(log, wood, strippedLog, strippedWood);
         offerPlankRecipe(log, wood, strippedLog, strippedWood, planks);
         offerStairsRecipe(planks, stairs);
@@ -279,193 +278,193 @@ public class EnderlibRecipeGenerator extends RecipeGenerator {
         offerFenceAndGateRecipes(planks, fence, fenceGate);
         offerDoorAndTrapdoorRecipes(planks, door, trapdoor);
         offerPressurePlateAndButtonRecipes(planks, pressurePlate, button);
-        offerShelfRecipe(strippedLog, shelf);
+        shelf(strippedLog, shelf);
     }
-    public void createCompleteFullWoodSetRecipes(ItemConvertible planks, ItemConvertible log, ItemConvertible wood,
-                                                 ItemConvertible strippedLog, ItemConvertible strippedWood,
-                                                 ItemConvertible stairs, ItemConvertible slab,
-                                                 ItemConvertible fence, ItemConvertible fenceGate,
-                                                 ItemConvertible door, ItemConvertible trapdoor,
-                                                 ItemConvertible pressurePlate, ItemConvertible button,
-                                                 ItemConvertible shelf, ItemConvertible sign,
-                                                 ItemConvertible hangingSign, ItemConvertible boat,
-                                                 ItemConvertible chestBoat) {
+    public void createCompleteFullWoodSetRecipes(ItemLike planks, ItemLike log, ItemLike wood,
+                                                 ItemLike strippedLog, ItemLike strippedWood,
+                                                 ItemLike stairs, ItemLike slab,
+                                                 ItemLike fence, ItemLike fenceGate,
+                                                 ItemLike door, ItemLike trapdoor,
+                                                 ItemLike pressurePlate, ItemLike button,
+                                                 ItemLike shelf, ItemLike sign,
+                                                 ItemLike hangingSign, ItemLike boat,
+                                                 ItemLike chestBoat) {
         createWoodSetRecipes(planks, log, wood, strippedLog, strippedWood, stairs, slab, fence, fenceGate,
                 door, trapdoor, pressurePlate, button, shelf);
         offerSignsRecipe(planks, strippedLog, sign, hangingSign);
         offerBoatRecipes(planks, boat, chestBoat);
     }
-    public void offerStairsRecipeWithStonecutting(ItemConvertible ingredient, ItemConvertible stairs) {
+    public void offerStairsRecipeWithStonecutting(ItemLike ingredient, ItemLike stairs) {
         offerStairsRecipe(ingredient, stairs);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stairs, ingredient);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stairs, ingredient);
     }
-    public void offerSlabRecipeWithStonecutting(ItemConvertible ingredient, ItemConvertible slab) {
+    public void offerSlabRecipeWithStonecutting(ItemLike ingredient, ItemLike slab) {
         offerSlabRecipe(ingredient, slab);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, slab, ingredient, 2);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, slab, ingredient, 2);
     }
-    public void offerWallRecipeWithStonecutting(ItemConvertible ingredient, ItemConvertible wall) {
+    public void offerWallRecipeWithStonecutting(ItemLike ingredient, ItemLike wall) {
         offerWallRecipe(ingredient, wall);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, wall, ingredient);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, wall, ingredient);
     }
-    public void createBrickRecipes(ItemConvertible baseStone, ItemConvertible bricks,
-                                   ItemConvertible brickStairs, ItemConvertible brickSlab,
-                                   ItemConvertible brickWall) {
+    public void createBrickRecipes(ItemLike baseStone, ItemLike bricks,
+                                   ItemLike brickStairs, ItemLike brickSlab,
+                                   ItemLike brickWall) {
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, baseStone, bricks, 4);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, bricks, baseStone);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, bricks, baseStone);
         offerStairsRecipeWithStonecutting(bricks, brickStairs);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, brickStairs, baseStone);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, brickStairs, baseStone);
         offerSlabRecipeWithStonecutting(bricks, brickSlab);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, brickSlab, baseStone, 2);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, brickSlab, baseStone, 2);
         offerWallRecipeWithStonecutting(bricks, brickWall);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, brickWall, baseStone);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, brickWall, baseStone);
     }
-    public void createBaseStoneRecipes(ItemConvertible stone,
-                                       ItemConvertible stoneStairs, ItemConvertible stoneSlab,
-                                       ItemConvertible stoneWall) {
+    public void createBaseStoneRecipes(ItemLike stone,
+                                       ItemLike stoneStairs, ItemLike stoneSlab,
+                                       ItemLike stoneWall) {
         offerStairsRecipeWithStonecutting(stone, stoneStairs);
         offerSlabRecipeWithStonecutting(stone, stoneSlab);
         offerWallRecipeWithStonecutting(stone, stoneWall);
     }
-    public void createBasicStoneRecipes(ItemConvertible stone, ItemConvertible stairs, ItemConvertible slab,
-                                      ItemConvertible wall, ItemConvertible chiseledBricks, ItemConvertible bricks,
-                                      ItemConvertible brickStairs, ItemConvertible brickSlab,
-                                      ItemConvertible brickWall) {
+    public void createBasicStoneRecipes(ItemLike stone, ItemLike stairs, ItemLike slab,
+                                      ItemLike wall, ItemLike chiseledBricks, ItemLike bricks,
+                                      ItemLike brickStairs, ItemLike brickSlab,
+                                      ItemLike brickWall) {
         offerStairsRecipeWithStonecutting(stone, stairs);
         offerSlabRecipeWithStonecutting(stone, slab);
         offerWallRecipeWithStonecutting(stone, wall);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
-                        .input('#', brickSlab)
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
+                        .define('#', brickSlab)
                         .pattern("#")
                         .pattern("#")
-                        .criterion(hasItem(chiseledBricks), conditionsFromItem(brickSlab))
-                        .offerTo(exporter);
+                        .unlockedBy(getHasName(chiseledBricks), has(brickSlab))
+                        .save(output);
         createBrickRecipes(stone, bricks, brickStairs, brickSlab, brickWall);
     }
-    public void createTuffStoneRecipes(ItemConvertible stone, ItemConvertible stairs, ItemConvertible slab,
-                                        ItemConvertible wall, ItemConvertible chiseledStone, ItemConvertible polished,
-                                       ItemConvertible polishedStairs, ItemConvertible polishedSlab,
-                                       ItemConvertible polishedWall, ItemConvertible chiseledBricks, ItemConvertible bricks,
-                                        ItemConvertible brickStairs, ItemConvertible brickSlab,
-                                        ItemConvertible brickWall) {
+    public void createTuffStoneRecipes(ItemLike stone, ItemLike stairs, ItemLike slab,
+                                        ItemLike wall, ItemLike chiseledStone, ItemLike polished,
+                                       ItemLike polishedStairs, ItemLike polishedSlab,
+                                       ItemLike polishedWall, ItemLike chiseledBricks, ItemLike bricks,
+                                        ItemLike brickStairs, ItemLike brickSlab,
+                                        ItemLike brickWall) {
         offerStairsRecipeWithStonecutting(stone, stairs);
         offerSlabRecipeWithStonecutting(stone, slab);
         offerWallRecipeWithStonecutting(stone, wall);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
-                .input('#', brickSlab)
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
+                .define('#', brickSlab)
                 .pattern("#")
                 .pattern("#")
-                .criterion(hasItem(chiseledBricks), conditionsFromItem(brickSlab))
-                .offerTo(exporter);
-        this.createShaped(RecipeCategory.BUILDING_BLOCKS, chiseledStone)
-                .input('#', slab)
+                .unlockedBy(getHasName(chiseledBricks), has(brickSlab))
+                .save(output);
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, chiseledStone)
+                .define('#', slab)
                 .pattern("#")
                 .pattern("#")
-                .criterion(hasItem(chiseledStone), conditionsFromItem(slab))
-                .offerTo(exporter);
+                .unlockedBy(getHasName(chiseledStone), has(slab))
+                .save(output);
         createBrickRecipes(stone, polished, polishedStairs, polishedSlab, polishedWall);
         createBrickRecipes(polished, bricks, brickStairs, brickSlab, brickWall);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, bricks);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, brickSlab);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, brickStairs);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stone, brickWall);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, bricks);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, brickSlab);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, brickStairs);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, brickWall);
     }
-    public void createCutMetalRecipes(ItemConvertible baseMetalBlock, ItemConvertible cutBlock,
-                                      ItemConvertible cutStairs, ItemConvertible cutSlab) {
+    public void createCutMetalRecipes(ItemLike baseMetalBlock, ItemLike cutBlock,
+                                      ItemLike cutStairs, ItemLike cutSlab) {
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, baseMetalBlock, cutBlock, 4);
         offerStairsRecipeWithStonecutting(cutBlock, cutStairs);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, cutStairs, baseMetalBlock);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, cutStairs, baseMetalBlock);
         offerSlabRecipeWithStonecutting(cutBlock, cutSlab);
-        offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, cutSlab, baseMetalBlock);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, cutSlab, baseMetalBlock);
     }
 
-    public void createFullMetalSmeltGenerator(ItemConvertible ore, ItemConvertible deepslateOre,
-                                         ItemConvertible ingot,
-                                         ItemConvertible raw) {
-        List<ItemConvertible> RAW = List.of(raw, ore, deepslateOre);
-        offerSmelting(RAW, RecipeCategory.MISC, ingot, 0.7f,200, ingot.toString());
+    public void createFullMetalSmeltGenerator(ItemLike ore, ItemLike deepslateOre,
+                                         ItemLike ingot,
+                                         ItemLike raw) {
+        List<ItemLike> RAW = List.of(raw, ore, deepslateOre);
+        oreSmelting(RAW, RecipeCategory.MISC, ingot, 0.7f,200, ingot.toString());
     }
 
-    public void createAllDyingRecipes(ItemConvertible base, ItemConvertible white, ItemConvertible lightGray,
-                                      ItemConvertible gray, ItemConvertible black, ItemConvertible brown,
-                                      ItemConvertible red, ItemConvertible orange, ItemConvertible yellow,
-                                      ItemConvertible lime, ItemConvertible green, ItemConvertible cyan,
-                                      ItemConvertible lightBlue, ItemConvertible blue, ItemConvertible purple,
-                                      ItemConvertible magenta, ItemConvertible pink) {
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, white).input(base).input(Items.WHITE_DYE)
-                .criterion(hasItem(white), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightGray).input(base).input(Items.LIGHT_GRAY_DYE)
-                .criterion(hasItem(lightGray), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, gray).input(base).input(Items.GRAY_DYE)
-                .criterion(hasItem(gray), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, black).input(base).input(Items.BLACK_DYE)
-                .criterion(hasItem(black), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, brown).input(base).input(Items.BROWN_DYE)
-                .criterion(hasItem(brown), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, red).input(base).input(Items.RED_DYE)
-                .criterion(hasItem(red), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, orange).input(base).input(Items.ORANGE_DYE)
-                .criterion(hasItem(orange), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, yellow).input(base).input(Items.YELLOW_DYE)
-                .criterion(hasItem(yellow), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lime).input(base).input(Items.LIME_DYE)
-                .criterion(hasItem(lime), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, green).input(base).input(Items.GREEN_DYE)
-                .criterion(hasItem(green), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, cyan).input(base).input(Items.CYAN_DYE)
-                .criterion(hasItem(cyan), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightBlue).input(base).input(Items.LIGHT_BLUE_DYE)
-                .criterion(hasItem(lightBlue), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, blue).input(base).input(Items.BLUE_DYE)
-                .criterion(hasItem(blue), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, purple).input(base).input(Items.PURPLE_DYE)
-                .criterion(hasItem(purple), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, magenta).input(base).input(Items.MAGENTA_DYE)
-                .criterion(hasItem(magenta), conditionsFromItem(base)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, pink).input(base).input(Items.PINK_DYE)
-                .criterion(hasItem(pink), conditionsFromItem(base)).offerTo(exporter);
+    public void createAllDyingRecipes(ItemLike base, ItemLike white, ItemLike lightGray,
+                                      ItemLike gray, ItemLike black, ItemLike brown,
+                                      ItemLike red, ItemLike orange, ItemLike yellow,
+                                      ItemLike lime, ItemLike green, ItemLike cyan,
+                                      ItemLike lightBlue, ItemLike blue, ItemLike purple,
+                                      ItemLike magenta, ItemLike pink) {
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, white).requires(base).requires(Items.WHITE_DYE)
+                .unlockedBy(getHasName(white), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, lightGray).requires(base).requires(Items.LIGHT_GRAY_DYE)
+                .unlockedBy(getHasName(lightGray), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, gray).requires(base).requires(Items.GRAY_DYE)
+                .unlockedBy(getHasName(gray), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, black).requires(base).requires(Items.BLACK_DYE)
+                .unlockedBy(getHasName(black), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, brown).requires(base).requires(Items.BROWN_DYE)
+                .unlockedBy(getHasName(brown), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, red).requires(base).requires(Items.RED_DYE)
+                .unlockedBy(getHasName(red), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, orange).requires(base).requires(Items.ORANGE_DYE)
+                .unlockedBy(getHasName(orange), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, yellow).requires(base).requires(Items.YELLOW_DYE)
+                .unlockedBy(getHasName(yellow), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, lime).requires(base).requires(Items.LIME_DYE)
+                .unlockedBy(getHasName(lime), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, green).requires(base).requires(Items.GREEN_DYE)
+                .unlockedBy(getHasName(green), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, cyan).requires(base).requires(Items.CYAN_DYE)
+                .unlockedBy(getHasName(cyan), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, lightBlue).requires(base).requires(Items.LIGHT_BLUE_DYE)
+                .unlockedBy(getHasName(lightBlue), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, blue).requires(base).requires(Items.BLUE_DYE)
+                .unlockedBy(getHasName(blue), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, purple).requires(base).requires(Items.PURPLE_DYE)
+                .unlockedBy(getHasName(purple), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, magenta).requires(base).requires(Items.MAGENTA_DYE)
+                .unlockedBy(getHasName(magenta), has(base)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, pink).requires(base).requires(Items.PINK_DYE)
+                .unlockedBy(getHasName(pink), has(base)).save(output);
     }
 
-    public void createAllUniversalDyingRecipes(TagKey<Item> base, ItemConvertible white, ItemConvertible lightGray,
-                                               ItemConvertible gray, ItemConvertible black, ItemConvertible brown,
-                                               ItemConvertible red, ItemConvertible orange, ItemConvertible yellow,
-                                               ItemConvertible lime, ItemConvertible green, ItemConvertible cyan,
-                                               ItemConvertible lightBlue, ItemConvertible blue, ItemConvertible purple,
-                                               ItemConvertible magenta, ItemConvertible pink) {
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, white).input(base).input(Items.WHITE_DYE)
-                .criterion(hasItem(white), conditionsFromItem(white)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightGray).input(base).input(Items.LIGHT_GRAY_DYE)
-                .criterion(hasItem(lightGray), conditionsFromItem(lightGray)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, gray).input(base).input(Items.GRAY_DYE)
-                .criterion(hasItem(gray), conditionsFromItem(gray)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, black).input(base).input(Items.BLACK_DYE)
-                .criterion(hasItem(black), conditionsFromItem(black)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, brown).input(base).input(Items.BROWN_DYE)
-                .criterion(hasItem(brown), conditionsFromItem(brown)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, red).input(base).input(Items.RED_DYE)
-                .criterion(hasItem(red), conditionsFromItem(red)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, orange).input(base).input(Items.ORANGE_DYE)
-                .criterion(hasItem(orange), conditionsFromItem(orange)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, yellow).input(base).input(Items.YELLOW_DYE)
-                .criterion(hasItem(yellow), conditionsFromItem(yellow)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lime).input(base).input(Items.LIME_DYE)
-                .criterion(hasItem(lime), conditionsFromItem(lime)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, green).input(base).input(Items.GREEN_DYE)
-                .criterion(hasItem(green), conditionsFromItem(green)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, cyan).input(base).input(Items.CYAN_DYE)
-                .criterion(hasItem(cyan), conditionsFromItem(cyan)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, lightBlue).input(base).input(Items.LIGHT_BLUE_DYE)
-                .criterion(hasItem(lightBlue), conditionsFromItem(lightBlue)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, blue).input(base).input(Items.BLUE_DYE)
-                .criterion(hasItem(blue), conditionsFromItem(blue)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, purple).input(base).input(Items.PURPLE_DYE)
-                .criterion(hasItem(purple), conditionsFromItem(purple)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, magenta).input(base).input(Items.MAGENTA_DYE)
-                .criterion(hasItem(magenta), conditionsFromItem(magenta)).offerTo(exporter);
-        this.createShapeless(RecipeCategory.BUILDING_BLOCKS, pink).input(base).input(Items.PINK_DYE)
-                .criterion(hasItem(pink), conditionsFromItem(pink)).offerTo(exporter);
+    public void createAllUniversalDyingRecipes(TagKey<Item> base, ItemLike white, ItemLike lightGray,
+                                               ItemLike gray, ItemLike black, ItemLike brown,
+                                               ItemLike red, ItemLike orange, ItemLike yellow,
+                                               ItemLike lime, ItemLike green, ItemLike cyan,
+                                               ItemLike lightBlue, ItemLike blue, ItemLike purple,
+                                               ItemLike magenta, ItemLike pink) {
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, white).requires(base).requires(Items.WHITE_DYE)
+                .unlockedBy(getHasName(white), has(white)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, lightGray).requires(base).requires(Items.LIGHT_GRAY_DYE)
+                .unlockedBy(getHasName(lightGray), has(lightGray)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, gray).requires(base).requires(Items.GRAY_DYE)
+                .unlockedBy(getHasName(gray), has(gray)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, black).requires(base).requires(Items.BLACK_DYE)
+                .unlockedBy(getHasName(black), has(black)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, brown).requires(base).requires(Items.BROWN_DYE)
+                .unlockedBy(getHasName(brown), has(brown)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, red).requires(base).requires(Items.RED_DYE)
+                .unlockedBy(getHasName(red), has(red)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, orange).requires(base).requires(Items.ORANGE_DYE)
+                .unlockedBy(getHasName(orange), has(orange)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, yellow).requires(base).requires(Items.YELLOW_DYE)
+                .unlockedBy(getHasName(yellow), has(yellow)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, lime).requires(base).requires(Items.LIME_DYE)
+                .unlockedBy(getHasName(lime), has(lime)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, green).requires(base).requires(Items.GREEN_DYE)
+                .unlockedBy(getHasName(green), has(green)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, cyan).requires(base).requires(Items.CYAN_DYE)
+                .unlockedBy(getHasName(cyan), has(cyan)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, lightBlue).requires(base).requires(Items.LIGHT_BLUE_DYE)
+                .unlockedBy(getHasName(lightBlue), has(lightBlue)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, blue).requires(base).requires(Items.BLUE_DYE)
+                .unlockedBy(getHasName(blue), has(blue)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, purple).requires(base).requires(Items.PURPLE_DYE)
+                .unlockedBy(getHasName(purple), has(purple)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, magenta).requires(base).requires(Items.MAGENTA_DYE)
+                .unlockedBy(getHasName(magenta), has(magenta)).save(output);
+        this.shapeless(RecipeCategory.BUILDING_BLOCKS, pink).requires(base).requires(Items.PINK_DYE)
+                .unlockedBy(getHasName(pink), has(pink)).save(output);
     }
 }

@@ -1,37 +1,36 @@
 package net.enderboy500.enderlib.util.interfaces;
 
-import net.minecraft.entity.AreaEffectCloudEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.level.Level;
 
 
 public interface AreaCloudCreator {
-    static void spawnCloud(World world, BlockPos pos, RegistryEntry<StatusEffect> effect, ParticleEffect particle, int radius, int cloudDuration, int effectDuration, int effectAmplifier) {
-        AreaEffectCloudEntity areaEffectCloud = new AreaEffectCloudEntity(world, pos.getX(), pos.getY(), pos.getZ());
+    static void spawnCloud(Level world, BlockPos pos, Holder<MobEffect> effect, ParticleOptions particle, int radius, int cloudDuration, int effectDuration, int effectAmplifier) {
+        AreaEffectCloud areaEffectCloud = new AreaEffectCloud(world, pos.getX(), pos.getY(), pos.getZ());
 
-        areaEffectCloud.setParticleType(particle);
+        areaEffectCloud.setCustomParticle(particle);
         areaEffectCloud.setRadius(radius);
         areaEffectCloud.setDuration(cloudDuration);
-        areaEffectCloud.addEffect(new StatusEffectInstance(effect, effectDuration, effectAmplifier));
+        areaEffectCloud.addEffect(new MobEffectInstance(effect, effectDuration, effectAmplifier));
 
-        world.spawnEntity(areaEffectCloud);
+        world.addFreshEntity(areaEffectCloud);
     }
-    static void spawnCloud(World world, BlockPos pos, List<RegistryEntry<StatusEffect>> statusEffects, ParticleEffect particle, int radius, int cloudDuration, int effectDuration, int effectAmplifier) {
-        AreaEffectCloudEntity areaEffectCloud = new AreaEffectCloudEntity(world, pos.getX(), pos.getY(), pos.getZ());
+    static void spawnCloud(Level world, BlockPos pos, List<Holder<MobEffect>> statusEffects, ParticleOptions particle, int radius, int cloudDuration, int effectDuration, int effectAmplifier) {
+        AreaEffectCloud areaEffectCloud = new AreaEffectCloud(world, pos.getX(), pos.getY(), pos.getZ());
 
-        areaEffectCloud.setParticleType(particle);
+        areaEffectCloud.setCustomParticle(particle);
         areaEffectCloud.setRadius(radius);
         areaEffectCloud.setDuration(cloudDuration);
-        for (RegistryEntry<StatusEffect> statusEffect : statusEffects) {
-            areaEffectCloud.addEffect(new StatusEffectInstance(statusEffect, effectDuration, effectAmplifier));
+        for (Holder<MobEffect> statusEffect : statusEffects) {
+            areaEffectCloud.addEffect(new MobEffectInstance(statusEffect, effectDuration, effectAmplifier));
         }
 
-        world.spawnEntity(areaEffectCloud);
+        world.addFreshEntity(areaEffectCloud);
     }
 }
