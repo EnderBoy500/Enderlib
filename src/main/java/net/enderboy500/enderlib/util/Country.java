@@ -9,21 +9,6 @@ import java.util.Objects;
 import net.minecraft.client.Minecraft;
 
 public class Country {
-    public static void addForbiddenCountry(String forbiddenCountry) {
-        try {
-            URL url = new URL("http://ip-api.com/line/?fields=country");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String country = bufferedReader.readLine();
-            bufferedReader.close();
-            if (Objects.equals(country, forbiddenCountry)) {
-                Minecraft.getInstance().destroy();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     public static String fetchCountry() throws IOException {
             URL url = new URL("http://ip-api.com/line/?fields=country");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -41,22 +26,5 @@ public class Country {
         String country = bufferedReader.readLine();
         bufferedReader.close();
         return country.equals(isOf);
-    }
-
-    public static void addForbiddenCountryWithLogMessage(String forbiddenCountry, String logMessage) {
-        try {
-            URL url = new URL("http://ip-api.com/line/?fields=country");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String country = bufferedReader.readLine();
-            bufferedReader.close();
-            if (Objects.equals(country, forbiddenCountry)) {
-                System.out.println(logMessage);
-                Minecraft.getInstance().destroy();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
