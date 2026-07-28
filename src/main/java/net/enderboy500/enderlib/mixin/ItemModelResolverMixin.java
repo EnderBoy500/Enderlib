@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Function;
 
 @Mixin(ItemModelResolver.class)
-public class ItemModelMixin {
+public class ItemModelResolverMixin {
     @Shadow
     @Final
     private Function<Identifier, ItemModel> modelGetter;

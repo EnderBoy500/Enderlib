@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public interface AllowPlayerKeyInputEvent {
-    Event<AllowPlayerKeyInputEvent> EVENT = EventFactory.createArrayBacked(AllowPlayerKeyInputEvent.class, events -> player -> {
-        List<AllowPlayerKeyInputEvent> sortedEvents = new ArrayList<>(Arrays.asList(events));
-        sortedEvents.sort(Comparator.comparingInt(AllowPlayerKeyInputEvent::getPriority));
-        for (AllowPlayerKeyInputEvent event : sortedEvents) {
+public interface DisablePlayerKeyInputEvent {
+    Event<DisablePlayerKeyInputEvent> EVENT = EventFactory.createArrayBacked(DisablePlayerKeyInputEvent.class, events -> player -> {
+        List<DisablePlayerKeyInputEvent> sortedEvents = new ArrayList<>(Arrays.asList(events));
+        sortedEvents.sort(Comparator.comparingInt(DisablePlayerKeyInputEvent::getPriority));
+        for (DisablePlayerKeyInputEvent event : sortedEvents) {
             boolean b = event.getB(player);
             return b;
         }

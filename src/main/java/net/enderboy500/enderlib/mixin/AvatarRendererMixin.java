@@ -6,7 +6,10 @@ import net.enderboy500.enderlib.util.interfaces.HideName;
 import net.enderboy500.enderlib.util.interfaces.PlayerRenderStateAccessor;
 import net.minecraft.client.entity.ClientAvatarEntity;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -20,8 +23,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AvatarRenderer.class)
-public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends Avatar & ClientAvatarEntity> {
+public abstract class AvatarRendererMixin<AvatarlikeEntity extends Avatar & ClientAvatarEntity> extends LivingEntityRenderer<AvatarlikeEntity, AvatarRenderState, PlayerModel> {
 
+    public AvatarRendererMixin(EntityRendererProvider.Context context, PlayerModel entityModel, float f) {
+        super(context, entityModel, f);
+    }
 
     @Inject(method = "submitNameTag(Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
     at = @At("HEAD"), cancellable = true)
@@ -64,5 +70,4 @@ public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends Avatar 
             stateAccessor.setPlayer(playerLikeEntity);
         }
     }
-
 }

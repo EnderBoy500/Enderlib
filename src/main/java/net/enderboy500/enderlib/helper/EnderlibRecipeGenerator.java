@@ -332,8 +332,8 @@ public class EnderlibRecipeGenerator extends RecipeProvider {
         offerStairsRecipeWithStonecutting(stone, stairs);
         offerSlabRecipeWithStonecutting(stone, slab);
         offerWallRecipeWithStonecutting(stone, wall);
-        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
-        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, chiseledBricks, stone);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, chiseledBricks, bricks);
         this.shaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
                         .define('#', brickSlab)
                         .pattern("#")
@@ -351,6 +351,7 @@ public class EnderlibRecipeGenerator extends RecipeProvider {
         offerStairsRecipeWithStonecutting(stone, stairs);
         offerSlabRecipeWithStonecutting(stone, slab);
         offerWallRecipeWithStonecutting(stone, wall);
+        offerWallRecipeWithStonecutting(stone, chiseledStone);
         stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, chiseledBricks);
         stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, bricks, chiseledBricks);
         this.shaped(RecipeCategory.BUILDING_BLOCKS, chiseledBricks)
@@ -367,17 +368,17 @@ public class EnderlibRecipeGenerator extends RecipeProvider {
                 .save(output);
         createBrickRecipes(stone, polished, polishedStairs, polishedSlab, polishedWall);
         createBrickRecipes(polished, bricks, brickStairs, brickSlab, brickWall);
-        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, bricks);
-        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, brickSlab);
-        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, brickStairs);
-        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stone, brickWall);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, bricks, stone);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, brickSlab, stone);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, brickStairs, stone);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, brickWall, stone);
     }
     public void createCutMetalRecipes(ItemLike baseMetalBlock, ItemLike cutBlock,
                                       ItemLike cutStairs, ItemLike cutSlab) {
         offer2x2CompactingRecipe(RecipeCategory.BUILDING_BLOCKS, baseMetalBlock, cutBlock, 4);
-        offerStairsRecipeWithStonecutting(cutBlock, cutStairs);
+        offerStairsRecipeWithStonecutting(cutStairs, cutBlock);
         stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, cutStairs, baseMetalBlock);
-        offerSlabRecipeWithStonecutting(cutBlock, cutSlab);
+        offerSlabRecipeWithStonecutting(cutSlab, cutBlock);
         stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, cutSlab, baseMetalBlock);
     }
 

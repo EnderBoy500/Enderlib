@@ -6,10 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.damagesource.DamageEffects;
-import net.minecraft.world.damagesource.DamageScaling;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DeathMessageType;
 import net.minecraft.world.entity.decoration.painting.PaintingVariant;
 
 import java.util.Optional;

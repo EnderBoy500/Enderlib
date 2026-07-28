@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EquipmentLayerRenderer.class)
-public class EquipmentRendererMixin {
+public class EquipmentLayerRendererMixin {
 
     @Inject(method = "renderLayers(Lnet/minecraft/client/resources/model/EquipmentClientInfo$LayerType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lnet/minecraft/world/item/ItemStack;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;II)V", at = @At("HEAD"), cancellable = true)
     public <S> void enderlib$render(EquipmentClientInfo.LayerType layerType, ResourceKey<EquipmentAsset> assetKey, Model<? super S> model, S object, ItemStack itemStack, PoseStack matrixStack, SubmitNodeCollector orderedRenderCommandQueue, int i, int j, CallbackInfo ci) {

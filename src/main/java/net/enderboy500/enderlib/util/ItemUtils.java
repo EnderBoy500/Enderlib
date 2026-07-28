@@ -1,6 +1,5 @@
 package net.enderboy500.enderlib.util;
 
-import com.twelvemonkeys.imageio.metadata.iptc.IPTC;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.world.item.component.*;
 import net.minecraft.core.Holder;

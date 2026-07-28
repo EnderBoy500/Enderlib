@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(AvatarRenderState.class)
-public class PlayerEntityRenderStateMixin implements PlayerRenderStateAccessor {
+public class AvatarRenderStateMixin implements PlayerRenderStateAccessor {
     @Unique
     private Avatar player;
 

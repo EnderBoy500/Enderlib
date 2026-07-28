@@ -42,7 +42,7 @@ import java.util.Calendar;
 import java.util.UUID;
 
 @Mixin(Player.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements ScreenShake {
+public abstract class PlayerMixin extends LivingEntity implements ScreenShake {
 
     @Shadow public abstract float getAttackStrengthScale(float baseTime);
 
@@ -54,7 +54,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements ScreenSh
 
     @Shadow public abstract ItemStack getWeaponItem();
 
-    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {
+    protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level world) {
         super(entityType, world);
     }
 

@@ -17,7 +17,7 @@ public class RightClickEquipmentCycleItem extends Item {
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack otherStack, Slot slot, ClickAction clickType, Player player, SlotAccess cursorStackReference) {
         if (clickType == ClickAction.SECONDARY) {
             if (this instanceof InventoryInteraction slotChangeFunction) {
-                slotChangeFunction.onSlotInteraction(stack, true);
+                slotChangeFunction.onSlotInteraction(stack,player, true);
             }
             return true;
         }

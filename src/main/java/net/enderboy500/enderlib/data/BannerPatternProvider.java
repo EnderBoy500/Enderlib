@@ -1,15 +1,11 @@
 package net.enderboy500.enderlib.data;
 
-import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider;
-import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.ClientAsset;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.level.block.entity.BannerPattern;
 
 import java.util.concurrent.CompletableFuture;

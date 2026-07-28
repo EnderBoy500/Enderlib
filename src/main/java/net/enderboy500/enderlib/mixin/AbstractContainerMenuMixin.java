@@ -16,17 +16,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractContainerMenu.class)
-public class ScreenMixin {
+public class AbstractContainerMenuMixin {
     @Shadow @Final public NonNullList<Slot> slots;
 
     @Inject(method = "doClick", at = @At("HEAD"), cancellable = true)
     private void enderlib$internalOnSlotClick(int slotIndex, int button, ClickType actionType, Player player, CallbackInfo ci) {
-        if (!EnderLib.canRightClickToCycle() && actionType == EnderLibConfig.getInstance().swapKey.get()) {
+        if (!EnderLib.canRightClickToCycle() && actionType == EnderLibConfig.equipmentStateCycleKeys.get()) {
             Slot slot = this.slots.get(slotIndex);
             ItemStack stack = slot.getItem();
             if (stack.getItem() instanceof InventoryInteraction slotChangeFunction) {
-                boolean bl = actionType == EnderLibConfig.getInstance().swapKey.get();
-                slotChangeFunction.onSlotInteraction(stack, bl);
+                boolean bl = actionType == EnderLibConfig.equipmentStateCycleKeys.get();
+                slotChangeFunction.onSlotInteraction(stack, player, bl);
                 ci.cancel();
             }
         }

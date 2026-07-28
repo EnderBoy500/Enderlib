@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BaseFireBlock.class)
-public class AbstrackFireBlockMixin {
+public class BaseFireBlockMixin {
     @Inject(method = "getState", at = @At("RETURN"), cancellable = true)
     private static void customFire(BlockGetter world, BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
         Block block = PlaceFireEvent.BASE_BLOCK.invoker().baseBlock(world, pos);

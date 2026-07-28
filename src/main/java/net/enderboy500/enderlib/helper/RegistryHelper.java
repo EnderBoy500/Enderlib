@@ -13,6 +13,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
@@ -45,6 +46,12 @@ public class RegistryHelper {
         Registry.register(BuiltInRegistries.ITEM, itemKey, item);
         return item;
     }
+    public static Item registerItem(String id, Item.Properties settings) {
+        return registerItem(id, Item::new, settings);
+    }
+    public static Item registerItem(String id) {
+        return registerItem(id, Item::new, new Item.Properties());
+    }
     public static <B extends BlockEntity> BlockEntityType<? extends B> registerBlockEntity(String id, FabricBlockEntityTypeBuilder.Factory<B> blockEntityFunction, Block... block) {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ELib.customId(id),
                 FabricBlockEntityTypeBuilder.create(blockEntityFunction, block).build(null));
@@ -54,14 +61,18 @@ public class RegistryHelper {
         B block = factory.apply(settings.setId(key));
         return Registry.register(BuiltInRegistries.BLOCK, key, block);
     }
-
+    public static Block registerBlockAsCopyOf(String id, Block block) {
+        return registerBlock(id, Block::new, Properties.ofFullCopy(block));
+    }
     public static <B extends Block> B registerBlockWithItem(String id, Function<Properties, B> factory, BlockBehaviour.Properties settings) {
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ELib.customId(id));
         B block = factory.apply(settings.setId(key));
         registerBlockItem(id, block);
         return Registry.register(BuiltInRegistries.BLOCK, key, block);
     }
-
+    public static Block registerBlockAsACopyOfBlockWithItem(String id, Block block) {
+        return registerBlockWithItem(id, Block::new, Properties.ofFullCopy(block));
+    }
     private static <I extends Item> I registerBlockItem(String id, Function<Item.Properties, I> factory, Item.Properties settings) {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, ELib.customId(id));
         I item = factory.apply(settings.setId(key));
@@ -73,9 +84,11 @@ public class RegistryHelper {
     public static BlockItem registerBlockItem(String id, Block block) {
         return registerBlockItem(id , settings -> new BlockItem(block, settings), new Item.Properties().useBlockDescriptionPrefix());
     }
+
     public static ResourceKey<DamageType> registerDamageType(String id) {
         return ResourceKey.create(Registries.DAMAGE_TYPE, ELib.customId(id));
     }
+
     public static SimpleParticleType registerParticleType(String id, SimpleParticleType particleType) {
         return Registry.register(BuiltInRegistries.PARTICLE_TYPE, ELib.customId(id), particleType);
     }
@@ -100,6 +113,9 @@ public class RegistryHelper {
     }
     public static TagKey<Item> registerItemTags(String id) {
         return TagKey.create(Registries.ITEM, ELib.customId(id));
+    }
+    public static TagKey<MobEffect> registerEffectTags(String id) {
+        return TagKey.create(Registries.MOB_EFFECT, ELib.customId(id));
     }
     public static TagKey<Biome> registerBiomeTags(String id) {
         return TagKey.create(Registries.BIOME, ELib.customId(id));

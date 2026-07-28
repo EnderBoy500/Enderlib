@@ -5,6 +5,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -20,7 +21,7 @@ public interface CycleEquipmentStateBool extends InventoryInteraction {
     }
 
     @Override
-    default void onSlotInteraction(ItemStack stack, boolean bl) {
+    default void onSlotInteraction(ItemStack stack, Player player, boolean bl) {
         if (bl) {
             if (Boolean.TRUE.equals(stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE))) {
                 stack.set(EnderLibComponents.CYCLED_EQUIPMENT_STATE, false);

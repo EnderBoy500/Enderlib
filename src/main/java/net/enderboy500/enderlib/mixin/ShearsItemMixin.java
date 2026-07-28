@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ShearsItem.class)
-public class ShearMixin {
+public class ShearsItemMixin {
 
 
     @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)

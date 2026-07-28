@@ -24,4 +24,8 @@ public class ServerPlayerMixin {
     public void enderlib$trySleep(BlockPos pos, CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
         BedInteractionEvent.TRY_SLEEP.invoker().sleep((Player) (Object) this, pos);
     }
+    @Inject(method = "stopSleepInBed", at = @At("TAIL"))
+    public void enderlib$wake(CallbackInfo ci) {
+        BedInteractionEvent.WAKE_UP.invoker().sleep((Player) (Object) this);
+    }
 }

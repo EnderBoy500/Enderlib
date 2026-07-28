@@ -2,10 +2,8 @@ package net.enderboy500.enderlib.data;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.ibm.icu.util.Output;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.impl.resource.pack.FabricPack;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;

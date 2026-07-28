@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Consumable.class)
-public abstract class ConsumableComponentMixin {
+public abstract class ConsumableMixin {
 
     @Shadow public abstract boolean canConsume(LivingEntity user, ItemStack stack);
 

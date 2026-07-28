@@ -5,6 +5,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -24,7 +25,7 @@ public interface CycleEquipmentStateInt extends InventoryInteraction {
     }
 
     @Override
-    default void onSlotInteraction(ItemStack stack, boolean bl) {
+    default void onSlotInteraction(ItemStack stack, Player player, boolean bl) {
         stack.set(DataComponents.EQUIPPABLE, Equippable.builder(equipmentType()).setAsset(key(stack)).build());
     }
 

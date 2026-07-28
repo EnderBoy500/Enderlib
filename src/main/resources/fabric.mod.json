@@ -16,9 +16,6 @@
 		"main": [
 			"net.enderboy500.enderlib.EnderLib"
 		],
-		"fabric-datagen": [
-			"net.enderboy500.enderlib.EnderLibDataGenerator"
-		],
 		"client": [
 			"net.enderboy500.enderlib.client.EnderLibClient"
 		],
