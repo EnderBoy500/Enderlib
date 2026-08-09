@@ -28,7 +28,6 @@ public class EnderLibComponents {
     public static final DataComponentType<Boolean> CAN_STRIP = registerDataComponent("can_strip", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
     public static final DataComponentType<Boolean> CAN_FLATTEN_TO_PATH = registerDataComponent("can_flatten_to_path", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
     public static final DataComponentType<Boolean> CAN_TILL = registerDataComponent("can_till", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
-    //public static final DataComponentType<Boolean> CAN_SHEAR = registerDataComponent("can_shear", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
     public static final DataComponentType<Float> SHIELD_BLOCKER = registerDataComponent("shield_blocker", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT));
     public static final DataComponentType<AttackStatusEffectComponent> ATTACK_STATUS_EFFECT = registerDataComponent("attack_status_effect", builder -> builder.persistent(AttackStatusEffectComponent.CODEC).networkSynchronized(AttackStatusEffectComponent.PACKET_CODEC));
     public static final DataComponentType<ParticleOptions> SWEEP_ATTACK_PARTICLE = registerDataComponent("sweep_attack_particle", builder -> builder.persistent(ParticleTypes.CODEC).networkSynchronized(ParticleTypes.STREAM_CODEC));

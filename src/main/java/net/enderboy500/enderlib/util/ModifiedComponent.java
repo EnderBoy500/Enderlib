@@ -1,6 +1,5 @@
 package net.enderboy500.enderlib.util;
 
-import com.ibm.icu.impl.UResource;
 import net.minecraft.core.component.DataComponentType;
 
 public class ModifiedComponent<T> {

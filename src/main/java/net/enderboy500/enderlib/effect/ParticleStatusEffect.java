@@ -6,7 +6,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 
 public class ParticleStatusEffect extends MobEffect {
-    public ParticleOptions particle;
+    public final ParticleOptions particle;
 
     public ParticleStatusEffect(MobEffectCategory category, int color, ParticleOptions particle) {
         super(category, color);
