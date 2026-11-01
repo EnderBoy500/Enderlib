@@ -1,0 +1,17 @@
+// 1.21.11	-999999999-01-01T00:00:00	Enderlib/Tags for minecraft:mob_effect
+9b831c4d45514b61edc998dff543fbc33c8d6978 data/enderlib/tags/mob_effect/damage_dealing.json
+cc2996e4d1dd5df2a46c80ccb697f492a431db89 data/enderlib/tags/mob_effect/entity_markers.json
+814d55c5c3779735cf3e7bff30bedf0f0149479d data/enderlib/tags/mob_effect/healing_effects.json
+11c734f13532f79614755ca4b87246f4ebe43dfe data/enderlib/tags/mob_effect/hunger.json
+9b947274a47c72a636acb9803f1dbc39ed02918c data/enderlib/tags/mob_effect/instant.json
+fca84af178792ff0e2d139155330255be33f6de1 data/enderlib/tags/mob_effect/mining.json
+00e2db4425ccde3250f79cd22eaa4ccc3e0b4ad7 data/enderlib/tags/mob_effect/motion_boost.json
+19ce9578ca1a0a277c56242a95ffc726dba69007 data/enderlib/tags/mob_effect/motion_modifying.json
+cfcbdb28d72d023b72b7e0eb1cb59e2a1574e26a data/enderlib/tags/mob_effect/omen.json
+367df55d890333be55f7039bdc22eb3be5e3e695 data/enderlib/tags/mob_effect/overlaying_effects.json
+c730e704feff5507b36108a28f7475ede16d448c data/enderlib/tags/mob_effect/resistance.json
+51eb0b6897271b43bfdff1479eecdd89ba2fedd8 data/enderlib/tags/mob_effect/slowness.json
+c14d0c592252729c29c199845988531e8e3df1aa data/enderlib/tags/mob_effect/strength.json
+db43efce8b7227d9df16a9b6d62ea1aa3f91ebf5 data/enderlib/tags/mob_effect/submerged_breathing.json
+c371814440f80e7ae3968ada8c885e76fc24ee0f data/enderlib/tags/mob_effect/vision_modifiers.json
+6d3a77ed046f7618e6aac28beca221cf6569c464 data/enderlib/tags/mob_effect/water_effects.json

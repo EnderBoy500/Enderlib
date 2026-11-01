@@ -52,6 +52,23 @@ public abstract class ParticleResourceProvider implements DataProvider {
             this.accept(particleType, List.of(textures));
         }
 
+        default void accept(ParticleType<?> particleType, Identifier base,int startingPoint, int endingPoint, boolean reversed) {
+            List<Identifier> identifiers = new ArrayList<>();
+            for (int i = startingPoint; i < endingPoint + 1; i++) {
+                identifiers.add(base.withSuffix("_" + i));
+            }
+            if (!reversed) this.accept(particleType, identifiers.reversed());
+            else this.accept(particleType, identifiers);
+        }
+
+        default void accept(ParticleType<?> particleType, Identifier base, int endingPoint, boolean reversed) {
+            this.accept(particleType, base, 0, endingPoint, reversed);
+        }
+
+        default void accept(ParticleType<?> particleType, Identifier base, int endingPoint) {
+            this.accept(particleType, base, endingPoint, false);
+        }
+
         default void accept(ParticleType<?> particleType) {
             this.accept(particleType, BuiltInRegistries.PARTICLE_TYPE.getKey(particleType));
         }

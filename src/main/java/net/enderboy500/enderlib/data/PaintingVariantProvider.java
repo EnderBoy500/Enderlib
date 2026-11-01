@@ -28,10 +28,16 @@ public abstract class PaintingVariantProvider extends FabricCodecDataProvider<Pa
 
     @FunctionalInterface
     public interface Output {
-        void accept(Identifier identifier, String path, int width, int height, Optional<Component> title, Optional<Component> author);
+        void add(Identifier identifier, String path, int width, int height, Optional<Component> title, Optional<Component> author);
 
-        default void accept(Identifier identifier, String path, int width, int height) {
-            this.accept(identifier, path, width, height, Optional.empty(), Optional.empty());
+        default void add(Identifier identifier, String path, int width, int height) {
+            this.add(identifier, path, width, height, Optional.empty(), Optional.empty());
+        }
+        default void add(Identifier identifier, Component title, int width, int height) {
+            this.add(identifier, identifier.getPath(), width, height, Optional.of(title), Optional.empty());
+        }
+        default void add(Identifier identifier, Component title, Component author, int width, int height) {
+            this.add(identifier, identifier.getPath(), width, height, Optional.of(title), Optional.of(author));
         }
     }
 }

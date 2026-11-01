@@ -1,29 +1,19 @@
 package net.enderboy500.enderlib.blocks;
 
-import net.enderboy500.enderlib.ELib;
-import net.enderboy500.enderlib.helper.RegistryHelper;
+import net.enderboy500.enderlib.registry.template.EBlockRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.client.color.item.Dye;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.component.DyedItemColor;
-import net.minecraft.world.level.ColorMapColorUtil;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CandleCakeBlock;
-import net.minecraft.world.level.block.ConcretePowderBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.include.com.google.common.collect.ImmutableBiMap;
 
 import java.util.*;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public record ColoredBlockFamily(String string, Block white, Block lightGray, Block gray, Block black, Block brown, Block red, Block orange, Block yellow, Block lime, Block green,
@@ -53,21 +43,30 @@ public record ColoredBlockFamily(String string, Block white, Block lightGray, Bl
         } else System.out.println(coloredBlockFamily.string + " has no items");
     }
 
-    public static ColoredBlockFamily create(String suffix, Block copy, boolean withItem) {
-        return create(suffix,Block::new, copy, withItem,null);
+    public static ColoredBlockFamily create(String modID,String suffix, Block copy, boolean withItem) {
+        return create(modID,suffix,Block::new, copy, withItem, false,null);
     }
 
-    public static ColoredBlockFamily create(String suffix, Function<BlockBehaviour.Properties, Block> factory, Block copy, boolean withItem) {
-        return create(suffix,factory, copy,withItem, null);
+    public static ColoredBlockFamily create(String modID,String suffix, Function<BlockBehaviour.Properties, Block> factory, Block copy, boolean withItem) {
+        return create(modID,suffix,factory, copy,withItem, false, null);
     }
 
-    public static ColoredBlockFamily create(String suffix, Function<BlockBehaviour.Properties, Block> factory, Block copy, boolean withItem, @Nullable BlockEntityType<?> blockEntity) {
+    public static ColoredBlockFamily create(String modID,String suffix, Block copy, boolean withItem, boolean withLang) {
+        return create(modID,suffix,Block::new, copy, withItem, withLang,null);
+    }
+
+    public static ColoredBlockFamily create(String modID,String suffix, Function<BlockBehaviour.Properties, Block> factory, Block copy, boolean withItem, boolean withLang) {
+        return create(modID,suffix,factory, copy,withItem, withLang, null);
+    }
+
+    public static ColoredBlockFamily create(String modID,String suffix, Function<BlockBehaviour.Properties, Block> factory, Block copy, boolean withItem, boolean withLang, @Nullable BlockEntityType<?> blockEntity) {
         List<Block> blocks = new ArrayList<>();
         for (DyeColor color : colors) {
             String name = color.getName() + "_" + suffix;
             Block block;
-            if (withItem) block = RegistryHelper.registerBlockWithItem(name, factory, coloredSettings(color, name, copy));
-            else block = RegistryHelper.registerBlock(name, factory, coloredSettings(color, name, copy));
+            EBlockRegistry eBlockRegistry = new EBlockRegistry(modID);
+            if (withItem) block = eBlockRegistry.registerBlockWithItem(name, factory, coloredSettings(color, name, copy, modID), withLang);
+            else block = eBlockRegistry.registerBlock(name, factory, coloredSettings(color, name, copy , modID), withLang);
             blocks.add(block);
 
             if (blockEntity != null) blockEntity.addSupportedBlock(block);
@@ -101,10 +100,10 @@ public record ColoredBlockFamily(String string, Block white, Block lightGray, Bl
                 coloredBlockFamily.purple, coloredBlockFamily.magenta, coloredBlockFamily.pink);
     }
 
-    public static BlockBehaviour.Properties coloredSettings(DyeColor color, String name, Block copiedBlock) {
+    public static BlockBehaviour.Properties coloredSettings(DyeColor color, String name, Block copiedBlock, String modID) {
         BlockBehaviour.Properties settings = BlockBehaviour.Properties.ofFullCopy(copiedBlock);
-        settings.setId(ResourceKey.create(Registries.BLOCK, ELib.customId(name))).mapColor(color);
-        settings.overrideLootTable(Optional.of(ResourceKey.create(Registries.LOOT_TABLE, ELib.customId("blocks/" + name.replace("_wall", "")))));
+        settings.setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(modID, name))).mapColor(color);
+        settings.overrideLootTable(Optional.of(ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(modID, "blocks/" + name.replace("_wall", "")))));
 
         return settings;
     }

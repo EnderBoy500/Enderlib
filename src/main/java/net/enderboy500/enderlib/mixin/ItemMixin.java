@@ -5,9 +5,10 @@ import com.mojang.datafixers.util.Pair;
 import net.enderboy500.enderlib.EnderLib;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
 import net.enderboy500.enderlib.item.InventoryInteraction;
+import net.enderboy500.enderlib.item.skin.ItemSkin;
 import net.enderboy500.enderlib.util.EnderlibTags;
-import net.enderboy500.enderlib.util.skin.ItemSkinRegistry;
-import net.enderboy500.enderlib.util.skin.ModifierSkin;
+import net.enderboy500.enderlib.item.skin.ItemSkinRegistry;
+import net.enderboy500.enderlib.item.skin.ModifierSkin;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -54,13 +55,21 @@ public class ItemMixin {
         }
     }
 
+/*    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
+    public void enderlib$smith(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
+        ItemStack itemStack = context.getItemInHand();
+        Player player = context.getPlayer();
+
+
+    }*/
+
     @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
     public void enderlib$smith(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack stack = context.getItemInHand();
         Player player = context.getPlayer();
 
 
-        if (player != null && player.isShiftKeyDown() && context.getLevel().getBlockState(context.getClickedPos()).is(Blocks.SMITHING_TABLE) && ItemSkinRegistry.getMap().containsKey(stack.getItem()) && !stack.is(EnderlibTags.SKIN_INCOMPATIBILITY)) {
+        if (player != null && player.isShiftKeyDown() && context.getLevel().getBlockState(context.getClickedPos()).is(Blocks.SMITHING_TABLE) && ItemSkinRegistry.getMap().containsKey(stack.getItem()) && !stack.is(EnderlibTags.ItemTags.SKIN_INCOMPATIBILITY)) {
 
             if (!stack.has(EnderLibComponents.SKIN_ID)) stack.set(EnderLibComponents.SKIN_ID, 0);
 
@@ -184,53 +193,6 @@ public class ItemMixin {
             }
         }
     }
-
-    /*@Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
-    public void enderlib$shear(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir) {
-        Level level = useOnContext.getLevel();
-        BlockPos blockPos = useOnContext.getClickedPos();
-        BlockState blockState = level.getBlockState(blockPos);
-        Block block = blockState.getBlock();
-        if (useOnContext.getItemInHand().has(EnderLibComponents.CAN_SHEAR)) {
-            if (block instanceof GrowingPlantHeadBlock growingPlantHeadBlock) {
-                if (!growingPlantHeadBlock.isMaxAge(blockState)) {
-                    Player player = useOnContext.getPlayer();
-                    ItemStack itemStack = useOnContext.getItemInHand();
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockPos, itemStack);
-                    }
-
-                    level.playSound(player, blockPos, SoundEvents.GROWING_PLANT_CROP, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    BlockState blockState2 = growingPlantHeadBlock.getMaxAgeState(blockState);
-                    level.setBlockAndUpdate(blockPos, blockState2);
-                    level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(useOnContext.getPlayer(), blockState2));
-                    if (player != null) {
-                        itemStack.hurtAndBreak(1, player, useOnContext.getHand().asEquipmentSlot());
-                    }
-
-                    cir.setReturnValue(InteractionResult.SUCCESS);
-                }
-            } else if (ToolMaps.SHEAR.containsKey(block)) {
-                Player playerEntity = useOnContext.getPlayer();
-                BlockState blockState1 = ToolMaps.SHEAR.get(blockState.getBlock());
-                BlockState blockState2 = null;
-                if (blockState1 != null) {
-                    level.playSound(playerEntity, blockPos, SoundEvents.SHEEP_SHEAR, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    blockState2 = blockState1;
-                }
-                if (blockState2 != null) {
-                    level.setBlock(blockPos, blockState2, 11);
-                    level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(playerEntity, blockState2));
-                    if (playerEntity != null) {
-                        useOnContext.getItemInHand().hurtWithoutBreaking(1, playerEntity);
-                    }
-                    useOnContext.getItemInHand().useOn(useOnContext).consumesAction();
-                }
-            } else {
-                cir.getReturnValue();
-            }
-        }
-    }*/
 
     private static boolean playerWantsToBlock(UseOnContext useOnContext) {
         Player player = useOnContext.getPlayer();

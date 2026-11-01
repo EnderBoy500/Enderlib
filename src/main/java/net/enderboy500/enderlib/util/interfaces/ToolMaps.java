@@ -7,6 +7,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface ToolMaps {
-    static final Map<Block, BlockState> SHEAR = Maps.newHashMap((new ImmutableMap.Builder()).build());
-    static final Map<Block, BlockState> SWORD = Maps.newHashMap((new ImmutableMap.Builder()).build());
+    Map<Block, BlockState> SHEAR = Maps.newHashMap((new ImmutableMap.Builder()).build());
+    Map<Block, BlockState> SWORD = Maps.newHashMap((new ImmutableMap.Builder()).build());
 }

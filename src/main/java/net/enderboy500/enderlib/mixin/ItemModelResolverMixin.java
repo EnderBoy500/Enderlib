@@ -30,6 +30,8 @@ public class ItemModelResolverMixin {
     @Final
     private Function<Identifier, ItemModel> modelGetter;
 
+    @Unique int i = 0;
+
     @Inject(
             method = "appendItemLayers",
             at = @At("HEAD"), cancellable = true

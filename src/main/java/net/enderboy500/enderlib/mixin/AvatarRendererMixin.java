@@ -2,7 +2,7 @@ package net.enderboy500.enderlib.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
-import net.enderboy500.enderlib.util.interfaces.HideName;
+import net.enderboy500.enderlib.item.HideName;
 import net.enderboy500.enderlib.util.interfaces.PlayerRenderStateAccessor;
 import net.minecraft.client.entity.ClientAvatarEntity;
 import net.minecraft.client.model.HumanoidModel;

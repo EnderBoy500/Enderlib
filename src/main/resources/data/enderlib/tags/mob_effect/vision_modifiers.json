@@ -1,0 +1,11 @@
+{
+  "values": [
+    "minecraft:night_vision",
+    "minecraft:blindness",
+    "minecraft:darkness",
+    {
+      "id": "netherandend:inverted_vision",
+      "required": false
+    }
+  ]
+}

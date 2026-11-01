@@ -2,8 +2,8 @@ package net.enderboy500.enderlib.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
-import net.enderboy500.enderlib.util.skin.ItemSkinRegistry;
-import net.enderboy500.enderlib.util.skin.ModifierSkin;
+import net.enderboy500.enderlib.item.skin.ItemSkinRegistry;
+import net.enderboy500.enderlib.item.skin.ModifierSkin;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
@@ -33,7 +33,8 @@ public class EnderlibCommands {
                             stack.set(EnderLibComponents.SKIN_ID, 0);
                             context.getSource().sendSuccess(() -> Component.literal("Successfully reset the skin of " + stack.getItemName().getString()), false);
                         }
-                    } else {
+                    }
+                    else {
                         context.getSource().sendSuccess(() -> Component.literal("Invalid command").withStyle(ChatFormatting.RED), false);
                     }
                     return 1;

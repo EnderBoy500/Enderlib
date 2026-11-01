@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 public abstract class CrossbowItemMixin {
     @Unique
     private static Predicate<ItemStack> heldPredicate() {
-        return ProjectileWeaponItem.ARROW_OR_FIREWORK.or(itemStack -> itemStack.is(EnderlibTags.CROSSBOW_AMMO));
+        return ProjectileWeaponItem.ARROW_OR_FIREWORK.or(itemStack -> itemStack.is(EnderlibTags.ItemTags.CROSSBOW_AMMO));
     }
 
     @Inject(method = "getSupportedHeldProjectiles", at = @At("HEAD"), cancellable = true)

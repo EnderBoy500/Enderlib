@@ -33,6 +33,7 @@ import net.enderboy500.enderlib.events.DeathEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -104,7 +105,7 @@ public abstract class PlayerMixin extends LivingEntity implements ScreenShake {
         return (!stack.isEmpty() && stack.has(EnderLibComponents.ATTACK_SOUND_EFFECT)) ? stack.get(EnderLibComponents.ATTACK_SOUND_EFFECT) : SoundEvents.PLAYER_ATTACK_SWEEP;
     }
 
-    @Inject(method = "doSweepAttack", at = @At("HEAD"), cancellable = true)
+/*    @Inject(method = "doSweepAttack", at = @At("HEAD"), cancellable = true)
     public final void doSweepingAttack(Entity target, float damage, DamageSource damageSource, float cooldownProgress, CallbackInfo ci) {
         if (!getMainHandItem().isEmpty() && getMainHandItem().has(EnderLibComponents.SWEEP_ATTACK_PARTICLE)) {
             this.playServerSideSound(sweepSound());
@@ -137,7 +138,7 @@ public abstract class PlayerMixin extends LivingEntity implements ScreenShake {
             }
             ci.cancel();
         }
-    }
+    }*/
 
     @Inject(method = "getDisplayName", at = @At("HEAD"),cancellable = true)
     public void enderlib$bdayName(CallbackInfoReturnable<Component> cir) {

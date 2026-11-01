@@ -27,10 +27,22 @@ public abstract class EquipmentProvider extends FabricCodecDataProvider<Equipmen
 
     @FunctionalInterface
     public interface Output {
-        void accept(ResourceKey<EquipmentAsset> key, EquipmentClientInfo info);
+        void add(ResourceKey<EquipmentAsset> key, EquipmentClientInfo info);
 
-        default void accept(ResourceKey<EquipmentAsset> key, EquipmentClientInfo.Builder infoBuilder) {
-            this.accept(key, infoBuilder.build());
+        default void add(ResourceKey<EquipmentAsset> key, EquipmentClientInfo.Builder infoBuilder) {
+            this.add(key, infoBuilder.build());
+        }
+        default void addHumanoid(ResourceKey<EquipmentAsset> key, Identifier identifier) {
+            this.add(key, EquipmentClientInfo.builder().addHumanoidLayers(identifier).build());
+        }
+        default void addHorse(ResourceKey<EquipmentAsset> key, Identifier identifier, boolean dyable) {
+            this.add(key, EquipmentClientInfo.builder().addLayers(EquipmentClientInfo.LayerType.HORSE_BODY, EquipmentClientInfo.Layer.leatherDyeable(identifier, dyable)).build());
+        }
+        default void addNautilus(ResourceKey<EquipmentAsset> key, Identifier identifier, boolean dyable) {
+            this.add(key, EquipmentClientInfo.builder().addLayers(EquipmentClientInfo.LayerType.NAUTILUS_BODY, EquipmentClientInfo.Layer.leatherDyeable(identifier, dyable)).build());
+        }
+        default void addHappyGhast(ResourceKey<EquipmentAsset> key, Identifier identifier, boolean dyable) {
+            this.add(key, EquipmentClientInfo.builder().addLayers(EquipmentClientInfo.LayerType.HAPPY_GHAST_BODY, EquipmentClientInfo.Layer.leatherDyeable(identifier, dyable)).build());
         }
     }
 }

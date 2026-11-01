@@ -12,8 +12,8 @@ import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.Equippable;
 
 public interface CycleEquipmentStateBool extends InventoryInteraction {
-    String trueKey();
-    String falseKey();
+    ResourceKey<EquipmentAsset> trueKey();
+    ResourceKey<EquipmentAsset> falseKey();
     EquipmentSlot equipmentType();
 
     default void updateEquipmentState(ItemStack stack) {
@@ -29,13 +29,10 @@ public interface CycleEquipmentStateBool extends InventoryInteraction {
                 stack.set(EnderLibComponents.CYCLED_EQUIPMENT_STATE, true);
             }
         }
-    };
+        updateEquipmentState(stack);
+    }
 
     default ResourceKey<EquipmentAsset> key(ItemStack stack) {
-        if (stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE)) {
-            return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.withDefaultNamespace(trueKey()));
-        } else {
-            return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.withDefaultNamespace(falseKey()));
-        }
+        return stack.get(EnderLibComponents.CYCLED_EQUIPMENT_STATE) ? trueKey() : falseKey();
     }
 }

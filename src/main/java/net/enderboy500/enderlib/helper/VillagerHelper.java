@@ -1,6 +1,5 @@
 package net.enderboy500.enderlib.helper;
 
-import net.enderboy500.enderlib.ELib;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.core.Registry;
@@ -21,7 +20,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class VillagerHelper {
 
-    public static VillagerProfession registerProfession(String id, ResourceKey<PoiType> type,String translationKey, SoundEvent soundEvent) {
+/*    public static VillagerProfession registerProfession(String id, ResourceKey<PoiType> type,String translationKey, SoundEvent soundEvent) {
         return Registry.register(BuiltInRegistries.VILLAGER_PROFESSION, ELib.customId(id), new VillagerProfession(Component.translatable(translationKey), entry -> entry.is(type), entry -> entry.is(type),
                 ImmutableSet.of(), ImmutableSet.of(), soundEvent));
     }
@@ -42,7 +41,7 @@ public class VillagerHelper {
 
     public static ResourceKey<PoiType> registerPOIKey(String id) {
         return ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, ELib.customId(id));
-    }
+    }*/
 
     public static void createVillagerTrade(ResourceKey<VillagerProfession> profession, TraderLevel traderLevel, Item payment, int paymentCount, Item soldItem, int soldItemCount, int maxTradeCount, int experienceGained, float priceMultiplier) {
         TradeOfferHelper.registerVillagerOffers(profession, traderLevel.getLevel(), factories -> {

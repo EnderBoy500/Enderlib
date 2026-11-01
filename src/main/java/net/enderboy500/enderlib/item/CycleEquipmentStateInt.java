@@ -11,28 +11,22 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import net.minecraft.world.item.equipment.Equippable;
 
+import java.util.Map;
+
 public interface CycleEquipmentStateInt extends InventoryInteraction {
-    void changeState(ItemStack stack, boolean sneaking);
-    String keys(ItemStack stack);
+    Map<Integer, ResourceKey<EquipmentAsset>> keys();
     EquipmentSlot equipmentType();
 
     default ResourceKey<EquipmentAsset> key(ItemStack stack) {
-        return ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.withDefaultNamespace(keys(stack)));
-    }
-
-    default int getState(ItemStack stack) {
-        return stack.get(EnderLibComponents.EQUIPMENT_STATE);
+        return keys().get(stack.get(EnderLibComponents.EQUIPMENT_STATE));
     }
 
     @Override
     default void onSlotInteraction(ItemStack stack, Player player, boolean bl) {
-        stack.set(DataComponents.EQUIPPABLE, Equippable.builder(equipmentType()).setAsset(key(stack)).build());
-    }
+        int max = keys().size() - 1;
+        if (stack.get(EnderLibComponents.EQUIPMENT_STATE) == max) stack.set(EnderLibComponents.EQUIPMENT_STATE, 0);
+        else stack.set(EnderLibComponents.EQUIPMENT_STATE, stack.get(EnderLibComponents.EQUIPMENT_STATE) + 1);
 
-    default String getKeyPerState(ItemStack stack, int state, String key, String falseValue) {
-        if (stack.get(EnderLibComponents.EQUIPMENT_STATE).equals(state))
-            return key;
-        else
-            return falseValue;
+        stack.set(DataComponents.EQUIPPABLE, Equippable.builder(equipmentType()).setAsset(key(stack)).build());
     }
 }

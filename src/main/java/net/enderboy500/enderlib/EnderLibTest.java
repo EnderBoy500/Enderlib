@@ -1,17 +1,15 @@
 package net.enderboy500.enderlib;
 
-import net.enderboy500.enderlib.blocks.ColoredBlockFamily;
-import net.enderboy500.enderlib.helper.RegistryHelper;
-import net.enderboy500.enderlib.item.component.EnderLibComponents;
-import net.minecraft.resources.Identifier;
+import net.enderboy500.enderlib.item.TestItem;
+import net.enderboy500.enderlib.registry.template.EItemRegistry;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.equipment.ArmorMaterials;
+import net.minecraft.world.item.equipment.ArmorType;
 
 public class EnderLibTest {
-    public static final Item TEST = RegistryHelper.registerItem("test", TestItem::new, new Item.Properties());
-    public static final ColoredBlockFamily MORTAR = ColoredBlockFamily.create("mortar", Blocks.MUD, false);
-    public static void load() {
-        ColoredBlockFamily.addToColoredInventory(Items.PINK_CANDLE, MORTAR);
-    }
+    static EItemRegistry eItemRegistry = new EItemRegistry(EnderLib.MOD_ID);
+
+    public static final Item ARMOR = eItemRegistry.registerItem("armor", TestItem::new, new Item.Properties().humanoidArmor(ArmorMaterials.DIAMOND, ArmorType.HELMET), true, null);
+
+    public static void load() {}
 }

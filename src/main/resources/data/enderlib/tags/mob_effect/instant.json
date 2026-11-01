@@ -1,0 +1,14 @@
+{
+  "values": [
+    "minecraft:instant_health",
+    "minecraft:instant_damage",
+    {
+      "id": "netherandend:instant_warping",
+      "required": false
+    },
+    {
+      "id": "netherandend:instant_curing",
+      "required": false
+    }
+  ]
+}

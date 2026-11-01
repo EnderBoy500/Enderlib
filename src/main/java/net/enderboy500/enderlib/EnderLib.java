@@ -3,24 +3,25 @@ package net.enderboy500.enderlib;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.enderboy500.enderlib.client.config.EnderLibConfig;
 import net.enderboy500.enderlib.commands.EnderlibCommands;
-import net.enderboy500.enderlib.item.CustomCrossbowItemModel;
 import net.enderboy500.enderlib.item.component.EnderLibComponents;
+import net.enderboy500.enderlib.misc.ChanceSpawnCondition;
 import net.enderboy500.enderlib.util.EnderlibTags;
-import net.enderboy500.enderlib.util.ItemUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.annotation.Annotation;
 
 public class EnderLib implements ModInitializer {
 	public static final String MOD_ID = "enderlib";
@@ -33,13 +34,11 @@ public class EnderLib implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ELib.addModId(MOD_ID);
 
 		EnderLibComponents.load();
 		EnderlibTags.loadTags();
 		EnderlibCommands.loadCommands();
-
-		CustomCrossbowItemModel.addNewModel(EnderLibTest.TEST, Identifier.withDefaultNamespace("diamond_sword"));
+		Registry.register(BuiltInRegistries.SPAWN_CONDITION_TYPE, id("chance"), ChanceSpawnCondition.CODEC);
 
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) EnderLibTest.load();
 
@@ -48,5 +47,11 @@ public class EnderLib implements ModInitializer {
 
 	public static boolean canRightClickToCycle() {
 		return EnderLibConfig.equipmentStateCycleKeys.get() == ClickType.CLONE;
+	}
+
+	public interface EEnchantment {
+		static void register(BootstrapContext<Enchantment> registerable) {
+
+		}
 	}
 }
