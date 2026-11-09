@@ -52,10 +52,10 @@ public class EItemRegistry {
         return registerItem(id, Item::new, settings, autoLang, null);
     }
     public Item registerItem(String id, Function<Item.Properties, Item> itemFactory, Item.Properties settings, boolean autoLang) {
-        return registerItem(id, Item::new, settings, autoLang, null);
+        return registerItem(id, itemFactory, settings, autoLang, null);
     }
     public Item registerItem(String id, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
-        return registerItem(id, Item::new, settings, false, null);
+        return registerItem(id, itemFactory, settings, false, null);
     }
     public Item registerItem(String id, boolean autoLang) {
         return registerItem(id, Item::new, new Item.Properties(), autoLang, null);

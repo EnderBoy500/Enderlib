@@ -23,7 +23,7 @@
 			"net.enderboy500.enderlib.data.EnderLibTestDataGenerator"
 		],
 		"modmenu": [
-          "net.enderboy500.enderlib.client.config.EnderLibModMenu"
+          "net.enderboy500.enderlib.options.ModMenuIntegration"
 		]
 	},
 	"mixins": [

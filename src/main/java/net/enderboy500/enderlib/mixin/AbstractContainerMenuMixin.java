@@ -1,6 +1,5 @@
 package net.enderboy500.enderlib.mixin;
 import net.enderboy500.enderlib.EnderLib;
-import net.enderboy500.enderlib.client.config.EnderLibConfig;
 import net.enderboy500.enderlib.item.InventoryInteraction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
@@ -21,11 +20,11 @@ public class AbstractContainerMenuMixin {
 
     @Inject(method = "doClick", at = @At("HEAD"), cancellable = true)
     private void enderlib$internalOnSlotClick(int slotIndex, int button, ClickType actionType, Player player, CallbackInfo ci) {
-        if (!EnderLib.canRightClickToCycle() && actionType == EnderLibConfig.equipmentStateCycleKeys.get()) {
+        if (!EnderLib.canRightClickToCycle() && actionType == EnderLib.options.equipmentStateCycleKey.get().getClickType()) {
             Slot slot = this.slots.get(slotIndex);
             ItemStack stack = slot.getItem();
             if (stack.getItem() instanceof InventoryInteraction slotChangeFunction) {
-                boolean bl = actionType == EnderLibConfig.equipmentStateCycleKeys.get();
+                boolean bl = actionType == EnderLib.options.equipmentStateCycleKey.get().getClickType();
                 slotChangeFunction.onSlotInteraction(stack, player, bl);
                 ci.cancel();
             }

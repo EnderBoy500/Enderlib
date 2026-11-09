@@ -40,7 +40,6 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-	modImplementation include ("eu.midnightdust:midnightlib:${project.midnightlib_version}")
 
 }
 

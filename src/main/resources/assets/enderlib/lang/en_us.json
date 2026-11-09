@@ -1,0 +1,16 @@
+{
+  "category.enderlib.enderlib": "EnderLib",
+
+  "key.enderlib.cycle_headwear_state": "Cycle Headwear State",
+  "key.enderlib.toggle_armor_passive_ability": "Toggle Armor Passive Ability",
+  "key.enderlib.activate_armor_ability": "Activate Armor Ability",
+
+  "item.enderlib.text": "Test",
+
+  "config.enderlib.mods.title":"Ender Mods Config",
+  "options.enderlib.title":"EnderLib Config",
+  "options.enderlib.equipmentStateCycleKeys": "Equipment Cycle State",
+  "option.enderlib.equipmentStateCycleKeys.swap": "Swap",
+  "option.enderlib.equipmentStateCycleKeys.quick_move": "Quick Move",
+  "option.enderlib.equipmentStateCycleKeys.right_click": "Right Click"
+}
